@@ -1,0 +1,2548 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0"
+    />
+    <meta name="apple-mobile-web-app-capable" content="true" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="theme-color" content="#c41e3a" />
+    <title>JUPEB Physics CBT - Complete Enhanced</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #8b0000 0%, #5c0a0a 100%);
+        color: #333;
+        min-height: 100vh;
+        padding: 10px;
+        padding-left: max(10px, env(safe-area-inset-left));
+        padding-right: max(10px, env(safe-area-inset-right));
+        padding-top: max(10px, env(safe-area-inset-top));
+        padding-bottom: max(10px, env(safe-area-inset-bottom));
+      }
+
+      body.dark-mode {
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+      }
+
+      .container {
+        width: 100%;
+        max-width: 1200px;
+        background: white;
+        margin: 0 auto;
+        border-radius: 10px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+      }
+
+      body.dark-mode .container {
+        background: #1e1e1e;
+        color: #e0e0e0;
+      }
+
+      .header {
+        background: linear-gradient(135deg, #c41e3a 0%, #e63946 100%);
+        color: white;
+        padding: 20px 25px;
+        text-align: center;
+        border-bottom: 4px solid #a01730;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .header h1 {
+        font-size: 20px;
+        font-weight: 600;
+      }
+
+      .header-tools {
+        display: flex;
+        gap: 15px;
+      }
+
+      .tool-btn {
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 12px;
+        transition: all 0.3s;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .tool-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+        padding: 5px;
+        margin-left: auto;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .top-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 20px;
+        background: #f5f5f5;
+        border-bottom: 1px solid #ddd;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      body.dark-mode .top-bar {
+        background: #2a2a2a;
+        border-bottom-color: #444;
+      }
+
+      .timer-display {
+        font-size: 22px;
+        font-weight: bold;
+        color: #c41e3a;
+        font-family: "Courier New", monospace;
+        min-width: 100px;
+      }
+
+      .timer-display.warning {
+        color: #ff6b6b;
+        animation: blink 1s infinite;
+      }
+
+      @keyframes blink {
+        0%,
+        50% {
+          opacity: 1;
+        }
+        51%,
+        100% {
+          opacity: 0.5;
+        }
+      }
+
+      .stats-bar {
+        display: flex;
+        gap: 20px;
+        font-size: 13px;
+        align-items: center;
+      }
+
+      .stat-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: white;
+        padding: 5px 12px;
+        border-radius: 4px;
+      }
+
+      body.dark-mode .stat-item {
+        background: #333;
+      }
+
+      .stat-label {
+        font-weight: 600;
+        color: #666;
+      }
+
+      .stat-value {
+        font-weight: bold;
+        color: #c41e3a;
+      }
+
+      .auto-save-indicator {
+        font-size: 11px;
+        color: #27ae60;
+        padding: 4px 8px;
+        background: #d5f4e6;
+        border-radius: 3px;
+        display: none;
+      }
+
+      .content-area {
+        padding: 30px;
+        min-height: 500px;
+      }
+
+      .question-view,
+      .results-view {
+        display: none;
+      }
+
+      .question-view.active,
+      .results-view.active {
+        display: block;
+      }
+
+      .question-section {
+        animation: fadeIn 0.3s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .question-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .question-number {
+        color: #c41e3a;
+        font-weight: bold;
+        font-size: 18px;
+      }
+
+      .flag-btn {
+        background: none;
+        border: 2px solid #ffc107;
+        color: #ffc107;
+        padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        transition: all 0.3s;
+        min-height: 44px;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .flag-btn.flagged {
+        background: #ffc107;
+        color: white;
+      }
+
+      .question-course {
+        display: inline-block;
+        background: #ffe0e6;
+        color: #c41e3a;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 10px;
+      }
+
+      .question-text {
+        font-size: 17px;
+        color: #1a1a1a;
+        margin-bottom: 20px;
+        line-height: 1.7;
+        font-weight: 500;
+      }
+
+      body.dark-mode .question-text {
+        color: #e0e0e0;
+      }
+
+      .options {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 15px;
+      }
+
+      .option {
+        padding: 12px 15px;
+        border: 2px solid #ddd;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: white;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        min-height: 44px;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-user-select: none;
+        user-select: none;
+      }
+
+      body.dark-mode .option {
+        background: #2a2a2a;
+        border-color: #444;
+        color: #e0e0e0;
+      }
+
+      .option:hover {
+        border-color: #c41e3a;
+        background: #ffe0e6;
+      }
+
+      .option input[type="radio"] {
+        margin-right: 12px;
+        cursor: pointer;
+      }
+
+      .option.selected {
+        border-color: #c41e3a;
+        background: #ffe0e6;
+        font-weight: 600;
+      }
+
+      .option.correct {
+        border-color: #27ae60;
+        background: #d5f4e6;
+      }
+
+      .option.incorrect {
+        border-color: #e74c3c;
+        background: #fadbd8;
+      }
+
+      textarea {
+        width: 100%;
+        height: 150px;
+        padding: 12px;
+        border: 2px solid #ddd;
+        border-radius: 6px;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        resize: vertical;
+        background: white;
+        color: #333;
+        -webkit-appearance: none;
+        appearance: none;
+      }
+
+      textarea:focus {
+        outline: none;
+        border-color: #c41e3a;
+        box-shadow: 0 0 0 2px rgba(196, 30, 58, 0.1);
+      }
+
+      body.dark-mode textarea {
+        background: #2a2a2a;
+        border-color: #444;
+        color: #e0e0e0;
+      }
+
+      .bottom-controls {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding-top: 15px;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-user-select: none;
+        user-select: none;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #c41e3a 0%, #e63946 100%);
+        color: white;
+      }
+
+      .btn-primary:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(196, 30, 58, 0.3);
+      }
+
+      .btn-secondary {
+        background: #f0f0f0;
+        color: #333;
+      }
+
+      body.dark-mode .btn-secondary {
+        background: #333;
+        color: #e0e0e0;
+      }
+
+      .btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .btn:focus,
+      .tool-btn:focus,
+      .option:focus {
+        outline: 2px solid #c41e3a;
+        outline-offset: 2px;
+      }
+
+      @media (max-width: 767px) {
+        .btn:focus,
+        .tool-btn:focus,
+        .option:focus {
+          outline: none;
+        }
+      }
+
+      .results-header {
+        background: #ffe0e6;
+        border-left: 5px solid #c41e3a;
+        padding: 20px;
+        margin-bottom: 30px;
+        border-radius: 6px;
+      }
+
+      body.dark-mode .results-header {
+        background: rgba(196, 30, 58, 0.2);
+      }
+
+      .results-header h2 {
+        color: #c41e3a;
+        margin-bottom: 10px;
+      }
+
+      .results-summary {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+        margin-bottom: 30px;
+      }
+
+      .summary-card {
+        background: white;
+        border: 1px solid #ddd;
+        padding: 20px;
+        border-radius: 6px;
+        text-align: center;
+      }
+
+      body.dark-mode .summary-card {
+        background: #2a2a2a;
+        border-color: #444;
+      }
+
+      .summary-label {
+        font-size: 12px;
+        color: #666;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .summary-value {
+        font-size: 28px;
+        font-weight: bold;
+        color: #c41e3a;
+      }
+
+      .summary-card.correct .summary-value {
+        color: #27ae60;
+      }
+
+      .summary-card.incorrect .summary-value {
+        color: #e74c3c;
+      }
+
+      .answer-review {
+        margin-bottom: 30px;
+      }
+
+      .section-title {
+        background: #c41e3a;
+        color: white;
+        padding: 15px 20px;
+        border-radius: 6px;
+        margin-bottom: 15px;
+        font-size: 16px;
+        font-weight: 600;
+      }
+
+      .question-review {
+        background: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        padding: 20px;
+        margin-bottom: 15px;
+      }
+
+      body.dark-mode .question-review {
+        background: #2a2a2a;
+        border-color: #444;
+      }
+
+      .review-question-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: 15px;
+      }
+
+      .review-q-number {
+        font-weight: bold;
+        color: #c41e3a;
+        font-size: 14px;
+      }
+
+      .review-q-course {
+        display: inline-block;
+        background: #ffe0e6;
+        color: #c41e3a;
+        padding: 3px 10px;
+        border-radius: 15px;
+        font-size: 11px;
+        font-weight: 600;
+      }
+
+      .review-status {
+        display: inline-block;
+        padding: 5px 12px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .review-status.correct {
+        background: #d5f4e6;
+        color: #27ae60;
+      }
+
+      .review-status.incorrect {
+        background: #fadbd8;
+        color: #e74c3c;
+      }
+
+      .review-status.unanswered {
+        background: #fff3cd;
+        color: #856404;
+      }
+
+      .review-q-text {
+        color: #1a1a1a;
+        margin-bottom: 15px;
+        line-height: 1.6;
+      }
+
+      body.dark-mode .review-q-text {
+        color: #e0e0e0;
+      }
+
+      .answer-display {
+        background: white;
+        padding: 15px;
+        border-radius: 4px;
+        margin-bottom: 10px;
+      }
+
+      body.dark-mode .answer-display {
+        background: #333;
+      }
+
+      .answer-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        font-size: 14px;
+      }
+
+      .answer-row:last-child {
+        margin-bottom: 0;
+      }
+
+      .answer-label {
+        font-weight: 600;
+        color: #666;
+        min-width: 150px;
+      }
+
+      body.dark-mode .answer-label {
+        color: #aaa;
+      }
+
+      .answer-value {
+        color: #c41e3a;
+        font-weight: 600;
+      }
+
+      .feedback {
+        padding: 10px;
+        border-radius: 4px;
+        font-size: 13px;
+        margin-top: 10px;
+      }
+
+      .feedback.correct {
+        background: #d5f4e6;
+        color: #27ae60;
+        border-left: 3px solid #27ae60;
+      }
+
+      .feedback.incorrect {
+        background: #fadbd8;
+        color: #e74c3c;
+        border-left: 3px solid #e74c3c;
+      }
+
+      .feedback.unanswered {
+        background: #fff3cd;
+        color: #856404;
+        border-left: 3px solid #ffc107;
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .modal.active {
+        display: flex;
+      }
+
+      .modal-content {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        max-width: 600px;
+        width: 90%;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        margin: auto;
+        -webkit-appearance: none;
+        appearance: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      body.dark-mode .modal-content {
+        background: #1e1e1e;
+        color: #e0e0e0;
+      }
+
+      .modal-content h2 {
+        color: #c41e3a;
+        margin-bottom: 20px;
+      }
+
+      .calculator {
+        background: #f9f9f9;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+
+      .calc-display {
+        background: white;
+        padding: 12px;
+        border-radius: 4px;
+        text-align: right;
+        font-size: 20px;
+        margin-bottom: 10px;
+        font-family: "Courier New", monospace;
+        min-height: 40px;
+      }
+
+      .calc-buttons {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+      }
+
+      .calc-btn {
+        padding: 10px;
+        border: 1px solid #ddd;
+        background: white;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 600;
+        min-height: 44px;
+      }
+
+      .calc-btn.operator {
+        background: #c41e3a;
+        color: white;
+      }
+
+      @media print {
+        body {
+          background: white;
+        }
+        .header-tools,
+        .tool-btn,
+        .bottom-controls,
+        .timer-section {
+          display: none !important;
+        }
+        .content-area {
+          padding: 0;
+        }
+      }
+
+      /* ==================== MOBILE OPTIMIZATION ==================== */
+
+      @media (max-width: 1199px) {
+        .container {
+          border-radius: 0;
+          box-shadow: none;
+        }
+        .header {
+          padding: 15px 20px;
+        }
+        .header h1 {
+          font-size: 18px;
+        }
+        .timer-display {
+          font-size: 18px;
+        }
+      }
+
+      @media (max-width: 1023px) {
+        body {
+          padding: 5px;
+        }
+        .header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 12px;
+          padding: 12px 15px;
+        }
+        .header h1 {
+          font-size: 16px;
+        }
+        .header-tools {
+          width: 100%;
+          gap: 10px;
+        }
+        .tool-btn {
+          flex: 1;
+          padding: 10px 12px;
+          font-size: 11px;
+        }
+        .top-bar {
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 10px 15px;
+          gap: 8px;
+        }
+        .stats-bar {
+          width: 100%;
+          flex-wrap: wrap;
+          gap: 10px;
+        }
+        .stat-item {
+          flex: 1;
+          min-width: 120px;
+          padding: 6px 10px;
+          font-size: 12px;
+        }
+        .timer-display {
+          font-size: 18px;
+        }
+        .content-area {
+          padding: 15px;
+          min-height: 400px;
+        }
+        .question-text {
+          font-size: 15px;
+        }
+        .option {
+          padding: 10px 12px;
+          font-size: 14px;
+        }
+        .btn {
+          padding: 10px 16px;
+          font-size: 12px;
+        }
+        textarea {
+          height: 120px;
+          font-size: 13px;
+        }
+        .results-summary {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 12px;
+        }
+        .summary-card {
+          padding: 15px;
+        }
+        .summary-label {
+          font-size: 11px;
+        }
+        .summary-value {
+          font-size: 24px;
+        }
+        .modal-content {
+          max-width: 90%;
+          padding: 20px;
+        }
+        .question-number {
+          font-size: 16px;
+        }
+      }
+
+      @media (max-width: 767px) {
+        body {
+          font-size: 14px;
+          padding: 0;
+        }
+        .container {
+          border-radius: 0;
+          max-width: 100%;
+          box-shadow: none;
+          margin: 0;
+        }
+        .header {
+          padding: 10px 12px;
+          gap: 10px;
+          border-bottom: 3px solid #a01730;
+        }
+        .header h1 {
+          font-size: 14px;
+          margin: 0;
+        }
+        .header-tools {
+          width: 100%;
+          gap: 8px;
+        }
+        .menu-toggle {
+          display: none;
+        }
+        .top-bar {
+          flex-direction: row;
+          padding: 8px 12px;
+          gap: 6px;
+          flex-wrap: wrap;
+          align-items: stretch;
+        }
+        .top-bar > div:first-child {
+          display: flex;
+          gap: 8px;
+          align-items: center;
+        }
+        .stats-bar {
+          gap: 6px;
+          font-size: 11px;
+          width: 100%;
+        }
+        .stat-item {
+          flex: 1;
+          min-width: 80px;
+          padding: 4px 8px;
+          font-size: 10px;
+          justify-content: center;
+          flex-direction: column;
+          align-items: center;
+        }
+        .timer-display {
+          font-size: 16px;
+          min-width: 70px;
+        }
+        .content-area {
+          padding: 12px;
+          min-height: auto;
+        }
+        .question-header {
+          flex-direction: column;
+          gap: 8px;
+          align-items: flex-start;
+        }
+        .question-number {
+          font-size: 14px;
+        }
+        .flag-btn {
+          width: 100%;
+          padding: 8px;
+          font-size: 12px;
+        }
+        .question-text {
+          font-size: 14px;
+          margin-bottom: 15px;
+        }
+        .options {
+          gap: 10px;
+        }
+        .option {
+          padding: 10px 12px;
+          font-size: 13px;
+          min-height: 44px;
+        }
+        .option input[type="radio"] {
+          margin-right: 10px;
+          width: 18px;
+          height: 18px;
+        }
+        textarea {
+          height: 100px;
+          font-size: 12px;
+          padding: 10px;
+        }
+        .bottom-controls {
+          gap: 8px;
+          margin-top: 12px;
+        }
+        .btn {
+          flex: 1;
+          min-width: 100px;
+          padding: 10px 12px;
+          font-size: 11px;
+          min-height: 40px;
+        }
+        .results-header {
+          padding: 15px;
+          margin-bottom: 20px;
+        }
+        .results-summary {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 10px;
+          margin-bottom: 20px;
+        }
+        .summary-card {
+          padding: 12px;
+        }
+        .summary-label {
+          font-size: 10px;
+        }
+        .summary-value {
+          font-size: 20px;
+        }
+        .section-title {
+          padding: 12px 15px;
+          font-size: 14px;
+        }
+        .question-review {
+          padding: 12px;
+          margin-bottom: 12px;
+        }
+        .review-q-number {
+          font-size: 12px;
+        }
+        .review-q-text {
+          font-size: 13px;
+          margin-bottom: 12px;
+        }
+        .answer-display {
+          padding: 10px;
+        }
+        .answer-row {
+          font-size: 12px;
+          flex-direction: column;
+          margin-bottom: 8px;
+        }
+        .answer-label {
+          min-width: auto;
+          font-size: 11px;
+          margin-bottom: 4px;
+        }
+        .feedback {
+          padding: 8px;
+          font-size: 12px;
+        }
+        .modal {
+          padding: 20px 0;
+        }
+        .modal-content {
+          max-width: 95%;
+          width: 95%;
+          padding: 20px;
+          margin: 20px auto;
+          max-height: 90vh;
+          overflow-y: auto;
+        }
+        .modal-content h2 {
+          font-size: 14px;
+          margin-bottom: 15px;
+        }
+        .calculator {
+          padding: 12px;
+        }
+        .calc-display {
+          font-size: 18px;
+          padding: 10px;
+          min-height: 36px;
+          margin-bottom: 8px;
+        }
+        .calc-buttons {
+          gap: 6px;
+        }
+        .calc-btn {
+          padding: 10px 6px;
+          font-size: 13px;
+          min-height: 40px;
+        }
+      }
+
+      @media (max-width: 479px) {
+        body {
+          font-size: 13px;
+          padding: 0;
+          background: linear-gradient(135deg, #8b0000 0%, #5c0a0a 100%);
+        }
+        .container {
+          max-width: 100%;
+          border-radius: 0;
+          box-shadow: none;
+        }
+        .header {
+          padding: 8px 10px;
+          gap: 8px;
+          border-bottom: 3px solid #a01730;
+          flex-wrap: wrap;
+        }
+        .header h1 {
+          font-size: 13px;
+          margin: 0;
+          line-height: 1.2;
+          flex: 1;
+        }
+        .menu-toggle {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0;
+          padding: 6px 8px;
+        }
+        .header-tools {
+          width: 100%;
+          gap: 6px;
+          display: none;
+          flex-direction: column;
+        }
+        .header-tools.active {
+          display: flex;
+        }
+        .tool-btn {
+          flex: 1;
+          padding: 8px 10px;
+          font-size: 10px;
+          min-height: 36px;
+          border-radius: 4px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-overflow: ellipsis;
+        }
+        .top-bar {
+          flex-direction: column;
+          padding: 8px 10px;
+          gap: 6px;
+          align-items: stretch;
+        }
+        .top-bar > div:first-child {
+          display: flex;
+          gap: 8px;
+          align-items: center;
+        }
+        .stats-bar {
+          flex-direction: column;
+          gap: 6px;
+          font-size: 10px;
+          width: 100%;
+        }
+        .stat-item {
+          background: white;
+          padding: 5px 8px;
+          border-radius: 4px;
+          font-size: 10px;
+          gap: 6px;
+          justify-content: space-between;
+        }
+        .timer-display {
+          font-size: 14px;
+          min-width: 60px;
+          font-weight: bold;
+        }
+        .content-area {
+          padding: 10px;
+          min-height: auto;
+        }
+        .question-section {
+          animation: fadeIn 0.3s ease;
+        }
+        .question-header {
+          flex-direction: column;
+          gap: 8px;
+          margin-bottom: 12px;
+        }
+        .question-course {
+          font-size: 11px;
+          padding: 3px 8px;
+        }
+        .question-number {
+          font-size: 12px;
+          margin-bottom: 8px;
+        }
+        .flag-btn {
+          width: 100%;
+          padding: 8px 10px;
+          font-size: 11px;
+          min-height: 40px;
+          border-radius: 5px;
+        }
+        .question-text {
+          font-size: 13px;
+          margin-bottom: 12px;
+          line-height: 1.5;
+        }
+        .options {
+          gap: 8px;
+        }
+        .option {
+          padding: 10px 10px;
+          font-size: 12px;
+          min-height: 44px;
+          border-radius: 5px;
+          align-items: center;
+        }
+        .option input[type="radio"] {
+          margin-right: 8px;
+          width: 16px;
+          height: 16px;
+          cursor: pointer;
+        }
+        .option span {
+          flex: 1;
+        }
+        textarea {
+          width: 100%;
+          height: 100px;
+          font-size: 12px;
+          padding: 8px;
+          border-radius: 4px;
+          resize: vertical;
+        }
+        .bottom-controls {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          margin-top: 12px;
+        }
+        .btn {
+          width: 100%;
+          padding: 10px 12px;
+          font-size: 11px;
+          min-height: 44px;
+          border-radius: 5px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .results-header {
+          padding: 12px;
+          margin-bottom: 15px;
+          border-left-width: 3px;
+        }
+        .results-header h2 {
+          font-size: 13px;
+          margin-bottom: 6px;
+        }
+        .results-header p {
+          font-size: 11px;
+        }
+        .results-summary {
+          grid-template-columns: 1fr;
+          gap: 8px;
+        }
+        .summary-card {
+          padding: 12px;
+        }
+        .summary-label {
+          font-size: 10px;
+        }
+        .summary-value {
+          font-size: 18px;
+        }
+        .section-title {
+          padding: 10px 12px;
+          font-size: 13px;
+          margin-top: 15px;
+          margin-bottom: 10px;
+        }
+        .question-review {
+          padding: 10px;
+          margin-bottom: 10px;
+        }
+        .review-question-header {
+          flex-direction: column;
+          gap: 6px;
+          margin-bottom: 10px;
+        }
+        .review-q-number {
+          font-size: 11px;
+        }
+        .review-q-course {
+          font-size: 10px;
+        }
+        .review-status {
+          font-size: 10px;
+          padding: 3px 8px;
+        }
+        .review-q-text {
+          font-size: 12px;
+          margin-bottom: 10px;
+          line-height: 1.5;
+        }
+        .answer-display {
+          padding: 8px;
+        }
+        .answer-row {
+          font-size: 11px;
+          flex-direction: column;
+          margin-bottom: 8px;
+        }
+        .answer-label {
+          font-size: 10px;
+          margin-bottom: 4px;
+        }
+        .answer-value {
+          font-size: 11px;
+        }
+        .feedback {
+          padding: 8px;
+          font-size: 11px;
+          margin-top: 8px;
+        }
+        .modal {
+          padding: 10px 0;
+          align-items: flex-end;
+        }
+        .modal-content {
+          max-width: 100%;
+          width: 100%;
+          padding: 15px;
+          margin: 0;
+          border-radius: 15px 15px 0 0;
+          max-height: 85vh;
+          overflow-y: auto;
+          box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.3);
+        }
+        .modal-content h2 {
+          font-size: 13px;
+          margin-bottom: 12px;
+        }
+        .calculator {
+          padding: 10px;
+          background: #f9f9f9;
+          border-radius: 5px;
+        }
+        .calc-display {
+          font-size: 16px;
+          padding: 8px;
+          min-height: 32px;
+          margin-bottom: 8px;
+          border-radius: 4px;
+        }
+        .calc-buttons {
+          grid-template-columns: repeat(4, 1fr);
+          gap: 5px;
+        }
+        .calc-btn {
+          padding: 8px 4px;
+          font-size: 12px;
+          min-height: 36px;
+          border-radius: 3px;
+        }
+        .modal > .modal-content > div {
+          display: grid;
+          gap: 12px;
+        }
+        .modal > .modal-content button {
+          margin-top: 12px;
+        }
+      }
+
+      @media (max-width: 319px) {
+        .header h1 {
+          font-size: 11px;
+        }
+        .timer-display {
+          font-size: 12px;
+        }
+        .question-text {
+          font-size: 12px;
+        }
+        .option {
+          font-size: 11px;
+          padding: 8px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>JUPEB PHYSICS PRACTICE EXAM</h1>
+        <button
+          class="menu-toggle"
+          id="menuToggle"
+          onclick="toggleHeaderMenu()"
+          aria-label="Toggle menu"
+        >
+          ☰
+        </button>
+        <div class="header-tools" id="headerTools">
+          <button class="tool-btn" onclick="openCalculator()">
+            🧮 Calculator
+          </button>
+          <button class="tool-btn" onclick="openSettings()">⚙️ Settings</button>
+        </div>
+      </div>
+
+      <div class="top-bar">
+        <div>
+          <span style="font-weight: 600">⏱️ Time:</span>
+          <span class="timer-display" id="timerDisplay">120:00</span>
+        </div>
+        <div class="stats-bar">
+          <div class="stat-item">
+            <span class="stat-label">Answered:</span>
+            <span class="stat-value" id="answeredCount">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Unanswered:</span>
+            <span class="stat-value" id="unansweredCount">46</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Flagged:</span>
+            <span class="stat-value" id="flaggedCount">0</span>
+          </div>
+          <div class="auto-save-indicator" id="autoSaveIndicator">
+            ✓ Auto-saved
+          </div>
+        </div>
+      </div>
+
+      <div class="content-area">
+        <div class="question-view active" id="questionView">
+          <div class="question-section" id="questionContent"></div>
+          <div class="bottom-controls">
+            <button
+              class="btn btn-secondary"
+              id="prevBtn"
+              onclick="previousQuestion()"
+            >
+              ← Previous
+            </button>
+            <button
+              class="btn btn-primary"
+              id="nextBtn"
+              onclick="nextQuestion()"
+            >
+              Next →
+            </button>
+            <button
+              class="btn btn-primary"
+              id="submitBtn"
+              onclick="submitExam()"
+              style="
+                background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+                display: none;
+              "
+            >
+              ✓ Submit Exam
+            </button>
+          </div>
+        </div>
+
+        <div class="results-view" id="resultsView">
+          <div class="results-header">
+            <h2>📊 Exam Results & Answer Key</h2>
+            <p>
+              Review your complete exam submission with correct answers and
+              explanations
+            </p>
+          </div>
+
+          <div class="results-summary" id="resultsSummary"></div>
+
+          <div class="answer-review" id="answerReview"></div>
+
+          <div class="bottom-controls">
+            <button class="btn btn-secondary" onclick="window.print()">
+              🖨️ Print Results
+            </button>
+            <button class="btn btn-secondary" onclick="downloadResults()">
+              💾 Download PDF
+            </button>
+            <button class="btn btn-primary" onclick="location.reload()">
+              Start New Exam
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="settingsModal">
+      <div class="modal-content">
+        <h2>⚙️ Settings</h2>
+        <div style="display: grid; gap: 15px">
+          <div>
+            <label style="font-weight: 600; display: block; margin-bottom: 10px"
+              >Font Size</label
+            >
+            <div style="display: flex; gap: 10px">
+              <button
+                class="btn btn-secondary"
+                onclick="setFontSize('small')"
+                style="flex: 1"
+              >
+                Small
+              </button>
+              <button
+                class="btn btn-secondary"
+                onclick="setFontSize('normal')"
+                style="flex: 1"
+              >
+                Normal
+              </button>
+              <button
+                class="btn btn-secondary"
+                onclick="setFontSize('large')"
+                style="flex: 1"
+              >
+                Large
+              </button>
+            </div>
+          </div>
+          <div>
+            <label style="font-weight: 600; display: block; margin-bottom: 10px"
+              >Theme</label
+            >
+            <div style="display: flex; gap: 10px">
+              <button
+                class="btn btn-secondary"
+                onclick="setTheme('light')"
+                style="flex: 1"
+              >
+                Light
+              </button>
+              <button
+                class="btn btn-secondary"
+                onclick="setTheme('dark')"
+                style="flex: 1"
+              >
+                Dark
+              </button>
+            </div>
+          </div>
+        </div>
+        <button
+          class="btn btn-primary"
+          onclick="closeSettings()"
+          style="width: 100%; margin-top: 20px"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+
+    <div class="modal" id="calculatorModal">
+      <div class="modal-content">
+        <h2>🧮 Scientific Calculator</h2>
+        <div class="calculator">
+          <div class="calc-display" id="calcDisplay">0</div>
+          <div class="calc-buttons">
+            <button
+              class="calc-btn"
+              onclick="calcClear()"
+              style="grid-column: span 2; background: #e74c3c; color: white"
+            >
+              Clear
+            </button>
+            <button class="calc-btn operator" onclick="calcAppend('/')">
+              /
+            </button>
+            <button class="calc-btn operator" onclick="calcAppend('*')">
+              ×
+            </button>
+
+            <button class="calc-btn" onclick="calcAppend('7')">7</button>
+            <button class="calc-btn" onclick="calcAppend('8')">8</button>
+            <button class="calc-btn" onclick="calcAppend('9')">9</button>
+            <button class="calc-btn operator" onclick="calcAppend('-')">
+              −
+            </button>
+
+            <button class="calc-btn" onclick="calcAppend('4')">4</button>
+            <button class="calc-btn" onclick="calcAppend('5')">5</button>
+            <button class="calc-btn" onclick="calcAppend('6')">6</button>
+            <button class="calc-btn operator" onclick="calcAppend('+')">
+              +
+            </button>
+
+            <button class="calc-btn" onclick="calcAppend('1')">1</button>
+            <button class="calc-btn" onclick="calcAppend('2')">2</button>
+            <button class="calc-btn" onclick="calcAppend('3')">3</button>
+            <button class="calc-btn operator" onclick="calcAppend('.')">
+              .
+            </button>
+
+            <button
+              class="calc-btn"
+              onclick="calcAppend('0')"
+              style="grid-column: span 2"
+            >
+              0
+            </button>
+            <button
+              class="calc-btn operator"
+              style="grid-column: span 2"
+              onclick="calcEquals()"
+            >
+              =
+            </button>
+          </div>
+        </div>
+        <button
+          class="btn btn-primary"
+          onclick="closeCalculator()"
+          style="width: 100%"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+
+    <script>
+      const questionsData = [
+        // PHY 001 MCQs (1-20)
+        {
+          id: 1,
+          course: "PHY 001",
+          text: "Which of the following is a scalar quantity?",
+          section: "A",
+          options: [
+            { text: "Displacement", value: "A" },
+            { text: "Distance", value: "B" },
+            { text: "Velocity", value: "C" },
+            { text: "Acceleration", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 2,
+          course: "PHY 001",
+          text: "The dimensions of velocity are:",
+          section: "A",
+          options: [
+            { text: "[M][L][T]⁻¹", value: "A" },
+            { text: "[M]⁻¹[L][T]⁻²", value: "B" },
+            { text: "[L][T]⁻¹", value: "C" },
+            { text: "[L][T]²", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 3,
+          course: "PHY 001",
+          text: "Two vectors of magnitudes 3 N and 4 N act at right angles. The resultant is:",
+          section: "A",
+          options: [
+            { text: "1 N", value: "A" },
+            { text: "5 N", value: "B" },
+            { text: "7 N", value: "C" },
+            { text: "12 N", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 4,
+          course: "PHY 001",
+          text: "When two vectors of equal magnitude are added, their resultant is zero when the angle between them is:",
+          section: "A",
+          options: [
+            { text: "0°", value: "A" },
+            { text: "90°", value: "B" },
+            { text: "180°", value: "C" },
+            { text: "45°", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 5,
+          course: "PHY 001",
+          text: "Multiplying a vector by a scalar -2 results in:",
+          section: "A",
+          options: [
+            { text: "Same direction, twice the magnitude", value: "A" },
+            { text: "Opposite direction, twice the magnitude", value: "B" },
+            { text: "Same magnitude, half the direction", value: "C" },
+            { text: "No change in direction", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 6,
+          course: "PHY 001",
+          text: "Average speed is defined as:",
+          section: "A",
+          options: [
+            { text: "Total distance / Total time", value: "A" },
+            { text: "Total displacement / Total time", value: "B" },
+            { text: "Final velocity - Initial velocity", value: "C" },
+            { text: "Rate of change of velocity", value: "D" },
+          ],
+          correct: "A",
+        },
+        {
+          id: 7,
+          course: "PHY 001",
+          text: "Instantaneous velocity is determined by:",
+          section: "A",
+          options: [
+            { text: "Average displacement / Average time", value: "A" },
+            {
+              text: "Slope of displacement-time graph at that instant",
+              value: "B",
+            },
+            { text: "Change in speed", value: "C" },
+            { text: "Total distance traveled", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 8,
+          course: "PHY 001",
+          text: "For uniformly accelerated motion, which graph is a straight line?",
+          section: "A",
+          options: [
+            { text: "Displacement-time graph", value: "A" },
+            { text: "Velocity-time graph", value: "B" },
+            { text: "Speed-time graph", value: "C" },
+            { text: "Both A and C", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 9,
+          course: "PHY 001",
+          text: "The time of flight for a projectile launched at angle θ with initial velocity u is:",
+          section: "A",
+          options: [
+            { text: "u·sin(θ)/g", value: "A" },
+            { text: "2u·sin(θ)/g", value: "B" },
+            { text: "u·cos(θ)/g", value: "C" },
+            { text: "u²·sin(2θ)/g", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 10,
+          course: "PHY 001",
+          text: "Maximum range of a projectile occurs at:",
+          section: "A",
+          options: [
+            { text: "30°", value: "A" },
+            { text: "45°", value: "B" },
+            { text: "60°", value: "C" },
+            { text: "90°", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 11,
+          course: "PHY 001",
+          text: "Newton's first law of motion states:",
+          section: "A",
+          options: [
+            { text: "F = ma", value: "A" },
+            {
+              text: "An object at rest remains at rest unless acted upon by an external force",
+              value: "B",
+            },
+            { text: "Action and reaction are equal and opposite", value: "C" },
+            { text: "Velocity is always constant", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 12,
+          course: "PHY 001",
+          text: "Newton's second law is expressed as:",
+          section: "A",
+          options: [
+            { text: "F = ma", value: "A" },
+            { text: "F = mv", value: "B" },
+            { text: "F = m/a", value: "C" },
+            { text: "F = a/m", value: "D" },
+          ],
+          correct: "A",
+        },
+        {
+          id: 13,
+          course: "PHY 001",
+          text: "Friction force acts:",
+          section: "A",
+          options: [
+            { text: "In the direction of motion", value: "A" },
+            { text: "Opposite to the direction of motion", value: "B" },
+            { text: "Perpendicular to the surface", value: "C" },
+            { text: "Randomly in any direction", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 14,
+          course: "PHY 001",
+          text: "In an elastic collision, which quantity is conserved?",
+          section: "A",
+          options: [
+            { text: "Only momentum", value: "A" },
+            { text: "Only kinetic energy", value: "B" },
+            { text: "Both momentum and kinetic energy", value: "C" },
+            { text: "Neither momentum nor kinetic energy", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 15,
+          course: "PHY 001",
+          text: "In an inelastic collision:",
+          section: "A",
+          options: [
+            { text: "Kinetic energy is conserved", value: "A" },
+            { text: "Momentum is not conserved", value: "B" },
+            {
+              text: "Momentum is conserved but kinetic energy is not",
+              value: "C",
+            },
+            { text: "Both are not conserved", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 16,
+          course: "PHY 001",
+          text: "A car accelerates uniformly from rest at 2 m/s². How far does it travel to reach 20 m/s?",
+          section: "A",
+          options: [
+            { text: "50 m", value: "A" },
+            { text: "100 m", value: "B" },
+            { text: "150 m", value: "C" },
+            { text: "200 m", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 17,
+          course: "PHY 001",
+          text: "A projectile is launched at 45° with initial velocity 40 m/s. The time of flight is:",
+          section: "A",
+          options: [
+            { text: "2 seconds", value: "A" },
+            { text: "4 seconds", value: "B" },
+            { text: "6 seconds", value: "C" },
+            { text: "8 seconds", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 18,
+          course: "PHY 001",
+          text: "The horizontal component of velocity in projectile motion:",
+          section: "A",
+          options: [
+            { text: "Changes during flight", value: "A" },
+            { text: "Remains constant", value: "B" },
+            { text: "Becomes zero at the peak", value: "C" },
+            { text: "Increases due to gravity", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 19,
+          course: "PHY 001",
+          text: "A ball is thrown horizontally from a building. Its velocity on hitting the ground has:",
+          section: "A",
+          options: [
+            { text: "Only horizontal component", value: "A" },
+            { text: "Only vertical component", value: "B" },
+            { text: "Both horizontal and vertical components", value: "C" },
+            { text: "No components", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 20,
+          course: "PHY 001",
+          text: "Momentum is conserved in:",
+          section: "A",
+          options: [
+            { text: "Elastic collisions only", value: "A" },
+            { text: "Inelastic collisions only", value: "B" },
+            { text: "Both elastic and inelastic collisions", value: "C" },
+            { text: "Neither type of collision", value: "D" },
+          ],
+          correct: "C",
+        },
+        // PHY 002 MCQs (21-40)
+        {
+          id: 21,
+          course: "PHY 002",
+          text: "Temperature is a measure of:",
+          section: "A",
+          options: [
+            { text: "Total heat in an object", value: "A" },
+            { text: "Average kinetic energy of molecules", value: "B" },
+            { text: "Rate of heat transfer", value: "C" },
+            { text: "Internal energy", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 22,
+          course: "PHY 002",
+          text: "37°C converted to Kelvin is:",
+          section: "A",
+          options: [
+            { text: "273.15 K", value: "A" },
+            { text: "310.15 K", value: "B" },
+            { text: "310 K", value: "C" },
+            { text: "373 K", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 23,
+          course: "PHY 002",
+          text: "Latent heat of fusion is the heat required to:",
+          section: "A",
+          options: [
+            { text: "Raise temperature by 1°C", value: "A" },
+            {
+              text: "Convert solid to liquid at constant temperature",
+              value: "B",
+            },
+            { text: "Convert liquid to gas", value: "C" },
+            { text: "Cool a substance", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 24,
+          course: "PHY 002",
+          text: "The first law of thermodynamics states:",
+          section: "A",
+          options: [
+            { text: "ΔU = Q + W", value: "A" },
+            { text: "ΔU = Q - W", value: "B" },
+            { text: "Q = W + ΔU", value: "C" },
+            { text: "All are equivalent to ΔU = Q - W", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 25,
+          course: "PHY 002",
+          text: "In an adiabatic process:",
+          section: "A",
+          options: [
+            { text: "Temperature remains constant", value: "A" },
+            { text: "No heat exchange (Q = 0)", value: "B" },
+            { text: "Pressure remains constant", value: "C" },
+            { text: "Work done is zero", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 26,
+          course: "PHY 002",
+          text: "The ideal gas equation is:",
+          section: "A",
+          options: [
+            { text: "pV = nRT", value: "A" },
+            { text: "pV = mRT", value: "B" },
+            { text: "pV² = nRT", value: "C" },
+            { text: "p²V = nRT", value: "D" },
+          ],
+          correct: "A",
+        },
+        {
+          id: 27,
+          course: "PHY 002",
+          text: "For an ideal gas at constant volume, pressure is:",
+          section: "A",
+          options: [
+            { text: "Inversely proportional to temperature", value: "A" },
+            {
+              text: "Directly proportional to absolute temperature",
+              value: "B",
+            },
+            { text: "Independent of temperature", value: "C" },
+            { text: "Exponentially dependent on temperature", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 28,
+          course: "PHY 002",
+          text: "A longitudinal wave is characterized by:",
+          section: "A",
+          options: [
+            {
+              text: "Oscillation perpendicular to direction of propagation",
+              value: "A",
+            },
+            {
+              text: "Oscillation parallel to direction of propagation",
+              value: "B",
+            },
+            { text: "No oscillation", value: "C" },
+            { text: "Transverse displacement", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 29,
+          course: "PHY 002",
+          text: "In the equation v = fλ, λ represents:",
+          section: "A",
+          options: [
+            { text: "Frequency", value: "A" },
+            { text: "Wavelength", value: "B" },
+            { text: "Wave speed", value: "C" },
+            { text: "Amplitude", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 30,
+          course: "PHY 002",
+          text: "Resonance in a closed pipe occurs when the length is:",
+          section: "A",
+          options: [
+            { text: "λ", value: "A" },
+            { text: "λ/2", value: "B" },
+            { text: "(2n-1)λ/4 where n = 1,2,3...", value: "C" },
+            { text: "nλ/2", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 31,
+          course: "PHY 002",
+          text: "Beat frequency is produced when:",
+          section: "A",
+          options: [
+            { text: "Single sound source is used", value: "A" },
+            {
+              text: "Two sources of slightly different frequencies interfere",
+              value: "B",
+            },
+            { text: "Sound reflects from a wall", value: "C" },
+            { text: "Sound travels in a medium", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 32,
+          course: "PHY 002",
+          text: "Electromagnetic waves differ from mechanical waves in that:",
+          section: "A",
+          options: [
+            { text: "They require a medium to propagate", value: "A" },
+            { text: "They can propagate through vacuum", value: "B" },
+            { text: "They have no speed", value: "C" },
+            { text: "They cannot be polarized", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 33,
+          course: "PHY 002",
+          text: "The speed of electromagnetic waves in vacuum is:",
+          section: "A",
+          options: [
+            { text: "c = fλ, where f = frequency", value: "A" },
+            { text: "c = 3 × 10⁸ m/s", value: "B" },
+            { text: "Both A and B", value: "C" },
+            { text: "Depends on frequency", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 34,
+          course: "PHY 002",
+          text: "The wavelength of an EM wave with frequency 500 MHz is:",
+          section: "A",
+          options: [
+            { text: "60 cm", value: "A" },
+            { text: "60 cm (or 0.6 m)", value: "B" },
+            { text: "6 m", value: "C" },
+            { text: "6 cm", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 35,
+          course: "PHY 002",
+          text: "In the electromagnetic spectrum, visible light has wavelengths of:",
+          section: "A",
+          options: [
+            { text: "10⁻¹² m to 10⁻¹⁰ m", value: "A" },
+            { text: "10⁻⁹ m to 10⁻⁷ m", value: "B" },
+            { text: "10⁻⁶ m to 10⁻⁴ m", value: "C" },
+            { text: "10⁻³ m to 10 m", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 36,
+          course: "PHY 002",
+          text: "Doppler effect for sound is observed as:",
+          section: "A",
+          options: [
+            { text: "Change in wavelength only", value: "A" },
+            { text: "Change in speed of sound", value: "B" },
+            {
+              text: "Change in frequency when source/observer moves",
+              value: "C",
+            },
+            { text: "Change in amplitude", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 37,
+          course: "PHY 002",
+          text: "When a siren approaches a stationary observer, the observed frequency is:",
+          section: "A",
+          options: [
+            { text: "Lower than the actual frequency", value: "A" },
+            { text: "Higher than the actual frequency", value: "B" },
+            { text: "Same as the actual frequency", value: "C" },
+            { text: "Zero", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 38,
+          course: "PHY 002",
+          text: "For a sound wave with frequency 440 Hz and wavelength 0.77 m, its speed is:",
+          section: "A",
+          options: [
+            { text: "100 m/s", value: "A" },
+            { text: "338.8 m/s", value: "B" },
+            { text: "572 m/s", value: "C" },
+            { text: "573 m/s", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 39,
+          course: "PHY 002",
+          text: "Simple harmonic motion is characterized by:",
+          section: "A",
+          options: [
+            { text: "Constant velocity", value: "A" },
+            {
+              text: "Restoring force proportional to displacement",
+              value: "B",
+            },
+            { text: "Constant acceleration", value: "C" },
+            { text: "No acceleration", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 40,
+          course: "PHY 002",
+          text: "Two tuning forks of frequencies 256 Hz and 260 Hz sounded together produce beats. The beat frequency is:",
+          section: "A",
+          options: [
+            { text: "2 Hz", value: "A" },
+            { text: "4 Hz", value: "B" },
+            { text: "8 Hz", value: "C" },
+            { text: "516 Hz", value: "D" },
+          ],
+          correct: "B",
+        },
+        // Theory Questions (41-46)
+        {
+          id: 41,
+          course: "PHY 001",
+          text: "(a) State the three equations of motion for uniformly accelerated motion and derive the third equation v² = u² + 2as from the first two. (5 marks)\n\n(b) A car accelerates uniformly from rest at 2 m/s². How far does it travel to reach a velocity of 20 m/s? (5 marks)",
+          section: "B",
+          marks: 10,
+        },
+        {
+          id: 42,
+          course: "PHY 001",
+          text: "(a) A projectile is launched at an angle of 30° with initial velocity 40 m/s. Calculate: (i) The time of flight (3 marks) (ii) The maximum height reached (4 marks)\n\n(b) Explain why the horizontal range is maximum at 45° angle. (3 marks)",
+          section: "B",
+          marks: 10,
+        },
+        {
+          id: 43,
+          course: "PHY 001",
+          text: "(a) State Newton's first and second laws of motion and explain the concept of inertia. (5 marks)\n\n(b) A block of mass 5 kg is placed on a frictionless surface and pushed with a force of 50 N. Calculate its acceleration. If a friction force of 10 N acts on it, what is the new acceleration? (5 marks)",
+          section: "B",
+          marks: 10,
+        },
+        {
+          id: 44,
+          course: "PHY 002",
+          text: "(a) State the first law of thermodynamics and explain the terms ΔU, Q, and W in the equation ΔU = Q - W. (5 marks)\n\n(b) In a thermodynamic process, a gas absorbs 500 J of heat and 200 J of work is done by the gas. Calculate the change in internal energy. (5 marks)",
+          section: "B",
+          marks: 10,
+        },
+        {
+          id: 45,
+          course: "PHY 002",
+          text: "(a) Explain the difference between transverse and longitudinal waves, giving one example of each and indicating which regions they create. (5 marks)\n\n(b) Two sound waves of frequencies 256 Hz and 260 Hz are sounded together. Calculate: (i) The beat frequency (2 marks) (ii) How many times the sound intensity varies per second (3 marks)",
+          section: "B",
+          marks: 10,
+        },
+        {
+          id: 46,
+          course: "PHY 002",
+          text: "(a) List the main regions of the electromagnetic spectrum in order of increasing wavelength, and state one application for each. (5 marks)\n\n(b) A siren of frequency 800 Hz approaches a stationary observer at 30 m/s. If the speed of sound is 340 m/s, calculate the apparent frequency heard by the observer. (5 marks)",
+          section: "B",
+          marks: 10,
+        },
+      ];
+
+      let currentQ = 0;
+      let answers = {};
+      let flagged = {};
+      let examSubmitted = false;
+      let calcExpression = "";
+      let startTime = Date.now();
+
+      window.addEventListener("load", () => {
+        displayQuestion();
+        startTimer();
+      });
+
+      function displayQuestion() {
+        updateStats();
+        const q = questionsData[currentQ];
+        if (!q) return;
+
+        let html = `<div class="question-section">
+                <div class="question-header">
+                    <div>
+                        <div class="question-course">${q.course}</div>
+                        <div class="question-number">Question ${currentQ + 1} of ${questionsData.length}</div>
+                    </div>
+                    <button class="flag-btn ${flagged[currentQ] ? "flagged" : ""}" onclick="toggleFlag(${currentQ})">
+                        ${flagged[currentQ] ? "🚩 Flagged" : "📌 Flag"}
+                    </button>
+                </div>
+                <div class="question-text">${q.text}</div>`;
+
+        if (q.options) {
+          html += '<div class="options">';
+          q.options.forEach((opt) => {
+            const selected = answers[currentQ] === opt.value ? "selected" : "";
+            html += `<label class="option ${selected}">
+                        <input type="radio" name="q${currentQ}" value="${opt.value}" onchange="selectAnswer(${currentQ}, '${opt.value}')">
+                        <span>${opt.value})</span> ${opt.text}
+                    </label>`;
+          });
+          html += "</div>";
+        } else {
+          html += `<textarea id="theory${currentQ}" placeholder="Type your answer..." onchange="saveTheoryAnswer(${currentQ})">${answers[currentQ] || ""}</textarea>
+                <div style="margin-top: 10px; font-size: 12px; color: #666; font-weight: 600;">Total Marks: ${q.marks}</div>`;
+        }
+
+        html += "</div>";
+        document.getElementById("questionContent").innerHTML = html;
+        updateButtons();
+      }
+
+      function selectAnswer(qIdx, value) {
+        answers[qIdx] = value;
+        updateStats();
+        autoSave();
+      }
+
+      function saveTheoryAnswer(qIdx) {
+        answers[qIdx] = document.getElementById(`theory${qIdx}`).value;
+        updateStats();
+        autoSave();
+      }
+
+      function toggleFlag(qIdx) {
+        flagged[qIdx] = !flagged[qIdx];
+        updateStats();
+      }
+
+      function nextQuestion() {
+        if (currentQ < questionsData.length - 1) {
+          currentQ++;
+          displayQuestion();
+        }
+      }
+
+      function previousQuestion() {
+        if (currentQ > 0) {
+          currentQ--;
+          displayQuestion();
+        }
+      }
+
+      function updateStats() {
+        const answered = Object.keys(answers).filter((k) => answers[k]).length;
+        const total = questionsData.length;
+        const flaggedCount = Object.values(flagged).filter((f) => f).length;
+
+        document.getElementById("answeredCount").textContent = answered;
+        document.getElementById("unansweredCount").textContent =
+          total - answered;
+        document.getElementById("flaggedCount").textContent = flaggedCount;
+      }
+
+      function updateButtons() {
+        document.getElementById("prevBtn").disabled = currentQ === 0;
+        document.getElementById("nextBtn").style.display =
+          currentQ === questionsData.length - 1 ? "none" : "block";
+        document.getElementById("submitBtn").style.display =
+          currentQ === questionsData.length - 1 ? "block" : "none";
+      }
+
+      function autoSave() {
+        const indicator = document.getElementById("autoSaveIndicator");
+        indicator.style.display = "inline-block";
+        setTimeout(() => (indicator.style.display = "none"), 2000);
+      }
+
+      function startTimer() {
+        setInterval(() => {
+          let elapsed = Math.floor((Date.now() - startTime) / 1000);
+          let remaining = 7200 - elapsed;
+          if (remaining < 0) remaining = 0;
+
+          let mins = Math.floor(remaining / 60);
+          let secs = remaining % 60;
+          document.getElementById("timerDisplay").textContent =
+            `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+
+          if (remaining < 300) {
+            document.getElementById("timerDisplay").classList.add("warning");
+          }
+        }, 1000);
+      }
+
+      function submitExam() {
+        if (confirm("Submit exam? You cannot make changes after submission.")) {
+          examSubmitted = true;
+          displayResults();
+        }
+      }
+
+      function displayResults() {
+        document.getElementById("questionView").classList.remove("active");
+        document.getElementById("resultsView").classList.add("active");
+
+        const totalQuestions = questionsData.length;
+        const mcqQuestions = questionsData.filter((q) => q.section === "A");
+        let correctCount = 0;
+        let answeredCount = 0;
+
+        mcqQuestions.forEach((q, idx) => {
+          if (answers[idx]) {
+            answeredCount++;
+            if (answers[idx] === q.correct) correctCount++;
+          }
+        });
+
+        const score = ((correctCount / mcqQuestions.length) * 100).toFixed(1);
+
+        let summary = `
+                <div class="summary-card correct">
+                    <div class="summary-label">Correct Answers</div>
+                    <div class="summary-value">${correctCount}/${mcqQuestions.length}</div>
+                </div>
+                <div class="summary-card incorrect">
+                    <div class="summary-label">Incorrect Answers</div>
+                    <div class="summary-value">${mcqQuestions.length - correctCount}</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-label">Section A Score</div>
+                    <div class="summary-value">${score}%</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-label">Questions Answered</div>
+                    <div class="summary-value">${answeredCount}/${mcqQuestions.length}</div>
+                </div>
+            `;
+
+        document.getElementById("resultsSummary").innerHTML = summary;
+
+        let review = `<div class="section-title">📝 Section A: Multiple Choice Questions</div>`;
+
+        questionsData.forEach((q, idx) => {
+          if (q.section === "A") {
+            const userAnswer = answers[idx];
+            const isCorrect = userAnswer === q.correct;
+            const status = userAnswer
+              ? isCorrect
+                ? "correct"
+                : "incorrect"
+              : "unanswered";
+            const statusLabel = userAnswer
+              ? isCorrect
+                ? "✓ Correct"
+                : "✗ Incorrect"
+              : "? Unanswered";
+
+            review += `<div class="question-review">
+                        <div class="review-question-header">
+                            <div>
+                                <div class="review-q-number">Question ${idx + 1}</div>
+                                <span class="review-q-course">${q.course}</span>
+                                <span class="review-status ${status}">${statusLabel}</span>
+                            </div>
+                        </div>
+                        <div class="review-q-text">${q.text}</div>
+                        <div class="answer-display">
+                            <div class="answer-row">
+                                <span class="answer-label">Your Answer:</span>
+                                <span class="answer-value">${userAnswer || "Not answered"}</span>
+                            </div>
+                            <div class="answer-row">
+                                <span class="answer-label">Correct Answer:</span>
+                                <span class="answer-value">${q.correct}</span>
+                            </div>
+                            ${
+                              userAnswer && userAnswer !== q.correct
+                                ? `
+                            <div class="answer-row">
+                                <span class="answer-label">Explanation:</span>
+                                <span class="answer-value" style="color: #e74c3c;">You selected ${userAnswer}. The correct answer is ${q.correct}.</span>
+                            </div>
+                            `
+                                : ""
+                            }
+                        </div>
+                        ${isCorrect ? `<div class="feedback correct">✓ Excellent! Your answer is correct.</div>` : userAnswer ? `<div class="feedback incorrect">✗ Incorrect. Please review this concept.</div>` : `<div class="feedback unanswered">⚠ This question was not answered.</div>`}
+                    </div>`;
+          }
+        });
+
+        review += `<div class="section-title" style="margin-top: 30px;">📝 Section B: Theory Questions</div>`;
+
+        questionsData.forEach((q, idx) => {
+          if (q.section === "B") {
+            const userAnswer = answers[idx];
+            const status = userAnswer ? "answered" : "unanswered";
+            const statusLabel = userAnswer ? "✓ Answered" : "? Unanswered";
+
+            review += `<div class="question-review">
+                        <div class="review-question-header">
+                            <div>
+                                <div class="review-q-number">Question ${idx + 1}</div>
+                                <span class="review-q-course">${q.course}</span>
+                                <span class="review-status ${status}">${statusLabel}</span>
+                            </div>
+                        </div>
+                        <div class="review-q-text">${q.text}</div>
+                        <div class="answer-display">
+                            <div class="answer-row">
+                                <span class="answer-label">Total Marks:</span>
+                                <span class="answer-value">${q.marks}</span>
+                            </div>
+                            <div class="answer-row" style="flex-direction: column; align-items: flex-start;">
+                                <span class="answer-label" style="margin-bottom: 8px;">Your Answer:</span>
+                                <div style="background: #f0f0f0; padding: 10px; border-radius: 4px; width: 100%; white-space: pre-wrap; font-family: monospace; font-size: 12px;">
+                                    ${userAnswer || "<em>No answer provided</em>"}
+                                </div>
+                            </div>
+                        </div>
+                        ${userAnswer ? `<div class="feedback correct">✓ Your answer has been recorded. This will be evaluated by the examiner.</div>` : `<div class="feedback unanswered">⚠ This question was not answered.</div>`}
+                    </div>`;
+          }
+        });
+
+        document.getElementById("answerReview").innerHTML = review;
+      }
+
+      function downloadResults() {
+        alert("PDF download feature coming soon!");
+      }
+
+      function toggleHeaderMenu() {
+        const headerTools = document.getElementById("headerTools");
+        headerTools.classList.toggle("active");
+      }
+
+      function openSettings() {
+        document.getElementById("headerTools").classList.remove("active");
+        document.getElementById("settingsModal").classList.add("active");
+      }
+
+      function closeSettings() {
+        document.getElementById("settingsModal").classList.remove("active");
+      }
+
+      function setFontSize(size) {
+        const sizes = { small: "12px", normal: "16px", large: "18px" };
+        document.documentElement.style.fontSize = sizes[size];
+      }
+
+      function setTheme(theme) {
+        document.body.classList.toggle("dark-mode", theme === "dark");
+      }
+
+      function openCalculator() {
+        document.getElementById("headerTools").classList.remove("active");
+        document.getElementById("calculatorModal").classList.add("active");
+      }
+
+      function closeCalculator() {
+        document.getElementById("calculatorModal").classList.remove("active");
+      }
+
+      function calcAppend(val) {
+        calcExpression += val;
+        document.getElementById("calcDisplay").textContent =
+          calcExpression || "0";
+      }
+
+      function calcClear() {
+        calcExpression = "";
+        document.getElementById("calcDisplay").textContent = "0";
+      }
+
+      function calcEquals() {
+        try {
+          calcExpression = String(eval(calcExpression));
+          document.getElementById("calcDisplay").textContent = calcExpression;
+        } catch (e) {
+          document.getElementById("calcDisplay").textContent = "Error";
+        }
+      }
+
+      // Mobile touch optimization
+      const isMobile = window.matchMedia("(max-width: 479px)").matches;
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const buttons = document.querySelectorAll(
+          ".btn, .tool-btn, .option, .flag-btn",
+        );
+        buttons.forEach((btn) => {
+          btn.addEventListener("touchstart", function () {
+            this.style.opacity = "0.8";
+          });
+          btn.addEventListener("touchend", function () {
+            this.style.opacity = "1";
+          });
+        });
+      });
+
+      const viewportMeta = document.querySelector('meta[name="viewport"]');
+      if (viewportMeta) {
+        document.addEventListener("focusin", (e) => {
+          if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") {
+            viewportMeta.setAttribute(
+              "content",
+              "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no",
+            );
+          }
+        });
+        document.addEventListener("focusout", () => {
+          viewportMeta.setAttribute(
+            "content",
+            "width=device-width, initial-scale=1.0",
+          );
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const textareas = document.querySelectorAll("textarea");
+        textareas.forEach((textarea) => {
+          textarea.addEventListener("focus", function () {
+            setTimeout(() => {
+              this.scrollIntoView({ behavior: "smooth", block: "center" });
+            }, 300);
+          });
+        });
+      });
+
+      let touchStartX = 0;
+      let touchEndX = 0;
+
+      function handleSwipe() {
+        if (touchEndX < touchStartX - 50) {
+          if (currentQ < questionsData.length - 1) {
+            nextQuestion();
+          }
+        } else if (touchEndX > touchStartX + 50) {
+          if (currentQ > 0) {
+            previousQuestion();
+          }
+        }
+      }
+
+      document.addEventListener("touchstart", (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      });
+
+      document.addEventListener("touchend", (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (examSubmitted) return;
+
+        if (e.key === "ArrowRight" && currentQ < questionsData.length - 1) {
+          nextQuestion();
+        } else if (e.key === "ArrowLeft" && currentQ > 0) {
+          previousQuestion();
+        } else if ((e.altKey || e.metaKey) && e.key === "f") {
+          e.preventDefault();
+          toggleFlag(currentQ);
+        }
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          document.getElementById("settingsModal").classList.remove("active");
+          document.getElementById("calculatorModal").classList.remove("active");
+        }
+      });
+
+      window.addEventListener("orientationchange", () => {
+        displayQuestion();
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,2608 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0"
+    />
+    <meta name="apple-mobile-web-app-capable" content="true" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="theme-color" content="#003d82" />
+    <title>JUPEB Chemistry CBT - Complete Enhanced</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        color: #333;
+        min-height: 100vh;
+        padding: 10px;
+        padding-left: max(10px, env(safe-area-inset-left));
+        padding-right: max(10px, env(safe-area-inset-right));
+        padding-top: max(10px, env(safe-area-inset-top));
+        padding-bottom: max(10px, env(safe-area-inset-bottom));
+      }
+
+      body.dark-mode {
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+      }
+
+      .container {
+        width: 100%;
+        max-width: 1200px;
+        background: white;
+        margin: 0 auto;
+        border-radius: 10px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+      }
+
+      body.dark-mode .container {
+        background: #1e1e1e;
+        color: #e0e0e0;
+      }
+
+      .header {
+        background: linear-gradient(135deg, #003d82 0%, #005a9c 100%);
+        color: white;
+        padding: 20px 25px;
+        text-align: center;
+        border-bottom: 4px solid #002855;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .header h1 {
+        font-size: 20px;
+        font-weight: 600;
+      }
+
+      .header-tools {
+        display: flex;
+        gap: 15px;
+      }
+
+      .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+        padding: 5px;
+        margin-left: auto;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .tool-btn {
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 12px;
+        transition: all 0.3s;
+      }
+
+      .tool-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      .top-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 20px;
+        background: #f5f5f5;
+        border-bottom: 1px solid #ddd;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      body.dark-mode .top-bar {
+        background: #2a2a2a;
+        border-bottom-color: #444;
+      }
+
+      .timer-display {
+        font-size: 22px;
+        font-weight: bold;
+        color: #003d82;
+        font-family: "Courier New", monospace;
+        min-width: 100px;
+      }
+
+      .timer-display.warning {
+        color: #ff6b6b;
+        animation: blink 1s infinite;
+      }
+
+      @keyframes blink {
+        0%,
+        50% {
+          opacity: 1;
+        }
+        51%,
+        100% {
+          opacity: 0.5;
+        }
+      }
+
+      .stats-bar {
+        display: flex;
+        gap: 20px;
+        font-size: 13px;
+        align-items: center;
+      }
+
+      .stat-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: white;
+        padding: 5px 12px;
+        border-radius: 4px;
+      }
+
+      body.dark-mode .stat-item {
+        background: #333;
+      }
+
+      .stat-label {
+        font-weight: 600;
+        color: #666;
+      }
+
+      .stat-value {
+        font-weight: bold;
+        color: #003d82;
+      }
+
+      .auto-save-indicator {
+        font-size: 11px;
+        color: #27ae60;
+        padding: 4px 8px;
+        background: #d5f4e6;
+        border-radius: 3px;
+        display: none;
+      }
+
+      .content-area {
+        padding: 30px;
+        min-height: 500px;
+      }
+
+      .question-view,
+      .results-view {
+        display: none;
+      }
+
+      .question-view.active,
+      .results-view.active {
+        display: block;
+      }
+
+      .question-section {
+        animation: fadeIn 0.3s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .question-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .question-number {
+        color: #003d82;
+        font-weight: bold;
+        font-size: 18px;
+      }
+
+      .flag-btn {
+        background: none;
+        border: 2px solid #ffc107;
+        color: #ffc107;
+        padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        transition: all 0.3s;
+      }
+
+      .flag-btn.flagged {
+        background: #ffc107;
+        color: white;
+      }
+
+      .question-course {
+        display: inline-block;
+        background: #e8f0f8;
+        color: #003d82;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 10px;
+      }
+
+      .question-text {
+        font-size: 17px;
+        color: #1a1a1a;
+        margin-bottom: 20px;
+        line-height: 1.7;
+        font-weight: 500;
+      }
+
+      body.dark-mode .question-text {
+        color: #e0e0e0;
+      }
+
+      .options {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 15px;
+      }
+
+      .option {
+        padding: 12px 15px;
+        border: 2px solid #ddd;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: white;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        min-height: 44px;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-user-select: none;
+        user-select: none;
+      }
+
+      body.dark-mode .option {
+        background: #2a2a2a;
+        border-color: #444;
+        color: #e0e0e0;
+      }
+
+      .option:hover {
+        border-color: #005a9c;
+        background: #f0f6ff;
+      }
+
+      .option input[type="radio"] {
+        margin-right: 12px;
+        cursor: pointer;
+      }
+
+      .option.selected {
+        border-color: #003d82;
+        background: #e8f0f8;
+        font-weight: 600;
+      }
+
+      .option.correct {
+        border-color: #27ae60;
+        background: #d5f4e6;
+      }
+
+      .option.incorrect {
+        border-color: #e74c3c;
+        background: #fadbd8;
+      }
+
+      textarea {
+        width: 100%;
+        height: 150px;
+        padding: 12px;
+        border: 2px solid #ddd;
+        border-radius: 6px;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        resize: vertical;
+        background: white;
+        color: #333;
+        -webkit-appearance: none;
+        appearance: none;
+      }
+
+      textarea:focus {
+        outline: none;
+        border-color: #003d82;
+        box-shadow: 0 0 0 2px rgba(0, 61, 130, 0.1);
+      }
+
+      body.dark-mode textarea {
+        background: #2a2a2a;
+        border-color: #444;
+        color: #e0e0e0;
+      }
+
+      .bottom-controls {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding-top: 15px;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-user-select: none;
+        user-select: none;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #003d82 0%, #005a9c 100%);
+        color: white;
+      }
+
+      .btn-primary:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 61, 130, 0.3);
+      }
+
+      .btn-secondary {
+        background: #f0f0f0;
+        color: #333;
+      }
+
+      body.dark-mode .btn-secondary {
+        background: #333;
+        color: #e0e0e0;
+      }
+
+      .btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .btn:focus,
+      .tool-btn:focus,
+      .option:focus {
+        outline: 2px solid #003d82;
+        outline-offset: 2px;
+      }
+
+      @media (max-width: 767px) {
+        .btn:focus,
+        .tool-btn:focus,
+        .option:focus {
+          outline: none;
+        }
+      }
+
+      /* Results Page Styles */
+      .results-header {
+        background: #e8f0f8;
+        border-left: 5px solid #003d82;
+        padding: 20px;
+        margin-bottom: 30px;
+        border-radius: 6px;
+      }
+
+      body.dark-mode .results-header {
+        background: rgba(0, 61, 130, 0.2);
+      }
+
+      .results-header h2 {
+        color: #003d82;
+        margin-bottom: 10px;
+      }
+
+      .results-summary {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+        margin-bottom: 30px;
+      }
+
+      .summary-card {
+        background: white;
+        border: 1px solid #ddd;
+        padding: 20px;
+        border-radius: 6px;
+        text-align: center;
+      }
+
+      body.dark-mode .summary-card {
+        background: #2a2a2a;
+        border-color: #444;
+      }
+
+      .summary-label {
+        font-size: 12px;
+        color: #666;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .summary-value {
+        font-size: 28px;
+        font-weight: bold;
+        color: #003d82;
+      }
+
+      .summary-card.correct .summary-value {
+        color: #27ae60;
+      }
+
+      .summary-card.incorrect .summary-value {
+        color: #e74c3c;
+      }
+
+      .answer-review {
+        margin-bottom: 30px;
+      }
+
+      .section-title {
+        background: #003d82;
+        color: white;
+        padding: 15px 20px;
+        border-radius: 6px;
+        margin-bottom: 15px;
+        font-size: 16px;
+        font-weight: 600;
+      }
+
+      .question-review {
+        background: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        padding: 20px;
+        margin-bottom: 15px;
+      }
+
+      body.dark-mode .question-review {
+        background: #2a2a2a;
+        border-color: #444;
+      }
+
+      .review-question-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: 15px;
+      }
+
+      .review-q-number {
+        font-weight: bold;
+        color: #003d82;
+        font-size: 14px;
+      }
+
+      .review-q-course {
+        display: inline-block;
+        background: #e8f0f8;
+        color: #003d82;
+        padding: 3px 10px;
+        border-radius: 15px;
+        font-size: 11px;
+        font-weight: 600;
+      }
+
+      .review-status {
+        display: inline-block;
+        padding: 5px 12px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .review-status.correct {
+        background: #d5f4e6;
+        color: #27ae60;
+      }
+
+      .review-status.incorrect {
+        background: #fadbd8;
+        color: #e74c3c;
+      }
+
+      .review-status.unanswered {
+        background: #fff3cd;
+        color: #856404;
+      }
+
+      .review-q-text {
+        color: #1a1a1a;
+        margin-bottom: 15px;
+        line-height: 1.6;
+      }
+
+      body.dark-mode .review-q-text {
+        color: #e0e0e0;
+      }
+
+      .answer-display {
+        background: white;
+        padding: 15px;
+        border-radius: 4px;
+        margin-bottom: 10px;
+      }
+
+      body.dark-mode .answer-display {
+        background: #333;
+      }
+
+      .answer-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        font-size: 14px;
+      }
+
+      .answer-row:last-child {
+        margin-bottom: 0;
+      }
+
+      .answer-label {
+        font-weight: 600;
+        color: #666;
+        min-width: 150px;
+      }
+
+      body.dark-mode .answer-label {
+        color: #aaa;
+      }
+
+      .answer-value {
+        color: #003d82;
+        font-weight: 600;
+      }
+
+      .feedback {
+        padding: 10px;
+        border-radius: 4px;
+        font-size: 13px;
+        margin-top: 10px;
+      }
+
+      .feedback.correct {
+        background: #d5f4e6;
+        color: #27ae60;
+        border-left: 3px solid #27ae60;
+      }
+
+      .feedback.incorrect {
+        background: #fadbd8;
+        color: #e74c3c;
+        border-left: 3px solid #e74c3c;
+      }
+
+      .feedback.unanswered {
+        background: #fff3cd;
+        color: #856404;
+        border-left: 3px solid #ffc107;
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .modal.active {
+        display: flex;
+      }
+
+      .modal-content {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        max-width: 600px;
+        width: 90%;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        margin: auto;
+        -webkit-appearance: none;
+        appearance: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      body.dark-mode .modal-content {
+        background: #1e1e1e;
+        color: #e0e0e0;
+      }
+
+      .modal-content h2 {
+        color: #003d82;
+        margin-bottom: 20px;
+      }
+
+      .calculator {
+        background: #f9f9f9;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+
+      .calc-display {
+        background: white;
+        padding: 12px;
+        border-radius: 4px;
+        text-align: right;
+        font-size: 20px;
+        margin-bottom: 10px;
+        font-family: "Courier New", monospace;
+        min-height: 40px;
+      }
+
+      .calc-buttons {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+      }
+
+      .calc-btn {
+        padding: 10px;
+        border: 1px solid #ddd;
+        background: white;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 600;
+      }
+
+      .calc-btn.operator {
+        background: #003d82;
+        color: white;
+      }
+
+      @media print {
+        body {
+          background: white;
+        }
+        .header-tools,
+        .tool-btn,
+        .bottom-controls,
+        .timer-section {
+          display: none !important;
+        }
+        .content-area {
+          padding: 0;
+        }
+      }
+
+      /* ==================== MOBILE OPTIMIZATION ==================== */
+
+      /* Large Desktop (1200px+) - No changes needed */
+
+      /* Tablet Landscape (1024px - 1199px) */
+      @media (max-width: 1199px) {
+        .container {
+          border-radius: 0;
+          box-shadow: none;
+        }
+        .header {
+          padding: 15px 20px;
+        }
+        .header h1 {
+          font-size: 18px;
+        }
+        .timer-display {
+          font-size: 18px;
+        }
+      }
+
+      /* Tablet Portrait (768px - 1023px) */
+      @media (max-width: 1023px) {
+        body {
+          padding: 5px;
+        }
+        .header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 12px;
+          padding: 12px 15px;
+        }
+        .header h1 {
+          font-size: 16px;
+        }
+        .header-tools {
+          width: 100%;
+          gap: 10px;
+        }
+        .tool-btn {
+          flex: 1;
+          padding: 10px 12px;
+          font-size: 11px;
+        }
+        .top-bar {
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 10px 15px;
+          gap: 8px;
+        }
+        .stats-bar {
+          width: 100%;
+          flex-wrap: wrap;
+          gap: 10px;
+        }
+        .stat-item {
+          flex: 1;
+          min-width: 120px;
+          padding: 6px 10px;
+          font-size: 12px;
+        }
+        .timer-display {
+          font-size: 18px;
+        }
+        .content-area {
+          padding: 15px;
+          min-height: 400px;
+        }
+        .question-text {
+          font-size: 15px;
+        }
+        .option {
+          padding: 10px 12px;
+          font-size: 14px;
+        }
+        .btn {
+          padding: 10px 16px;
+          font-size: 12px;
+        }
+        textarea {
+          height: 120px;
+          font-size: 13px;
+        }
+        .results-summary {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 12px;
+        }
+        .summary-card {
+          padding: 15px;
+        }
+        .summary-label {
+          font-size: 11px;
+        }
+        .summary-value {
+          font-size: 24px;
+        }
+        .modal-content {
+          max-width: 90%;
+          padding: 20px;
+        }
+        .question-number {
+          font-size: 16px;
+        }
+      }
+
+      /* Mobile Landscape (480px - 767px) */
+      @media (max-width: 767px) {
+        body {
+          font-size: 14px;
+          padding: 0;
+        }
+        .container {
+          border-radius: 0;
+          max-width: 100%;
+          box-shadow: none;
+          margin: 0;
+        }
+        .header {
+          padding: 10px 12px;
+          gap: 10px;
+          border-bottom: 3px solid #002855;
+        }
+        .header h1 {
+          font-size: 14px;
+          margin: 0;
+        }
+        .header-tools {
+          width: 100%;
+          gap: 8px;
+        }
+        .menu-toggle {
+          display: none;
+        }
+        .tool-btn {
+          flex: 1;
+          padding: 8px 10px;
+          font-size: 10px;
+          min-height: 36px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .top-bar {
+          flex-direction: row;
+          padding: 8px 12px;
+          gap: 6px;
+          flex-wrap: wrap;
+          align-items: stretch;
+        }
+        .stats-bar {
+          gap: 6px;
+          font-size: 11px;
+          width: 100%;
+        }
+        .stat-item {
+          flex: 1;
+          min-width: 80px;
+          padding: 4px 8px;
+          font-size: 10px;
+          justify-content: center;
+          flex-direction: column;
+          align-items: center;
+        }
+        .timer-display {
+          font-size: 16px;
+          min-width: 70px;
+        }
+        .content-area {
+          padding: 12px;
+          min-height: auto;
+        }
+        .question-header {
+          flex-direction: column;
+          gap: 8px;
+          align-items: flex-start;
+        }
+        .question-number {
+          font-size: 14px;
+        }
+        .flag-btn {
+          width: 100%;
+          padding: 8px;
+          font-size: 12px;
+        }
+        .question-text {
+          font-size: 14px;
+          margin-bottom: 15px;
+        }
+        .options {
+          gap: 10px;
+        }
+        .option {
+          padding: 10px 12px;
+          font-size: 13px;
+          min-height: 44px;
+          align-items: center;
+        }
+        .option input[type="radio"] {
+          margin-right: 10px;
+          width: 18px;
+          height: 18px;
+        }
+        textarea {
+          height: 100px;
+          font-size: 12px;
+          padding: 10px;
+        }
+        .bottom-controls {
+          gap: 8px;
+          flex-wrap: wrap;
+          margin-top: 12px;
+        }
+        .btn {
+          flex: 1;
+          min-width: 100px;
+          padding: 10px 12px;
+          font-size: 11px;
+          min-height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        /* Results page mobile */
+        .results-header {
+          padding: 15px;
+          margin-bottom: 20px;
+        }
+        .results-header h2 {
+          font-size: 14px;
+          margin-bottom: 8px;
+        }
+        .results-summary {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 10px;
+          margin-bottom: 20px;
+        }
+        .summary-card {
+          padding: 12px;
+        }
+        .summary-label {
+          font-size: 10px;
+        }
+        .summary-value {
+          font-size: 20px;
+        }
+        .section-title {
+          padding: 12px 15px;
+          font-size: 14px;
+        }
+        .question-review {
+          padding: 12px;
+          margin-bottom: 12px;
+        }
+        .review-q-number {
+          font-size: 12px;
+        }
+        .review-q-text {
+          font-size: 13px;
+          margin-bottom: 12px;
+        }
+        .answer-display {
+          padding: 10px;
+        }
+        .answer-row {
+          font-size: 12px;
+          flex-direction: column;
+          margin-bottom: 8px;
+        }
+        .answer-label {
+          min-width: auto;
+          font-size: 11px;
+          margin-bottom: 4px;
+        }
+        .feedback {
+          padding: 8px;
+          font-size: 12px;
+        }
+        .modal {
+          padding: 20px 0;
+        }
+        .modal-content {
+          max-width: 95%;
+          width: 95%;
+          padding: 20px;
+          margin: 20px auto;
+          max-height: 90vh;
+          overflow-y: auto;
+        }
+        .modal-content h2 {
+          font-size: 14px;
+          margin-bottom: 15px;
+        }
+        .calculator {
+          padding: 12px;
+        }
+        .calc-display {
+          font-size: 18px;
+          padding: 10px;
+          min-height: 36px;
+          margin-bottom: 8px;
+        }
+        .calc-buttons {
+          gap: 6px;
+        }
+        .calc-btn {
+          padding: 10px 6px;
+          font-size: 13px;
+          min-height: 40px;
+        }
+      }
+
+      /* Mobile Portrait (320px - 479px) */
+      @media (max-width: 479px) {
+        body {
+          font-size: 13px;
+          padding: 0;
+          background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+        .container {
+          max-width: 100%;
+          border-radius: 0;
+          box-shadow: none;
+        }
+        .header {
+          padding: 8px 10px;
+          gap: 8px;
+          border-bottom: 3px solid #002855;
+          flex-wrap: wrap;
+        }
+        .header h1 {
+          font-size: 13px;
+          margin: 0;
+          line-height: 1.2;
+          flex: 1;
+        }
+        .menu-toggle {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0;
+          padding: 6px 8px;
+        }
+        .header-tools {
+          width: 100%;
+          gap: 6px;
+          display: none;
+          flex-direction: column;
+        }
+        .header-tools.active {
+          display: flex;
+        }
+        .tool-btn {
+          flex: 1;
+          padding: 6px 8px;
+          font-size: 9px;
+          min-height: 36px;
+          border-radius: 4px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-overflow: ellipsis;
+        }
+        .top-bar {
+          flex-direction: column;
+          padding: 8px 10px;
+          gap: 6px;
+          align-items: stretch;
+        }
+        .top-bar > div:first-child {
+          display: flex;
+          gap: 8px;
+          align-items: center;
+        }
+        .stats-bar {
+          flex-direction: column;
+          gap: 6px;
+          font-size: 10px;
+          width: 100%;
+        }
+        .stat-item {
+          background: white;
+          padding: 5px 8px;
+          border-radius: 4px;
+          font-size: 10px;
+          gap: 6px;
+          justify-content: space-between;
+        }
+        .timer-display {
+          font-size: 14px;
+          min-width: 60px;
+          font-weight: bold;
+        }
+        .content-area {
+          padding: 10px;
+          min-height: auto;
+        }
+        .question-section {
+          animation: fadeIn 0.3s ease;
+        }
+        .question-header {
+          flex-direction: column;
+          gap: 8px;
+          margin-bottom: 12px;
+        }
+        .question-course {
+          font-size: 11px;
+          padding: 3px 8px;
+        }
+        .question-number {
+          font-size: 12px;
+          margin-bottom: 8px;
+        }
+        .flag-btn {
+          width: 100%;
+          padding: 8px 10px;
+          font-size: 11px;
+          min-height: 40px;
+          border-radius: 5px;
+        }
+        .question-text {
+          font-size: 13px;
+          margin-bottom: 12px;
+          line-height: 1.5;
+        }
+        .options {
+          gap: 8px;
+        }
+        .option {
+          padding: 10px 10px;
+          font-size: 12px;
+          min-height: 44px;
+          border-radius: 5px;
+          align-items: center;
+        }
+        .option input[type="radio"] {
+          margin-right: 8px;
+          width: 16px;
+          height: 16px;
+          cursor: pointer;
+        }
+        .option span {
+          flex: 1;
+        }
+        textarea {
+          width: 100%;
+          height: 100px;
+          font-size: 12px;
+          padding: 8px;
+          border-radius: 4px;
+          resize: vertical;
+        }
+        .bottom-controls {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          margin-top: 12px;
+        }
+        .btn {
+          width: 100%;
+          padding: 10px 12px;
+          font-size: 11px;
+          min-height: 44px;
+          border-radius: 5px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        /* Results page mobile portrait */
+        .results-header {
+          padding: 12px;
+          margin-bottom: 15px;
+          border-left-width: 3px;
+        }
+        .results-header h2 {
+          font-size: 13px;
+          margin-bottom: 6px;
+        }
+        .results-header p {
+          font-size: 11px;
+        }
+        .results-summary {
+          grid-template-columns: 1fr;
+          gap: 8px;
+        }
+        .summary-card {
+          padding: 12px;
+        }
+        .summary-label {
+          font-size: 10px;
+        }
+        .summary-value {
+          font-size: 18px;
+        }
+        .section-title {
+          padding: 10px 12px;
+          font-size: 13px;
+          margin-top: 15px;
+          margin-bottom: 10px;
+        }
+        .question-review {
+          padding: 10px;
+          margin-bottom: 10px;
+        }
+        .review-question-header {
+          flex-direction: column;
+          gap: 6px;
+          margin-bottom: 10px;
+        }
+        .review-q-number {
+          font-size: 11px;
+        }
+        .review-q-course {
+          font-size: 10px;
+        }
+        .review-status {
+          font-size: 10px;
+          padding: 3px 8px;
+        }
+        .review-q-text {
+          font-size: 12px;
+          margin-bottom: 10px;
+          line-height: 1.5;
+        }
+        .answer-display {
+          padding: 8px;
+        }
+        .answer-row {
+          font-size: 11px;
+          flex-direction: column;
+          margin-bottom: 8px;
+        }
+        .answer-label {
+          font-size: 10px;
+          margin-bottom: 4px;
+        }
+        .answer-value {
+          font-size: 11px;
+        }
+        .feedback {
+          padding: 8px;
+          font-size: 11px;
+          margin-top: 8px;
+        }
+        /* Modal mobile optimization */
+        .modal {
+          padding: 10px 0;
+          align-items: flex-end;
+        }
+        .modal-content {
+          max-width: 100%;
+          width: 100%;
+          padding: 15px;
+          margin: 0;
+          border-radius: 15px 15px 0 0;
+          max-height: 85vh;
+          overflow-y: auto;
+          box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.3);
+        }
+        .modal-content h2 {
+          font-size: 13px;
+          margin-bottom: 12px;
+        }
+        /* Calculator mobile */
+        .calculator {
+          padding: 10px;
+          background: #f9f9f9;
+          border-radius: 5px;
+        }
+        .calc-display {
+          font-size: 16px;
+          padding: 8px;
+          min-height: 32px;
+          margin-bottom: 8px;
+          border-radius: 4px;
+        }
+        .calc-buttons {
+          grid-template-columns: repeat(4, 1fr);
+          gap: 5px;
+        }
+        .calc-btn {
+          padding: 8px 4px;
+          font-size: 12px;
+          min-height: 36px;
+          border-radius: 3px;
+        }
+        /* Settings styles */
+        .modal > .modal-content > div {
+          display: grid;
+          gap: 12px;
+        }
+        .modal > .modal-content button {
+          margin-top: 12px;
+        }
+        /* Print media - hide for mobile */
+        @media print {
+          body {
+            background: white;
+          }
+          .header-tools,
+          .tool-btn,
+          .bottom-controls,
+          .timer-section {
+            display: none !important;
+          }
+          .content-area {
+            padding: 0;
+          }
+        }
+      }
+
+      /* Extra small mobile (320px and below) */
+      @media (max-width: 319px) {
+        .header h1 {
+          font-size: 11px;
+        }
+        .timer-display {
+          font-size: 12px;
+        }
+        .question-text {
+          font-size: 12px;
+        }
+        .option {
+          font-size: 11px;
+          padding: 8px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>JUPEB CHEMISTRY PRACTICE EXAM</h1>
+        <button
+          class="menu-toggle"
+          id="menuToggle"
+          onclick="toggleHeaderMenu()"
+          aria-label="Toggle menu"
+        >
+          ☰
+        </button>
+        <div class="header-tools" id="headerTools">
+          <button class="tool-btn" onclick="openCalculator()">
+            🧮 Calculator
+          </button>
+          <button class="tool-btn" onclick="openSettings()">⚙️ Settings</button>
+        </div>
+      </div>
+
+      <div class="top-bar">
+        <div>
+          <span style="font-weight: 600">⏱️ Time:</span>
+          <span class="timer-display" id="timerDisplay">120:00</span>
+        </div>
+        <div class="stats-bar">
+          <div class="stat-item">
+            <span class="stat-label">Answered:</span>
+            <span class="stat-value" id="answeredCount">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Unanswered:</span>
+            <span class="stat-value" id="unansweredCount">46</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Flagged:</span>
+            <span class="stat-value" id="flaggedCount">0</span>
+          </div>
+          <div class="auto-save-indicator" id="autoSaveIndicator">
+            ✓ Auto-saved
+          </div>
+        </div>
+      </div>
+
+      <div class="content-area">
+        <!-- Question View -->
+        <div class="question-view active" id="questionView">
+          <div class="question-section" id="questionContent"></div>
+          <div class="bottom-controls">
+            <button
+              class="btn btn-secondary"
+              id="prevBtn"
+              onclick="previousQuestion()"
+            >
+              ← Previous
+            </button>
+            <button
+              class="btn btn-primary"
+              id="nextBtn"
+              onclick="nextQuestion()"
+            >
+              Next →
+            </button>
+            <button
+              class="btn btn-primary"
+              id="submitBtn"
+              onclick="submitExam()"
+              style="
+                background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+                display: none;
+              "
+            >
+              ✓ Submit Exam
+            </button>
+          </div>
+        </div>
+
+        <!-- Results View -->
+        <div class="results-view" id="resultsView">
+          <div class="results-header">
+            <h2>📊 Exam Results & Answer Key</h2>
+            <p>
+              Review your complete exam submission with correct answers and
+              explanations
+            </p>
+          </div>
+
+          <div class="results-summary" id="resultsSummary"></div>
+
+          <div class="answer-review" id="answerReview"></div>
+
+          <div class="bottom-controls">
+            <button class="btn btn-secondary" onclick="window.print()">
+              🖨️ Print Results
+            </button>
+            <button class="btn btn-secondary" onclick="downloadResults()">
+              💾 Download PDF
+            </button>
+            <button class="btn btn-primary" onclick="location.reload()">
+              Start New Exam
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal" id="settingsModal">
+      <div class="modal-content">
+        <h2>⚙️ Settings</h2>
+        <div style="display: grid; gap: 15px">
+          <div>
+            <label style="font-weight: 600; display: block; margin-bottom: 10px"
+              >Font Size</label
+            >
+            <div style="display: flex; gap: 10px">
+              <button
+                class="btn btn-secondary"
+                onclick="setFontSize('small')"
+                style="flex: 1"
+              >
+                Small
+              </button>
+              <button
+                class="btn btn-secondary"
+                onclick="setFontSize('normal')"
+                style="flex: 1"
+              >
+                Normal
+              </button>
+              <button
+                class="btn btn-secondary"
+                onclick="setFontSize('large')"
+                style="flex: 1"
+              >
+                Large
+              </button>
+            </div>
+          </div>
+          <div>
+            <label style="font-weight: 600; display: block; margin-bottom: 10px"
+              >Theme</label
+            >
+            <div style="display: flex; gap: 10px">
+              <button
+                class="btn btn-secondary"
+                onclick="setTheme('light')"
+                style="flex: 1"
+              >
+                Light
+              </button>
+              <button
+                class="btn btn-secondary"
+                onclick="setTheme('dark')"
+                style="flex: 1"
+              >
+                Dark
+              </button>
+            </div>
+          </div>
+        </div>
+        <button
+          class="btn btn-primary"
+          onclick="closeSettings()"
+          style="width: 100%; margin-top: 20px"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+
+    <!-- Calculator Modal -->
+    <div class="modal" id="calculatorModal">
+      <div class="modal-content">
+        <h2>🧮 Scientific Calculator</h2>
+        <div class="calculator">
+          <div class="calc-display" id="calcDisplay">0</div>
+          <div class="calc-buttons">
+            <button
+              class="calc-btn"
+              onclick="calcClear()"
+              style="grid-column: span 2; background: #e74c3c; color: white"
+            >
+              Clear
+            </button>
+            <button class="calc-btn operator" onclick="calcAppend('/')">
+              /
+            </button>
+            <button class="calc-btn operator" onclick="calcAppend('*')">
+              ×
+            </button>
+
+            <button class="calc-btn" onclick="calcAppend('7')">7</button>
+            <button class="calc-btn" onclick="calcAppend('8')">8</button>
+            <button class="calc-btn" onclick="calcAppend('9')">9</button>
+            <button class="calc-btn operator" onclick="calcAppend('-')">
+              −
+            </button>
+
+            <button class="calc-btn" onclick="calcAppend('4')">4</button>
+            <button class="calc-btn" onclick="calcAppend('5')">5</button>
+            <button class="calc-btn" onclick="calcAppend('6')">6</button>
+            <button class="calc-btn operator" onclick="calcAppend('+')">
+              +
+            </button>
+
+            <button class="calc-btn" onclick="calcAppend('1')">1</button>
+            <button class="calc-btn" onclick="calcAppend('2')">2</button>
+            <button class="calc-btn" onclick="calcAppend('3')">3</button>
+            <button class="calc-btn" onclick="calcAppend('.')">.</button>
+
+            <button
+              class="calc-btn"
+              onclick="calcAppend('0')"
+              style="grid-column: span 2"
+            >
+              0
+            </button>
+            <button
+              class="calc-btn operator"
+              style="grid-column: span 2"
+              onclick="calcEquals()"
+            >
+              =
+            </button>
+          </div>
+        </div>
+        <button
+          class="btn btn-primary"
+          onclick="closeCalculator()"
+          style="width: 100%"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+
+    <script>
+      // Question Database
+      const questionsData = [
+        // Section A - MCQs (1-40)
+        {
+          id: 1,
+          course: "CHM 001",
+          text: "Which of the following represents the Heisenberg Uncertainty Principle?",
+          section: "A",
+          options: [
+            { text: "ΔE·Δt ≥ h/4π", value: "A" },
+            { text: "Δx·Δp ≥ h/4π", value: "B" },
+            { text: "E = mc²", value: "C" },
+            { text: "F = ma", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 2,
+          course: "CHM 001",
+          text: "The electronic configuration of potassium (K, Z=19) is:",
+          section: "A",
+          options: [
+            { text: "1s² 2s² 2p⁶ 3s² 3p⁶ 4s¹", value: "A" },
+            { text: "1s² 2s² 2p⁶ 3s² 3p⁵ 4s²", value: "B" },
+            { text: "1s² 2s² 2p⁶ 3s² 3p⁶ 3d¹", value: "C" },
+            { text: "1s² 2s² 2p⁶ 3s¹ 3p⁶ 4s²", value: "D" },
+          ],
+          correct: "A",
+        },
+        {
+          id: 3,
+          course: "CHM 001",
+          text: "Calculate the pH of a 0.01 M HCl solution at 25°C:",
+          section: "A",
+          options: [
+            { text: "pH = 2.00", value: "A" },
+            { text: "pH = 12.00", value: "B" },
+            { text: "pH = 1.00", value: "C" },
+            { text: "pH = 3.00", value: "D" },
+          ],
+          correct: "A",
+        },
+        {
+          id: 4,
+          course: "CHM 001",
+          text: "Which statement is correct regarding ionic bonding?",
+          section: "A",
+          options: [
+            {
+              text: "It involves the sharing of electrons between atoms",
+              value: "A",
+            },
+            {
+              text: "It involves the transfer of electrons from one atom to another",
+              value: "B",
+            },
+            {
+              text: "It is stronger than covalent bonding in all cases",
+              value: "C",
+            },
+            { text: "It occurs only between nonmetallic elements", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 5,
+          course: "CHM 001",
+          text: "The standard molar volume of an ideal gas at STP (273.15 K, 1 atm) is:",
+          section: "A",
+          options: [
+            { text: "11.2 L/mol", value: "A" },
+            { text: "22.4 L/mol", value: "B" },
+            { text: "44.8 L/mol", value: "C" },
+            { text: "5.6 L/mol", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 6,
+          course: "CHM 001",
+          text: "How many moles of O₂ are required to completely burn 2 moles of CH₄?\nCH₄ + 2O₂ → CO₂ + 2H₂O",
+          section: "A",
+          options: [
+            { text: "1 mole", value: "A" },
+            { text: "2 moles", value: "B" },
+            { text: "4 moles", value: "C" },
+            { text: "8 moles", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 7,
+          course: "CHM 001",
+          text: "The oxidation state of nitrogen in NO₃⁻ is:",
+          section: "A",
+          options: [
+            { text: "+3", value: "A" },
+            { text: "+5", value: "B" },
+            { text: "-3", value: "C" },
+            { text: "+2", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 8,
+          course: "CHM 001",
+          text: "Which is NOT a characteristic of metallic bonding?",
+          section: "A",
+          options: [
+            { text: "Electrons are delocalized", value: "A" },
+            { text: "High electrical conductivity", value: "B" },
+            { text: "Directional bonding between specific atoms", value: "C" },
+            { text: "Malleability and ductility", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 9,
+          course: "CHM 001",
+          text: "The activation energy of a reaction is:",
+          section: "A",
+          options: [
+            { text: "The energy released in the reaction", value: "A" },
+            {
+              text: "The minimum energy required for reactants to form products",
+              value: "B",
+            },
+            { text: "The average kinetic energy of molecules", value: "C" },
+            { text: "The bond dissociation energy", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 10,
+          course: "CHM 001",
+          text: "How many electrons are present in a chloride ion (Cl⁻, Z=17)?",
+          section: "A",
+          options: [
+            { text: "16", value: "A" },
+            { text: "17", value: "B" },
+            { text: "18", value: "C" },
+            { text: "19", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 11,
+          course: "CHM 001",
+          text: "Which of the following would increase the rate of a chemical reaction?",
+          section: "A",
+          options: [
+            { text: "Decreasing temperature", value: "A" },
+            { text: "Decreasing pressure for gaseous reactants", value: "B" },
+            { text: "Increasing surface area of solid reactants", value: "C" },
+            { text: "Removing a catalyst", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 12,
+          course: "CHM 001",
+          text: "The first ionization energy generally increases across a period because:",
+          section: "A",
+          options: [
+            { text: "Atomic radius increases", value: "A" },
+            {
+              text: "Nuclear charge increases and atomic radius decreases",
+              value: "B",
+            },
+            { text: "Electrons are added to the same shell", value: "C" },
+            { text: "The number of electron shells increases", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 13,
+          course: "CHM 001",
+          text: "Calculate the mass of CO₂ produced when 10 g of CaCO₃ decomposes completely.\n(Molar masses: Ca=40, C=12, O=16)\nCaCO₃ → CaO + CO₂",
+          section: "A",
+          options: [
+            { text: "2.2 g", value: "A" },
+            { text: "4.4 g", value: "B" },
+            { text: "8.8 g", value: "C" },
+            { text: "5.6 g", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 14,
+          course: "CHM 001",
+          text: "Which of the following is an endothermic process?",
+          section: "A",
+          options: [
+            { text: "Combustion of methane", value: "A" },
+            { text: "Freezing of water", value: "B" },
+            { text: "Melting of ice", value: "C" },
+            { text: "Condensation of steam", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 15,
+          course: "CHM 001",
+          text: "The pH of a 0.1 M NaOH solution is:",
+          section: "A",
+          options: [
+            { text: "1", value: "A" },
+            { text: "13", value: "B" },
+            { text: "7", value: "C" },
+            { text: "0.1", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 16,
+          course: "CHM 001",
+          text: "In the reaction: 2H₂ + O₂ → 2H₂O, the hydrogen is acting as:",
+          section: "A",
+          options: [
+            { text: "An oxidizing agent", value: "A" },
+            { text: "A reducing agent", value: "B" },
+            { text: "A catalyst", value: "C" },
+            { text: "An inert substance", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 17,
+          course: "CHM 001",
+          text: "Which pair of elements would form an ionic compound?",
+          section: "A",
+          options: [
+            { text: "H and O", value: "A" },
+            { text: "C and H", value: "B" },
+            { text: "Na and Cl", value: "C" },
+            { text: "N and O", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 18,
+          course: "CHM 001",
+          text: "Calculate the molarity of a solution containing 5.85 g of NaCl in 500 mL of solution.\n(Molar mass of NaCl = 58.5 g/mol)",
+          section: "A",
+          options: [
+            { text: "0.1 M", value: "A" },
+            { text: "0.2 M", value: "B" },
+            { text: "1.0 M", value: "C" },
+            { text: "2.0 M", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 19,
+          course: "CHM 001",
+          text: "The hybridization of carbon in CO₂ is:",
+          section: "A",
+          options: [
+            { text: "sp", value: "A" },
+            { text: "sp²", value: "B" },
+            { text: "sp³", value: "C" },
+            { text: "sp³d", value: "D" },
+          ],
+          correct: "A",
+        },
+        {
+          id: 20,
+          course: "CHM 001",
+          text: "Which statement best describes Le Chatelier's Principle?",
+          section: "A",
+          options: [
+            {
+              text: "The rate of a reaction is proportional to the concentration of reactants",
+              value: "A",
+            },
+            {
+              text: "A system at equilibrium responds to a stress by shifting in a direction to counteract the stress",
+              value: "B",
+            },
+            {
+              text: "The equilibrium constant changes with temperature",
+              value: "C",
+            },
+            { text: "Catalysts shift the position of equilibrium", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 21,
+          course: "CHM 002",
+          text: "The IUPAC name for CH₃-CH(CH₃)-CH₂-CH₃ is:",
+          section: "A",
+          options: [
+            { text: "2-methylbutane", value: "A" },
+            { text: "3-methylbutane", value: "B" },
+            { text: "1,1-dimethylpropane", value: "C" },
+            { text: "Isopentane", value: "D" },
+          ],
+          correct: "A",
+        },
+        {
+          id: 22,
+          course: "CHM 002",
+          text: "Which functional group is present in ethanoic acid (acetic acid)?",
+          section: "A",
+          options: [
+            { text: "Aldehyde", value: "A" },
+            { text: "Ketone", value: "B" },
+            { text: "Carboxylic acid", value: "C" },
+            { text: "Ester", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 23,
+          course: "CHM 002",
+          text: "What is the molecular formula of cyclopropane?",
+          section: "A",
+          options: [
+            { text: "C₂H₆", value: "A" },
+            { text: "C₃H₆", value: "B" },
+            { text: "C₃H₈", value: "C" },
+            { text: "C₄H₈", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 24,
+          course: "CHM 002",
+          text: "The product of the reaction between ethene and bromine is:",
+          section: "A",
+          options: [
+            { text: "1,1-dibromoethane", value: "A" },
+            { text: "1,2-dibromoethane", value: "B" },
+            { text: "Bromoethane", value: "C" },
+            { text: "Ethane", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 25,
+          course: "CHM 002",
+          text: "Which of the following is a primary alcohol?",
+          section: "A",
+          options: [
+            { text: "(CH₃)₃C-OH", value: "A" },
+            { text: "CH₃-CH(OH)-CH₃", value: "B" },
+            { text: "CH₃-CH₂-OH", value: "C" },
+            { text: "C₆H₅-OH", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 26,
+          course: "CHM 002",
+          text: "The addition of HBr to propene follows Markovnikov's Rule. What is the major product?",
+          section: "A",
+          options: [
+            { text: "1-bromopropane", value: "A" },
+            { text: "2-bromopropane", value: "B" },
+            { text: "1,2-dibromopropane", value: "C" },
+            { text: "Propane", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 27,
+          course: "CHM 002",
+          text: "Benzene (C₆H₆) undergoes which type of reaction predominantly?",
+          section: "A",
+          options: [
+            { text: "Addition reactions", value: "A" },
+            { text: "Substitution reactions", value: "B" },
+            { text: "Elimination reactions", value: "C" },
+            { text: "Polymerization reactions", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 28,
+          course: "CHM 002",
+          text: "The oxidation of primary alcohols produces:",
+          section: "A",
+          options: [
+            { text: "Ketones", value: "A" },
+            { text: "Secondary alcohols", value: "B" },
+            { text: "Aldehydes or carboxylic acids", value: "C" },
+            { text: "Esters", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 29,
+          course: "CHM 002",
+          text: "Which compound has geometric isomerism?",
+          section: "A",
+          options: [
+            { text: "Propane", value: "A" },
+            { text: "Butane", value: "B" },
+            { text: "But-2-ene", value: "C" },
+            { text: "Pentane", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 30,
+          course: "CHM 002",
+          text: "The esterification of ethanoic acid with methanol produces:",
+          section: "A",
+          options: [
+            { text: "Ethyl methanoate", value: "A" },
+            { text: "Methyl ethanoate", value: "B" },
+            { text: "Ethyl ethanoate", value: "C" },
+            { text: "Methyl methanoate", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 31,
+          course: "CHM 002",
+          text: "How many structural isomers exist for C₅H₁₂?",
+          section: "A",
+          options: [
+            { text: "2", value: "A" },
+            { text: "3", value: "B" },
+            { text: "4", value: "C" },
+            { text: "5", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 32,
+          course: "CHM 002",
+          text: "The reaction of benzene with chlorine in the presence of AlCl₃ is an example of:",
+          section: "A",
+          options: [
+            { text: "Free radical substitution", value: "A" },
+            { text: "Electrophilic aromatic substitution", value: "B" },
+            { text: "Nucleophilic substitution", value: "C" },
+            { text: "Addition reaction", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 33,
+          course: "CHM 002",
+          text: "Which of the following compounds is unsaturated?",
+          section: "A",
+          options: [
+            { text: "Hexane", value: "A" },
+            { text: "Hexene", value: "B" },
+            { text: "Hexadiene", value: "C" },
+            { text: "Both B and C", value: "D" },
+          ],
+          correct: "D",
+        },
+        {
+          id: 34,
+          course: "CHM 002",
+          text: "The dehydration of ethanol produces:",
+          section: "A",
+          options: [
+            { text: "Acetaldehyde", value: "A" },
+            { text: "Ethane", value: "B" },
+            { text: "Ethene", value: "C" },
+            { text: "Diethyl ether", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 35,
+          course: "CHM 002",
+          text: "What is the hybridization of carbon in ethyne (C₂H₂)?",
+          section: "A",
+          options: [
+            { text: "sp", value: "A" },
+            { text: "sp²", value: "B" },
+            { text: "sp³", value: "C" },
+            { text: "sp³d", value: "D" },
+          ],
+          correct: "A",
+        },
+        {
+          id: 36,
+          course: "CHM 002",
+          text: "Calculate the percentage composition of carbon in C₂H₆O.\n(Molar masses: C=12, H=1, O=16)",
+          section: "A",
+          options: [
+            { text: "52.2%", value: "A" },
+            { text: "30.0%", value: "B" },
+            { text: "13.0%", value: "C" },
+            { text: "40.0%", value: "D" },
+          ],
+          correct: "A",
+        },
+        {
+          id: 37,
+          course: "CHM 002",
+          text: "Which functional group would undergo nucleophilic addition most readily?",
+          section: "A",
+          options: [
+            { text: "Alkene", value: "A" },
+            { text: "Ketone", value: "B" },
+            { text: "Ether", value: "C" },
+            { text: "Aromatic ring", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 38,
+          course: "CHM 002",
+          text: "The polymer formed from ethene monomers is:",
+          section: "A",
+          options: [
+            { text: "Polyethyne", value: "A" },
+            { text: "Polyethene", value: "B" },
+            { text: "Polypropene", value: "C" },
+            { text: "Polyethene terephthalate", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 39,
+          course: "CHM 002",
+          text: "Methanoic acid is stronger than ethanoic acid because:",
+          section: "A",
+          options: [
+            { text: "It has fewer carbon atoms", value: "A" },
+            {
+              text: "The carboxyl group is attached directly to the electron-withdrawing effect",
+              value: "B",
+            },
+            { text: "It forms stronger hydrogen bonds", value: "C" },
+            { text: "It has a lower molecular weight", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 40,
+          course: "CHM 002",
+          text: "How many isomers exist for dichlorobenzene (C₆H₄Cl₂)?",
+          section: "A",
+          options: [
+            { text: "2", value: "A" },
+            { text: "3", value: "B" },
+            { text: "4", value: "C" },
+            { text: "5", value: "D" },
+          ],
+          correct: "B",
+        },
+        // Section B - Theory (41-46)
+        {
+          id: 41,
+          course: "CHM 001",
+          text: "(a) Define what is meant by the term 'electronegativity' and explain how it differs from electron affinity. (4 marks)\n\n(b) Using the Born-Haber cycle or relevant thermodynamic principles, explain why sodium chloride (NaCl) has a very high melting point despite the fact that the first ionization energy of sodium is relatively low. (6 marks)",
+          section: "B",
+          marks: 10,
+        },
+        {
+          id: 42,
+          course: "CHM 001",
+          text: "(a) State the Heisenberg Uncertainty Principle and explain its significance in determining electron positions in atoms. (4 marks)\n\n(b) Compare and contrast the properties of ionic, covalent, and metallic bonding, with specific reference to their electrical conductivity and solubility in water. (6 marks)",
+          section: "B",
+          marks: 10,
+        },
+        {
+          id: 43,
+          course: "CHM 001",
+          text: "(a) Calculate the number of moles of H₂SO₄ required to completely neutralize 250 mL of 0.5 M NaOH solution.\nH₂SO₄ + 2NaOH → Na₂SO₄ + 2H₂O\nShow all working. (5 marks)\n\n(b) Explain, using Le Chatelier's Principle, what would happen to the position of equilibrium if the following reaction mixture were subjected to an increase in pressure at constant temperature:\n2SO₂(g) + O₂(g) ⇌ 2SO₃(g) (5 marks)",
+          section: "B",
+          marks: 10,
+        },
+        {
+          id: 44,
+          course: "CHM 002",
+          text: "(a) Explain what is meant by 'addition polymerization' and give a detailed reaction mechanism for the polymerization of ethene. (5 marks)\n\n(b) Why do polymers formed from substituted ethene monomers (such as propene) display different physical properties from polyethene? Explain with reference to molecular structure. (5 marks)",
+          section: "B",
+          marks: 10,
+        },
+        {
+          id: 45,
+          course: "CHM 002",
+          text: "(a) Define the terms 'isomerism' and 'structural isomerism.' Give three different structural isomers of C₆H₁₂ and name each one according to IUPAC rules. (5 marks)\n\n(b) Explain why geometric isomerism cannot occur in alkanes but can occur in alkenes. Use a specific example in your explanation. (5 marks)",
+          section: "B",
+          marks: 10,
+        },
+        {
+          id: 46,
+          course: "CHM 002",
+          text: "(a) Write the equation for the esterification of propanoic acid with ethanol and identify which product contains the oxygen atoms from the alcohol. (4 marks)\n\n(b) Benzene undergoes electrophilic aromatic substitution rather than addition reactions. Explain, with reference to the structure and stability of benzene, why substitution is preferred over addition. What name is given to the type of intermediate formed during this reaction? (6 marks)",
+          section: "B",
+          marks: 10,
+        },
+      ];
+
+      // Global state
+      let currentQ = 0;
+      let answers = {};
+      let flagged = {};
+      let examSubmitted = false;
+      let calcExpression = "";
+      let startTime = Date.now();
+
+      // Initialize
+      window.addEventListener("load", () => {
+        displayQuestion();
+        startTimer();
+      });
+
+      function displayQuestion() {
+        updateStats();
+        const q = questionsData[currentQ];
+        if (!q) return;
+
+        let html = `<div class="question-section">
+                <div class="question-header">
+                    <div>
+                        <div class="question-course">${q.course}</div>
+                        <div class="question-number">Question ${currentQ + 1} of ${questionsData.length}</div>
+                    </div>
+                    <button class="flag-btn ${flagged[currentQ] ? "flagged" : ""}" onclick="toggleFlag(${currentQ})">
+                        ${flagged[currentQ] ? "🚩 Flagged" : "📌 Flag"}
+                    </button>
+                </div>
+                <div class="question-text">${q.text}</div>`;
+
+        if (q.options) {
+          html += '<div class="options">';
+          q.options.forEach((opt) => {
+            const selected = answers[currentQ] === opt.value ? "selected" : "";
+            html += `<label class="option ${selected}">
+                        <input type="radio" name="q${currentQ}" value="${opt.value}" onchange="selectAnswer(${currentQ}, '${opt.value}')">
+                        <span>${opt.value})</span> ${opt.text}
+                    </label>`;
+          });
+          html += "</div>";
+        } else {
+          html += `<textarea id="theory${currentQ}" placeholder="Type your answer..." onchange="saveTheoryAnswer(${currentQ})">${answers[currentQ] || ""}</textarea>
+                <div style="margin-top: 10px; font-size: 12px; color: #666; font-weight: 600;">Total Marks: ${q.marks}</div>`;
+        }
+
+        html += "</div>";
+        document.getElementById("questionContent").innerHTML = html;
+        updateButtons();
+      }
+
+      function selectAnswer(qIdx, value) {
+        answers[qIdx] = value;
+        updateStats();
+        autoSave();
+      }
+
+      function saveTheoryAnswer(qIdx) {
+        answers[qIdx] = document.getElementById(`theory${qIdx}`).value;
+        updateStats();
+        autoSave();
+      }
+
+      function toggleFlag(qIdx) {
+        flagged[qIdx] = !flagged[qIdx];
+        updateStats();
+      }
+
+      function nextQuestion() {
+        if (currentQ < questionsData.length - 1) {
+          currentQ++;
+          displayQuestion();
+        }
+      }
+
+      function previousQuestion() {
+        if (currentQ > 0) {
+          currentQ--;
+          displayQuestion();
+        }
+      }
+
+      function updateStats() {
+        const answered = Object.keys(answers).filter((k) => answers[k]).length;
+        const total = questionsData.length;
+        const flaggedCount = Object.values(flagged).filter((f) => f).length;
+
+        document.getElementById("answeredCount").textContent = answered;
+        document.getElementById("unansweredCount").textContent =
+          total - answered;
+        document.getElementById("flaggedCount").textContent = flaggedCount;
+      }
+
+      function updateButtons() {
+        document.getElementById("prevBtn").disabled = currentQ === 0;
+        document.getElementById("nextBtn").style.display =
+          currentQ === questionsData.length - 1 ? "none" : "block";
+        document.getElementById("submitBtn").style.display =
+          currentQ === questionsData.length - 1 ? "block" : "none";
+      }
+
+      function autoSave() {
+        const indicator = document.getElementById("autoSaveIndicator");
+        indicator.style.display = "inline-block";
+        setTimeout(() => (indicator.style.display = "none"), 2000);
+      }
+
+      function startTimer() {
+        setInterval(() => {
+          let elapsed = Math.floor((Date.now() - startTime) / 1000);
+          let remaining = 7200 - elapsed;
+          if (remaining < 0) remaining = 0;
+
+          let mins = Math.floor(remaining / 60);
+          let secs = remaining % 60;
+          document.getElementById("timerDisplay").textContent =
+            `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+
+          if (remaining < 300) {
+            document.getElementById("timerDisplay").classList.add("warning");
+          }
+        }, 1000);
+      }
+
+      function submitExam() {
+        if (confirm("Submit exam? You cannot make changes after submission.")) {
+          examSubmitted = true;
+          displayResults();
+        }
+      }
+
+      function displayResults() {
+        document.getElementById("questionView").classList.remove("active");
+        document.getElementById("resultsView").classList.add("active");
+
+        // Calculate stats
+        const totalQuestions = questionsData.length;
+        const mcqQuestions = questionsData.filter((q) => q.section === "A");
+        let correctCount = 0;
+        let answeredCount = 0;
+
+        mcqQuestions.forEach((q, idx) => {
+          if (answers[idx]) {
+            answeredCount++;
+            if (answers[idx] === q.correct) correctCount++;
+          }
+        });
+
+        const score = ((correctCount / mcqQuestions.length) * 100).toFixed(1);
+
+        // Summary cards
+        let summary = `
+                <div class="summary-card correct">
+                    <div class="summary-label">Correct Answers</div>
+                    <div class="summary-value">${correctCount}/${mcqQuestions.length}</div>
+                </div>
+                <div class="summary-card incorrect">
+                    <div class="summary-label">Incorrect Answers</div>
+                    <div class="summary-value">${mcqQuestions.length - correctCount}</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-label">Section A Score</div>
+                    <div class="summary-value">${score}%</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-label">Questions Answered</div>
+                    <div class="summary-value">${answeredCount}/${mcqQuestions.length}</div>
+                </div>
+            `;
+
+        document.getElementById("resultsSummary").innerHTML = summary;
+
+        // Answer review
+        let review = `<div class="section-title">📝 Section A: Multiple Choice Questions</div>`;
+
+        questionsData.forEach((q, idx) => {
+          if (q.section === "A") {
+            const userAnswer = answers[idx];
+            const isCorrect = userAnswer === q.correct;
+            const status = userAnswer
+              ? isCorrect
+                ? "correct"
+                : "incorrect"
+              : "unanswered";
+            const statusLabel = userAnswer
+              ? isCorrect
+                ? "✓ Correct"
+                : "✗ Incorrect"
+              : "? Unanswered";
+
+            review += `<div class="question-review">
+                        <div class="review-question-header">
+                            <div>
+                                <div class="review-q-number">Question ${idx + 1}</div>
+                                <span class="review-q-course">${q.course}</span>
+                                <span class="review-status ${status}">${statusLabel}</span>
+                            </div>
+                        </div>
+                        <div class="review-q-text">${q.text}</div>
+                        <div class="answer-display">
+                            <div class="answer-row">
+                                <span class="answer-label">Your Answer:</span>
+                                <span class="answer-value">${userAnswer || "Not answered"}</span>
+                            </div>
+                            <div class="answer-row">
+                                <span class="answer-label">Correct Answer:</span>
+                                <span class="answer-value">${q.correct}</span>
+                            </div>
+                            ${
+                              userAnswer && userAnswer !== q.correct
+                                ? `
+                            <div class="answer-row">
+                                <span class="answer-label">Explanation:</span>
+                                <span class="answer-value" style="color: #e74c3c;">You selected ${userAnswer}. The correct answer is ${q.correct}.</span>
+                            </div>
+                            `
+                                : ""
+                            }
+                        </div>
+                        ${isCorrect ? `<div class="feedback correct">✓ Excellent! Your answer is correct.</div>` : userAnswer ? `<div class="feedback incorrect">✗ Incorrect. Please review this concept.</div>` : `<div class="feedback unanswered">⚠ This question was not answered.</div>`}
+                    </div>`;
+          }
+        });
+
+        review += `<div class="section-title" style="margin-top: 30px;">📝 Section B: Theory Questions</div>`;
+
+        questionsData.forEach((q, idx) => {
+          if (q.section === "B") {
+            const userAnswer = answers[idx];
+            const status = userAnswer ? "answered" : "unanswered";
+            const statusLabel = userAnswer ? "✓ Answered" : "? Unanswered";
+
+            review += `<div class="question-review">
+                        <div class="review-question-header">
+                            <div>
+                                <div class="review-q-number">Question ${idx + 1}</div>
+                                <span class="review-q-course">${q.course}</span>
+                                <span class="review-status ${status}">${statusLabel}</span>
+                            </div>
+                        </div>
+                        <div class="review-q-text">${q.text}</div>
+                        <div class="answer-display">
+                            <div class="answer-row">
+                                <span class="answer-label">Total Marks:</span>
+                                <span class="answer-value">${q.marks}</span>
+                            </div>
+                            <div class="answer-row" style="flex-direction: column; align-items: flex-start;">
+                                <span class="answer-label" style="margin-bottom: 8px;">Your Answer:</span>
+                                <div style="background: #f0f0f0; padding: 10px; border-radius: 4px; width: 100%; white-space: pre-wrap; font-family: monospace; font-size: 12px;">
+                                    ${userAnswer || "<em>No answer provided</em>"}
+                                </div>
+                            </div>
+                        </div>
+                        ${userAnswer ? `<div class="feedback correct">✓ Your answer has been recorded. This will be evaluated by the examiner.</div>` : `<div class="feedback unanswered">⚠ This question was not answered.</div>`}
+                    </div>`;
+          }
+        });
+
+        document.getElementById("answerReview").innerHTML = review;
+      }
+
+      function downloadResults() {
+        alert("PDF download feature coming soon!");
+      }
+
+      // Settings
+      function closeSettings() {
+        document.getElementById("settingsModal").classList.remove("active");
+      }
+      function setFontSize(size) {
+        const sizes = { small: "12px", normal: "16px", large: "18px" };
+        document.documentElement.style.fontSize = sizes[size];
+      }
+      function setTheme(theme) {
+        document.body.classList.toggle("dark-mode", theme === "dark");
+      }
+
+      // Calculator
+      function closeCalculator() {
+        document.getElementById("calculatorModal").classList.remove("active");
+      }
+      function calcAppend(val) {
+        calcExpression += val;
+        document.getElementById("calcDisplay").textContent =
+          calcExpression || "0";
+      }
+      function calcClear() {
+        calcExpression = "";
+        document.getElementById("calcDisplay").textContent = "0";
+      }
+      function calcEquals() {
+        try {
+          calcExpression = String(eval(calcExpression));
+          document.getElementById("calcDisplay").textContent = calcExpression;
+        } catch (e) {
+          document.getElementById("calcDisplay").textContent = "Error";
+        }
+      }
+
+      // ==================== MOBILE OPTIMIZATIONS ====================
+      // Handle mobile touch optimization
+      const isMobile = window.matchMedia("(max-width: 479px)").matches;
+
+      // Toggle header menu on mobile
+      function toggleHeaderMenu() {
+        const headerTools = document.getElementById("headerTools");
+        headerTools.classList.toggle("active");
+      }
+
+      // Close mobile menu when opening modals
+      function openSettings() {
+        document.getElementById("headerTools").classList.remove("active");
+        document.getElementById("settingsModal").classList.add("active");
+      }
+
+      function openCalculator() {
+        document.getElementById("headerTools").classList.remove("active");
+        document.getElementById("calculatorModal").classList.add("active");
+      }
+
+      // Add touch feedback to buttons
+      document.addEventListener("DOMContentLoaded", () => {
+        const buttons = document.querySelectorAll(
+          ".btn, .tool-btn, .option, .flag-btn",
+        );
+        buttons.forEach((btn) => {
+          btn.addEventListener("touchstart", function () {
+            this.style.opacity = "0.8";
+          });
+          btn.addEventListener("touchend", function () {
+            this.style.opacity = "1";
+          });
+        });
+      });
+
+      // Prevent zoom on input focus (improves mobile UX)
+      const viewportMeta = document.querySelector('meta[name="viewport"]');
+      if (viewportMeta) {
+        document.addEventListener("focusin", (e) => {
+          if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") {
+            viewportMeta.setAttribute(
+              "content",
+              "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no",
+            );
+          }
+        });
+        document.addEventListener("focusout", () => {
+          viewportMeta.setAttribute(
+            "content",
+            "width=device-width, initial-scale=1.0",
+          );
+        });
+      }
+
+      // Mobile keyboard handling for textarea
+      document.addEventListener("DOMContentLoaded", () => {
+        const textareas = document.querySelectorAll("textarea");
+        textareas.forEach((textarea) => {
+          textarea.addEventListener("focus", function () {
+            setTimeout(() => {
+              this.scrollIntoView({ behavior: "smooth", block: "center" });
+            }, 300);
+          });
+        });
+      });
+
+      // Swipe navigation for mobile
+      let touchStartX = 0;
+      let touchEndX = 0;
+
+      function handleSwipe() {
+        if (touchEndX < touchStartX - 50) {
+          // Swiped left - next question
+          if (currentQ < questionsData.length - 1) {
+            nextQuestion();
+          }
+        } else if (touchEndX > touchStartX + 50) {
+          // Swiped right - previous question
+          if (currentQ > 0) {
+            previousQuestion();
+          }
+        }
+      }
+
+      document.addEventListener("touchstart", (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      });
+
+      document.addEventListener("touchend", (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+      });
+
+      // Keyboard shortcuts for accessibility
+      document.addEventListener("keydown", (e) => {
+        if (examSubmitted) return;
+
+        // Arrow keys for navigation
+        if (e.key === "ArrowRight" && currentQ < questionsData.length - 1) {
+          nextQuestion();
+        } else if (e.key === "ArrowLeft" && currentQ > 0) {
+          previousQuestion();
+        }
+        // F for flag (Alt+F to avoid conflicts)
+        else if ((e.altKey || e.metaKey) && e.key === "f") {
+          e.preventDefault();
+          toggleFlag(currentQ);
+        }
+      });
+
+      // Mobile-optimized modal close
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          document.getElementById("settingsModal").classList.remove("active");
+          document.getElementById("calculatorModal").classList.remove("active");
+        }
+      });
+
+      // Improve mobile responsive table display
+      window.addEventListener("orientationchange", () => {
+        displayQuestion();
+      });
+
+      // Performance optimization for mobile
+      if (isMobile) {
+        // Reduce animation on mobile
+        document
+          .querySelector("style")
+          .sheet.insertRule(
+            "@media (max-width: 479px) { * { animation: none !important; } }",
+            document.querySelector("style").sheet.cssRules.length,
+          );
+      }
+    </script>
+  </body>
+</html>

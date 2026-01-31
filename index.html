@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="JUPEB CBT Practice Examination Portal - Select a subject to begin your practice exam"
+    />
+    <title>JUPEB CBT Practice Examination Portal</title>
+    <style>
+      /* CSS Reset & Base Styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        background-color: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Header Styles - Mobile First */
+      header {
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        color: white;
+        padding: 2rem 1.5rem;
+        text-align: center;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      header h1 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        letter-spacing: 0.5px;
+      }
+
+      header p {
+        font-size: 1rem;
+        opacity: 0.95;
+        font-weight: 300;
+      }
+
+      /* Main Content Area */
+      main {
+        flex: 1;
+        padding: 1.5rem;
+        max-width: 1200px;
+        width: 100%;
+        margin: 0 auto;
+      }
+
+      /* Subject Cards Container - Mobile First (Single Column) */
+      .subjects-container {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      /* Subject Card Styles */
+      .subject-card {
+        background: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        transition:
+          box-shadow 0.3s ease,
+          transform 0.2s ease;
+        text-decoration: none;
+        color: inherit;
+        cursor: pointer;
+        border-left: 4px solid #2a5298;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .subject-card:active {
+        transform: scale(0.98);
+      }
+
+      .subject-card:focus {
+        outline: 2px solid #2a5298;
+        outline-offset: 2px;
+      }
+
+      .subject-info {
+        flex: 1;
+      }
+
+      .subject-name {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #1e3c72;
+        margin-bottom: 0.25rem;
+      }
+
+      .subject-code {
+        font-size: 0.875rem;
+        color: #666;
+        font-weight: 500;
+      }
+
+      .subject-arrow {
+        font-size: 1.5rem;
+        color: #2a5298;
+        margin-left: 1rem;
+      }
+
+      /* Footer Styles */
+      footer {
+        background-color: #2a2a2a;
+        color: #ccc;
+        text-align: center;
+        padding: 2rem 1.5rem;
+        font-size: 0.875rem;
+        margin-top: auto;
+      }
+
+      footer p {
+        margin-bottom: 0.5rem;
+      }
+
+      footer p:last-child {
+        margin-bottom: 0;
+        font-size: 0.8rem;
+        color: #999;
+      }
+
+      /* Tablet & Desktop Enhancements */
+      @media (min-width: 600px) {
+        header h1 {
+          font-size: 2.25rem;
+        }
+
+        header p {
+          font-size: 1.1rem;
+        }
+
+        main {
+          padding: 2.5rem;
+        }
+
+        .subjects-container {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 1.5rem;
+        }
+
+        .subject-card {
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 2rem;
+        }
+
+        .subject-arrow {
+          margin-left: 0;
+          margin-top: 1rem;
+          align-self: flex-start;
+        }
+
+        .subject-card:hover {
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+      }
+
+      @media (min-width: 1024px) {
+        .subjects-container {
+          grid-template-columns: repeat(3, 1fr);
+        }
+
+        main {
+          padding: 3rem;
+        }
+      }
+
+      /* Accessibility: High Contrast Mode Support */
+      @media (prefers-contrast: more) {
+        .subject-card {
+          border: 2px solid #1e3c72;
+        }
+
+        header {
+          background: #0a1a3a;
+        }
+      }
+
+      /* Accessibility: Reduced Motion Support */
+      @media (prefers-reduced-motion: reduce) {
+        .subject-card {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header Section -->
+    <header>
+      <h1>JUPEB CBT Practice Examination Portal</h1>
+      <p>Select a subject to begin your practice exam</p>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+      <section class="subjects-container">
+        <!-- Chemistry -->
+        <a href="JUPEB_CBT_Complete.html" class="subject-card">
+          <div class="subject-info">
+            <div class="subject-name">Chemistry</div>
+            <div class="subject-code">CHM 001/002</div>
+          </div>
+          <div class="subject-arrow">→</div>
+        </a>
+
+        <!-- Physics -->
+        <a href="JUPEB_PHY_CBT_Complete.html" class="subject-card">
+          <div class="subject-info">
+            <div class="subject-name">Physics</div>
+            <div class="subject-code">PHY 001/002</div>
+          </div>
+          <div class="subject-arrow">→</div>
+        </a>
+
+        <!-- Mathematics -->
+        <a href="JUPEB_MTH_CBT_Complete.html" class="subject-card">
+          <div class="subject-info">
+            <div class="subject-name">Mathematics</div>
+            <div class="subject-code">MTH 001/002</div>
+          </div>
+          <div class="subject-arrow">→</div>
+        </a>
+
+        <!-- Biology -->
+        <a href="JUPEB_BIO_CBT_Complete.html" class="subject-card">
+          <div class="subject-info">
+            <div class="subject-name">Biology</div>
+            <div class="subject-code">BIO 001/002</div>
+          </div>
+          <div class="subject-arrow">→</div>
+        </a>
+
+        <!-- Business Studies -->
+        <a href="JUPEB_BUS_CBT_Complete.html" class="subject-card">
+          <div class="subject-info">
+            <div class="subject-name">Business Studies</div>
+            <div class="subject-code">BUS 001/002</div>
+          </div>
+          <div class="subject-arrow">→</div>
+        </a>
+
+        <!-- Economics -->
+        <a href="JUPEB_ECO_CBT_Complete.html" class="subject-card">
+          <div class="subject-info">
+            <div class="subject-name">Economics</div>
+            <div class="subject-code">ECO 001/002</div>
+          </div>
+          <div class="subject-arrow">→</div>
+        </a>
+
+        <!-- Government -->
+        <a href="JUPEB_GOV_CBT_Complete.html" class="subject-card">
+          <div class="subject-info">
+            <div class="subject-name">Government</div>
+            <div class="subject-code">GOV 001/002</div>
+          </div>
+          <div class="subject-arrow">→</div>
+        </a>
+
+        <!-- Literature in English -->
+        <a href="JUPEB_LIT_CBT_Complete.html" class="subject-card">
+          <div class="subject-info">
+            <div class="subject-name">Literature in English</div>
+            <div class="subject-code">LIT 001/002</div>
+          </div>
+          <div class="subject-arrow">→</div>
+        </a>
+
+        <!-- Christian Religious Studies -->
+        <a href="JUPEB_CRS_CBT_Complete.html" class="subject-card">
+          <div class="subject-info">
+            <div class="subject-name">Christian Religious Studies</div>
+            <div class="subject-code">CRS 001/002</div>
+          </div>
+          <div class="subject-arrow">→</div>
+        </a>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <p><strong>For JUPEB Candidates Only</strong></p>
+      <p>© 2026 JUPEB CBT Practice Examination Portal. All rights reserved.</p>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,2587 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0"
+    />
+    <meta name="apple-mobile-web-app-capable" content="true" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="theme-color" content="#2c3e50" />
+    <title>JUPEB Business CBT - Complete Enhanced</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        color: #333;
+        min-height: 100vh;
+        padding: 10px;
+        padding-left: max(10px, env(safe-area-inset-left));
+        padding-right: max(10px, env(safe-area-inset-right));
+        padding-top: max(10px, env(safe-area-inset-top));
+        padding-bottom: max(10px, env(safe-area-inset-bottom));
+      }
+
+      body.dark-mode {
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+      }
+
+      .container {
+        width: 100%;
+        max-width: 1200px;
+        background: white;
+        margin: 0 auto;
+        border-radius: 10px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+      }
+
+      body.dark-mode .container {
+        background: #1e1e1e;
+        color: #e0e0e0;
+      }
+
+      .header {
+        background: linear-gradient(135deg, #2c3e50 0%, #3d5a80 100%);
+        color: white;
+        padding: 20px 25px;
+        text-align: center;
+        border-bottom: 4px solid #1a252f;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .header h1 {
+        font-size: 20px;
+        font-weight: 600;
+      }
+
+      .header-tools {
+        display: flex;
+        gap: 15px;
+      }
+
+      .tool-btn {
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 12px;
+        transition: all 0.3s;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .tool-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+        padding: 5px;
+        margin-left: auto;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .top-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 20px;
+        background: #f5f5f5;
+        border-bottom: 1px solid #ddd;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      body.dark-mode .top-bar {
+        background: #2a2a2a;
+        border-bottom-color: #444;
+      }
+
+      .timer-display {
+        font-size: 22px;
+        font-weight: bold;
+        color: #2c3e50;
+        font-family: "Courier New", monospace;
+        min-width: 100px;
+      }
+
+      .timer-display.warning {
+        color: #ff6b6b;
+        animation: blink 1s infinite;
+      }
+
+      @keyframes blink {
+        0%,
+        50% {
+          opacity: 1;
+        }
+        51%,
+        100% {
+          opacity: 0.5;
+        }
+      }
+
+      .stats-bar {
+        display: flex;
+        gap: 20px;
+        font-size: 13px;
+        align-items: center;
+      }
+
+      .stat-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: white;
+        padding: 5px 12px;
+        border-radius: 4px;
+      }
+
+      body.dark-mode .stat-item {
+        background: #333;
+      }
+
+      .stat-label {
+        font-weight: 600;
+        color: #666;
+      }
+
+      .stat-value {
+        font-weight: bold;
+        color: #2c3e50;
+      }
+
+      .auto-save-indicator {
+        font-size: 11px;
+        color: #2c3e50;
+        padding: 4px 8px;
+        background: #ecf0f1;
+        border-radius: 3px;
+        display: none;
+      }
+
+      .content-area {
+        padding: 30px;
+        min-height: 500px;
+      }
+
+      .question-view,
+      .results-view {
+        display: none;
+      }
+
+      .question-view.active,
+      .results-view.active {
+        display: block;
+      }
+
+      .question-section {
+        animation: fadeIn 0.3s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .question-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .question-number {
+        color: #2c3e50;
+        font-weight: bold;
+        font-size: 18px;
+      }
+
+      .flag-btn {
+        background: none;
+        border: 2px solid #ffc107;
+        color: #ffc107;
+        padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        transition: all 0.3s;
+        min-height: 44px;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .flag-btn.flagged {
+        background: #ffc107;
+        color: white;
+      }
+
+      .question-course {
+        display: inline-block;
+        background: #ecf0f1;
+        color: #2c3e50;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 10px;
+      }
+
+      .question-text {
+        font-size: 17px;
+        color: #1a1a1a;
+        margin-bottom: 20px;
+        line-height: 1.7;
+        font-weight: 500;
+      }
+
+      body.dark-mode .question-text {
+        color: #e0e0e0;
+      }
+
+      .options {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 15px;
+      }
+
+      .option {
+        padding: 12px 15px;
+        border: 2px solid #ddd;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: white;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        min-height: 44px;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-user-select: none;
+        user-select: none;
+      }
+
+      body.dark-mode .option {
+        background: #2a2a2a;
+        border-color: #444;
+        color: #e0e0e0;
+      }
+
+      .option:hover {
+        border-color: #2c3e50;
+        background: #ecf0f1;
+      }
+
+      .option input[type="radio"] {
+        margin-right: 12px;
+        cursor: pointer;
+      }
+
+      .option.selected {
+        border-color: #2c3e50;
+        background: #ecf0f1;
+        font-weight: 600;
+      }
+
+      .option.correct {
+        border-color: #27ae60;
+        background: #d5f4e6;
+      }
+
+      .option.incorrect {
+        border-color: #e74c3c;
+        background: #fadbd8;
+      }
+
+      textarea {
+        width: 100%;
+        height: 150px;
+        padding: 12px;
+        border: 2px solid #ddd;
+        border-radius: 6px;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        resize: vertical;
+        background: white;
+        color: #333;
+        -webkit-appearance: none;
+        appearance: none;
+      }
+
+      textarea:focus {
+        outline: none;
+        border-color: #2c3e50;
+        box-shadow: 0 0 0 2px rgba(44, 62, 80, 0.1);
+      }
+
+      body.dark-mode textarea {
+        background: #2a2a2a;
+        border-color: #444;
+        color: #e0e0e0;
+      }
+
+      .bottom-controls {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding-top: 15px;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-user-select: none;
+        user-select: none;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #2c3e50 0%, #3d5a80 100%);
+        color: white;
+      }
+
+      .btn-primary:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(44, 62, 80, 0.3);
+      }
+
+      .btn-secondary {
+        background: #f0f0f0;
+        color: #333;
+      }
+
+      body.dark-mode .btn-secondary {
+        background: #333;
+        color: #e0e0e0;
+      }
+
+      .btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .btn:focus,
+      .tool-btn:focus,
+      .option:focus {
+        outline: 2px solid #2c3e50;
+        outline-offset: 2px;
+      }
+
+      @media (max-width: 767px) {
+        .btn:focus,
+        .tool-btn:focus,
+        .option:focus {
+          outline: none;
+        }
+      }
+
+      .results-header {
+        background: #ecf0f1;
+        border-left: 5px solid #2c3e50;
+        padding: 20px;
+        margin-bottom: 30px;
+        border-radius: 6px;
+      }
+
+      body.dark-mode .results-header {
+        background: rgba(44, 62, 80, 0.2);
+      }
+
+      .results-header h2 {
+        color: #2c3e50;
+        margin-bottom: 10px;
+      }
+
+      .results-summary {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+        margin-bottom: 30px;
+      }
+
+      .summary-card {
+        background: white;
+        border: 1px solid #ddd;
+        padding: 20px;
+        border-radius: 6px;
+        text-align: center;
+      }
+
+      body.dark-mode .summary-card {
+        background: #2a2a2a;
+        border-color: #444;
+      }
+
+      .summary-label {
+        font-size: 12px;
+        color: #666;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .summary-value {
+        font-size: 28px;
+        font-weight: bold;
+        color: #2c3e50;
+      }
+
+      .summary-card.correct .summary-value {
+        color: #27ae60;
+      }
+
+      .summary-card.incorrect .summary-value {
+        color: #e74c3c;
+      }
+
+      .answer-review {
+        margin-bottom: 30px;
+      }
+
+      .section-title {
+        background: #2c3e50;
+        color: white;
+        padding: 15px 20px;
+        border-radius: 6px;
+        margin-bottom: 15px;
+        font-size: 16px;
+        font-weight: 600;
+      }
+
+      .question-review {
+        background: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        padding: 20px;
+        margin-bottom: 15px;
+      }
+
+      body.dark-mode .question-review {
+        background: #2a2a2a;
+        border-color: #444;
+      }
+
+      .review-question-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: 15px;
+      }
+
+      .review-q-number {
+        font-weight: bold;
+        color: #2c3e50;
+        font-size: 14px;
+      }
+
+      .review-q-course {
+        display: inline-block;
+        background: #ecf0f1;
+        color: #2c3e50;
+        padding: 3px 10px;
+        border-radius: 15px;
+        font-size: 11px;
+        font-weight: 600;
+      }
+
+      .review-status {
+        display: inline-block;
+        padding: 5px 12px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .review-status.correct {
+        background: #d5f4e6;
+        color: #27ae60;
+      }
+
+      .review-status.incorrect {
+        background: #fadbd8;
+        color: #e74c3c;
+      }
+
+      .review-status.unanswered {
+        background: #fff3cd;
+        color: #856404;
+      }
+
+      .review-q-text {
+        color: #1a1a1a;
+        margin-bottom: 15px;
+        line-height: 1.6;
+      }
+
+      body.dark-mode .review-q-text {
+        color: #e0e0e0;
+      }
+
+      .answer-display {
+        background: white;
+        padding: 15px;
+        border-radius: 4px;
+        margin-bottom: 10px;
+      }
+
+      body.dark-mode .answer-display {
+        background: #333;
+      }
+
+      .answer-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        font-size: 14px;
+      }
+
+      .answer-row:last-child {
+        margin-bottom: 0;
+      }
+
+      .answer-label {
+        font-weight: 600;
+        color: #666;
+        min-width: 150px;
+      }
+
+      body.dark-mode .answer-label {
+        color: #aaa;
+      }
+
+      .answer-value {
+        color: #2c3e50;
+        font-weight: 600;
+      }
+
+      .feedback {
+        padding: 10px;
+        border-radius: 4px;
+        font-size: 13px;
+        margin-top: 10px;
+      }
+
+      .feedback.correct {
+        background: #d5f4e6;
+        color: #27ae60;
+        border-left: 3px solid #27ae60;
+      }
+
+      .feedback.incorrect {
+        background: #fadbd8;
+        color: #e74c3c;
+        border-left: 3px solid #e74c3c;
+      }
+
+      .feedback.unanswered {
+        background: #fff3cd;
+        color: #856404;
+        border-left: 3px solid #ffc107;
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .modal.active {
+        display: flex;
+      }
+
+      .modal-content {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        max-width: 600px;
+        width: 90%;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        margin: auto;
+        -webkit-appearance: none;
+        appearance: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      body.dark-mode .modal-content {
+        background: #1e1e1e;
+        color: #e0e0e0;
+      }
+
+      .modal-content h2 {
+        color: #2c3e50;
+        margin-bottom: 20px;
+      }
+
+      .calculator {
+        background: #f9f9f9;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+
+      .calc-display {
+        background: white;
+        padding: 12px;
+        border-radius: 4px;
+        text-align: right;
+        font-size: 20px;
+        margin-bottom: 10px;
+        font-family: "Courier New", monospace;
+        min-height: 40px;
+      }
+
+      .calc-buttons {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+      }
+
+      .calc-btn {
+        padding: 10px;
+        border: 1px solid #ddd;
+        background: white;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 600;
+        min-height: 44px;
+      }
+
+      .calc-btn.operator {
+        background: #2c3e50;
+        color: white;
+      }
+
+      @media print {
+        body {
+          background: white;
+        }
+        .header-tools,
+        .tool-btn,
+        .bottom-controls,
+        .timer-section {
+          display: none !important;
+        }
+        .content-area {
+          padding: 0;
+        }
+      }
+
+      /* ==================== MOBILE OPTIMIZATION ==================== */
+
+      @media (max-width: 1199px) {
+        .container {
+          border-radius: 0;
+          box-shadow: none;
+        }
+        .header {
+          padding: 15px 20px;
+        }
+        .header h1 {
+          font-size: 18px;
+        }
+        .timer-display {
+          font-size: 18px;
+        }
+      }
+
+      @media (max-width: 1023px) {
+        body {
+          padding: 5px;
+        }
+        .header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 12px;
+          padding: 12px 15px;
+        }
+        .header h1 {
+          font-size: 16px;
+        }
+        .header-tools {
+          width: 100%;
+          gap: 10px;
+        }
+        .tool-btn {
+          flex: 1;
+          padding: 10px 12px;
+          font-size: 11px;
+        }
+        .top-bar {
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 10px 15px;
+          gap: 8px;
+        }
+        .stats-bar {
+          width: 100%;
+          flex-wrap: wrap;
+          gap: 10px;
+        }
+        .stat-item {
+          flex: 1;
+          min-width: 120px;
+          padding: 6px 10px;
+          font-size: 12px;
+        }
+        .timer-display {
+          font-size: 18px;
+        }
+        .content-area {
+          padding: 15px;
+          min-height: 400px;
+        }
+        .question-text {
+          font-size: 15px;
+        }
+        .option {
+          padding: 10px 12px;
+          font-size: 14px;
+        }
+        .btn {
+          padding: 10px 16px;
+          font-size: 12px;
+        }
+        textarea {
+          height: 120px;
+          font-size: 13px;
+        }
+        .results-summary {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 12px;
+        }
+        .summary-card {
+          padding: 15px;
+        }
+        .summary-label {
+          font-size: 11px;
+        }
+        .summary-value {
+          font-size: 24px;
+        }
+        .modal-content {
+          max-width: 90%;
+          padding: 20px;
+        }
+        .question-number {
+          font-size: 16px;
+        }
+      }
+
+      @media (max-width: 767px) {
+        body {
+          font-size: 14px;
+          padding: 0;
+        }
+        .container {
+          border-radius: 0;
+          max-width: 100%;
+          box-shadow: none;
+          margin: 0;
+        }
+        .header {
+          padding: 10px 12px;
+          gap: 10px;
+          border-bottom: 3px solid #1a252f;
+        }
+        .header h1 {
+          font-size: 14px;
+          margin: 0;
+        }
+        .header-tools {
+          width: 100%;
+          gap: 8px;
+        }
+        .menu-toggle {
+          display: none;
+        }
+        .top-bar {
+          flex-direction: row;
+          padding: 8px 12px;
+          gap: 6px;
+          flex-wrap: wrap;
+          align-items: stretch;
+        }
+        .top-bar > div:first-child {
+          display: flex;
+          gap: 8px;
+          align-items: center;
+        }
+        .stats-bar {
+          gap: 6px;
+          font-size: 11px;
+          width: 100%;
+        }
+        .stat-item {
+          flex: 1;
+          min-width: 80px;
+          padding: 4px 8px;
+          font-size: 10px;
+          justify-content: center;
+          flex-direction: column;
+          align-items: center;
+        }
+        .timer-display {
+          font-size: 16px;
+          min-width: 70px;
+        }
+        .content-area {
+          padding: 12px;
+          min-height: auto;
+        }
+        .question-header {
+          flex-direction: column;
+          gap: 8px;
+          align-items: flex-start;
+        }
+        .question-number {
+          font-size: 14px;
+        }
+        .flag-btn {
+          width: 100%;
+          padding: 8px;
+          font-size: 12px;
+        }
+        .question-text {
+          font-size: 14px;
+          margin-bottom: 15px;
+        }
+        .options {
+          gap: 10px;
+        }
+        .option {
+          padding: 10px 12px;
+          font-size: 13px;
+          min-height: 44px;
+        }
+        .option input[type="radio"] {
+          margin-right: 10px;
+          width: 18px;
+          height: 18px;
+        }
+        textarea {
+          height: 100px;
+          font-size: 12px;
+          padding: 10px;
+        }
+        .bottom-controls {
+          gap: 8px;
+          margin-top: 12px;
+        }
+        .btn {
+          flex: 1;
+          min-width: 100px;
+          padding: 10px 12px;
+          font-size: 11px;
+          min-height: 40px;
+        }
+        .results-header {
+          padding: 15px;
+          margin-bottom: 20px;
+        }
+        .results-summary {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 10px;
+          margin-bottom: 20px;
+        }
+        .summary-card {
+          padding: 12px;
+        }
+        .summary-label {
+          font-size: 10px;
+        }
+        .summary-value {
+          font-size: 20px;
+        }
+        .section-title {
+          padding: 12px 15px;
+          font-size: 14px;
+        }
+        .question-review {
+          padding: 12px;
+          margin-bottom: 12px;
+        }
+        .review-q-number {
+          font-size: 12px;
+        }
+        .review-q-text {
+          font-size: 13px;
+          margin-bottom: 12px;
+        }
+        .answer-display {
+          padding: 10px;
+        }
+        .answer-row {
+          font-size: 12px;
+          flex-direction: column;
+          margin-bottom: 8px;
+        }
+        .answer-label {
+          min-width: auto;
+          font-size: 11px;
+          margin-bottom: 4px;
+        }
+        .feedback {
+          padding: 8px;
+          font-size: 12px;
+        }
+        .modal {
+          padding: 20px 0;
+        }
+        .modal-content {
+          max-width: 95%;
+          width: 95%;
+          padding: 20px;
+          margin: 20px auto;
+          max-height: 90vh;
+          overflow-y: auto;
+        }
+        .modal-content h2 {
+          font-size: 14px;
+          margin-bottom: 15px;
+        }
+        .calculator {
+          padding: 12px;
+        }
+        .calc-display {
+          font-size: 18px;
+          padding: 10px;
+          min-height: 36px;
+          margin-bottom: 8px;
+        }
+        .calc-buttons {
+          gap: 6px;
+        }
+        .calc-btn {
+          padding: 10px 6px;
+          font-size: 13px;
+          min-height: 40px;
+        }
+      }
+
+      @media (max-width: 479px) {
+        body {
+          font-size: 13px;
+          padding: 0;
+          background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        }
+        .container {
+          max-width: 100%;
+          border-radius: 0;
+          box-shadow: none;
+        }
+        .header {
+          padding: 8px 10px;
+          gap: 8px;
+          border-bottom: 3px solid #1a252f;
+          flex-wrap: wrap;
+        }
+        .header h1 {
+          font-size: 13px;
+          margin: 0;
+          line-height: 1.2;
+          flex: 1;
+        }
+        .menu-toggle {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0;
+          padding: 6px 8px;
+        }
+        .header-tools {
+          width: 100%;
+          gap: 6px;
+          display: none;
+          flex-direction: column;
+        }
+        .header-tools.active {
+          display: flex;
+        }
+        .tool-btn {
+          flex: 1;
+          padding: 8px 10px;
+          font-size: 10px;
+          min-height: 36px;
+          border-radius: 4px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-overflow: ellipsis;
+        }
+        .top-bar {
+          flex-direction: column;
+          padding: 8px 10px;
+          gap: 6px;
+          align-items: stretch;
+        }
+        .top-bar > div:first-child {
+          display: flex;
+          gap: 8px;
+          align-items: center;
+        }
+        .stats-bar {
+          flex-direction: column;
+          gap: 6px;
+          font-size: 10px;
+          width: 100%;
+        }
+        .stat-item {
+          background: white;
+          padding: 5px 8px;
+          border-radius: 4px;
+          font-size: 10px;
+          gap: 6px;
+          justify-content: space-between;
+        }
+        .timer-display {
+          font-size: 14px;
+          min-width: 60px;
+          font-weight: bold;
+        }
+        .content-area {
+          padding: 10px;
+          min-height: auto;
+        }
+        .question-section {
+          animation: fadeIn 0.3s ease;
+        }
+        .question-header {
+          flex-direction: column;
+          gap: 8px;
+          margin-bottom: 12px;
+        }
+        .question-course {
+          font-size: 11px;
+          padding: 3px 8px;
+        }
+        .question-number {
+          font-size: 12px;
+          margin-bottom: 8px;
+        }
+        .flag-btn {
+          width: 100%;
+          padding: 8px 10px;
+          font-size: 11px;
+          min-height: 40px;
+          border-radius: 5px;
+        }
+        .question-text {
+          font-size: 13px;
+          margin-bottom: 12px;
+          line-height: 1.5;
+        }
+        .options {
+          gap: 8px;
+        }
+        .option {
+          padding: 10px 10px;
+          font-size: 12px;
+          min-height: 44px;
+          border-radius: 5px;
+          align-items: center;
+        }
+        .option input[type="radio"] {
+          margin-right: 8px;
+          width: 16px;
+          height: 16px;
+          cursor: pointer;
+        }
+        .option span {
+          flex: 1;
+        }
+        textarea {
+          width: 100%;
+          height: 100px;
+          font-size: 12px;
+          padding: 8px;
+          border-radius: 4px;
+          resize: vertical;
+        }
+        .bottom-controls {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          margin-top: 12px;
+        }
+        .btn {
+          width: 100%;
+          padding: 10px 12px;
+          font-size: 11px;
+          min-height: 44px;
+          border-radius: 5px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .results-header {
+          padding: 12px;
+          margin-bottom: 15px;
+          border-left-width: 3px;
+        }
+        .results-header h2 {
+          font-size: 13px;
+          margin-bottom: 6px;
+        }
+        .results-header p {
+          font-size: 11px;
+        }
+        .results-summary {
+          grid-template-columns: 1fr;
+          gap: 8px;
+        }
+        .summary-card {
+          padding: 12px;
+        }
+        .summary-label {
+          font-size: 10px;
+        }
+        .summary-value {
+          font-size: 18px;
+        }
+        .section-title {
+          padding: 10px 12px;
+          font-size: 13px;
+          margin-top: 15px;
+          margin-bottom: 10px;
+        }
+        .question-review {
+          padding: 10px;
+          margin-bottom: 10px;
+        }
+        .review-question-header {
+          flex-direction: column;
+          gap: 6px;
+          margin-bottom: 10px;
+        }
+        .review-q-number {
+          font-size: 11px;
+        }
+        .review-q-course {
+          font-size: 10px;
+        }
+        .review-status {
+          font-size: 10px;
+          padding: 3px 8px;
+        }
+        .review-q-text {
+          font-size: 12px;
+          margin-bottom: 10px;
+          line-height: 1.5;
+        }
+        .answer-display {
+          padding: 8px;
+        }
+        .answer-row {
+          font-size: 11px;
+          flex-direction: column;
+          margin-bottom: 8px;
+        }
+        .answer-label {
+          font-size: 10px;
+          margin-bottom: 4px;
+        }
+        .answer-value {
+          font-size: 11px;
+        }
+        .feedback {
+          padding: 8px;
+          font-size: 11px;
+          margin-top: 8px;
+        }
+        .modal {
+          padding: 10px 0;
+          align-items: flex-end;
+        }
+        .modal-content {
+          max-width: 100%;
+          width: 100%;
+          padding: 15px;
+          margin: 0;
+          border-radius: 15px 15px 0 0;
+          max-height: 85vh;
+          overflow-y: auto;
+          box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.3);
+        }
+        .modal-content h2 {
+          font-size: 13px;
+          margin-bottom: 12px;
+        }
+        .calculator {
+          padding: 10px;
+          background: #f9f9f9;
+          border-radius: 5px;
+        }
+        .calc-display {
+          font-size: 16px;
+          padding: 8px;
+          min-height: 32px;
+          margin-bottom: 8px;
+          border-radius: 4px;
+        }
+        .calc-buttons {
+          grid-template-columns: repeat(4, 1fr);
+          gap: 5px;
+        }
+        .calc-btn {
+          padding: 8px 4px;
+          font-size: 12px;
+          min-height: 36px;
+          border-radius: 3px;
+        }
+        .modal > .modal-content > div {
+          display: grid;
+          gap: 12px;
+        }
+        .modal > .modal-content button {
+          margin-top: 12px;
+        }
+      }
+
+      @media (max-width: 319px) {
+        .header h1 {
+          font-size: 11px;
+        }
+        .timer-display {
+          font-size: 12px;
+        }
+        .question-text {
+          font-size: 12px;
+        }
+        .option {
+          font-size: 11px;
+          padding: 8px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>JUPEB BUSINESS PRACTICE EXAM</h1>
+        <button
+          class="menu-toggle"
+          id="menuToggle"
+          onclick="toggleHeaderMenu()"
+          aria-label="Toggle menu"
+        >
+          ☰
+        </button>
+        <div class="header-tools" id="headerTools">
+          <button class="tool-btn" onclick="openCalculator()">
+            🧮 Calculator
+          </button>
+          <button class="tool-btn" onclick="openSettings()">⚙️ Settings</button>
+        </div>
+      </div>
+
+      <div class="top-bar">
+        <div>
+          <span style="font-weight: 600">⏱️ Time:</span>
+          <span class="timer-display" id="timerDisplay">120:00</span>
+        </div>
+        <div class="stats-bar">
+          <div class="stat-item">
+            <span class="stat-label">Answered:</span>
+            <span class="stat-value" id="answeredCount">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Unanswered:</span>
+            <span class="stat-value" id="unansweredCount">46</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Flagged:</span>
+            <span class="stat-value" id="flaggedCount">0</span>
+          </div>
+          <div class="auto-save-indicator" id="autoSaveIndicator">
+            ✓ Auto-saved
+          </div>
+        </div>
+      </div>
+
+      <div class="content-area">
+        <div class="question-view active" id="questionView">
+          <div class="question-section" id="questionContent"></div>
+          <div class="bottom-controls">
+            <button
+              class="btn btn-secondary"
+              id="prevBtn"
+              onclick="previousQuestion()"
+            >
+              ← Previous
+            </button>
+            <button
+              class="btn btn-primary"
+              id="nextBtn"
+              onclick="nextQuestion()"
+            >
+              Next →
+            </button>
+            <button
+              class="btn btn-primary"
+              id="submitBtn"
+              onclick="submitExam()"
+              style="
+                background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+                display: none;
+              "
+            >
+              ✓ Submit Exam
+            </button>
+          </div>
+        </div>
+
+        <div class="results-view" id="resultsView">
+          <div class="results-header">
+            <h2>📊 Exam Results & Answer Key</h2>
+            <p>
+              Review your complete exam submission with correct answers and
+              explanations
+            </p>
+          </div>
+
+          <div class="results-summary" id="resultsSummary"></div>
+
+          <div class="answer-review" id="answerReview"></div>
+
+          <div class="bottom-controls">
+            <button class="btn btn-secondary" onclick="window.print()">
+              🖨️ Print Results
+            </button>
+            <button class="btn btn-secondary" onclick="downloadResults()">
+              💾 Download PDF
+            </button>
+            <button class="btn btn-primary" onclick="location.reload()">
+              Start New Exam
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="settingsModal">
+      <div class="modal-content">
+        <h2>⚙️ Settings</h2>
+        <div style="display: grid; gap: 15px">
+          <div>
+            <label style="font-weight: 600; display: block; margin-bottom: 10px"
+              >Font Size</label
+            >
+            <div style="display: flex; gap: 10px">
+              <button
+                class="btn btn-secondary"
+                onclick="setFontSize('small')"
+                style="flex: 1"
+              >
+                Small
+              </button>
+              <button
+                class="btn btn-secondary"
+                onclick="setFontSize('normal')"
+                style="flex: 1"
+              >
+                Normal
+              </button>
+              <button
+                class="btn btn-secondary"
+                onclick="setFontSize('large')"
+                style="flex: 1"
+              >
+                Large
+              </button>
+            </div>
+          </div>
+          <div>
+            <label style="font-weight: 600; display: block; margin-bottom: 10px"
+              >Theme</label
+            >
+            <div style="display: flex; gap: 10px">
+              <button
+                class="btn btn-secondary"
+                onclick="setTheme('light')"
+                style="flex: 1"
+              >
+                Light
+              </button>
+              <button
+                class="btn btn-secondary"
+                onclick="setTheme('dark')"
+                style="flex: 1"
+              >
+                Dark
+              </button>
+            </div>
+          </div>
+        </div>
+        <button
+          class="btn btn-primary"
+          onclick="closeSettings()"
+          style="width: 100%; margin-top: 20px"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+
+    <div class="modal" id="calculatorModal">
+      <div class="modal-content">
+        <h2>🧮 Scientific Calculator</h2>
+        <div class="calculator">
+          <div class="calc-display" id="calcDisplay">0</div>
+          <div class="calc-buttons">
+            <button
+              class="calc-btn"
+              onclick="calcClear()"
+              style="grid-column: span 2; background: #e74c3c; color: white"
+            >
+              Clear
+            </button>
+            <button class="calc-btn operator" onclick="calcAppend('/')">
+              /
+            </button>
+            <button class="calc-btn operator" onclick="calcAppend('*')">
+              ×
+            </button>
+
+            <button class="calc-btn" onclick="calcAppend('7')">7</button>
+            <button class="calc-btn" onclick="calcAppend('8')">8</button>
+            <button class="calc-btn" onclick="calcAppend('9')">9</button>
+            <button class="calc-btn operator" onclick="calcAppend('-')">
+              −
+            </button>
+
+            <button class="calc-btn" onclick="calcAppend('4')">4</button>
+            <button class="calc-btn" onclick="calcAppend('5')">5</button>
+            <button class="calc-btn" onclick="calcAppend('6')">6</button>
+            <button class="calc-btn operator" onclick="calcAppend('+')">
+              +
+            </button>
+
+            <button class="calc-btn" onclick="calcAppend('1')">1</button>
+            <button class="calc-btn" onclick="calcAppend('2')">2</button>
+            <button class="calc-btn" onclick="calcAppend('3')">3</button>
+            <button class="calc-btn operator" onclick="calcAppend('.')">
+              .
+            </button>
+
+            <button
+              class="calc-btn"
+              onclick="calcAppend('0')"
+              style="grid-column: span 2"
+            >
+              0
+            </button>
+            <button
+              class="calc-btn operator"
+              style="grid-column: span 2"
+              onclick="calcEquals()"
+            >
+              =
+            </button>
+          </div>
+        </div>
+        <button
+          class="btn btn-primary"
+          onclick="closeCalculator()"
+          style="width: 100%"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+
+    <script>
+      const questionsData = [
+        // BUS 001 MCQs (1-20)
+        {
+          id: 1,
+          course: "BUS 001",
+          text: "A business is primarily defined as:",
+          section: "A",
+          options: [
+            {
+              text: "A non-profit organization providing free services",
+              value: "A",
+            },
+            {
+              text: "An organization that produces and sells goods/services for profit",
+              value: "B",
+            },
+            { text: "A government agency", value: "C" },
+            { text: "A social club", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 2,
+          course: "BUS 001",
+          text: "Which of the following is NOT a function of management?",
+          section: "A",
+          options: [
+            { text: "Planning and organizing", value: "A" },
+            { text: "Creating wealth for society", value: "B" },
+            { text: "Leading and controlling", value: "C" },
+            { text: "Decision-making", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 3,
+          course: "BUS 001",
+          text: "The practice of owning and operating a business venture is known as:",
+          section: "A",
+          options: [
+            { text: "Employment", value: "A" },
+            { text: "Franchising", value: "B" },
+            { text: "Entrepreneurship", value: "C" },
+            { text: "Corporatism", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 4,
+          course: "BUS 001",
+          text: "Which of the following is an example of a product-based business?",
+          section: "A",
+          options: [
+            { text: "Banking services", value: "A" },
+            { text: "Hotel management", value: "B" },
+            { text: "Manufacturing and selling automobiles", value: "C" },
+            { text: "Consulting services", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 5,
+          course: "BUS 001",
+          text: "The primary objective of a business is generally to:",
+          section: "A",
+          options: [
+            { text: "Maximize shareholder wealth and profits", value: "A" },
+            { text: "Provide unlimited employment", value: "B" },
+            { text: "Eliminate all competition", value: "C" },
+            { text: "Reduce consumer spending", value: "D" },
+          ],
+          correct: "A",
+        },
+        {
+          id: 6,
+          course: "BUS 001",
+          text: "In a partnership business structure, the partners are:",
+          section: "A",
+          options: [
+            { text: "Not liable for business debts", value: "A" },
+            {
+              text: "Jointly and severally liable for business debts",
+              value: "B",
+            },
+            { text: "Liability is limited to their investment", value: "C" },
+            { text: "Have no personal responsibility", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 7,
+          course: "BUS 001",
+          text: "A sole proprietorship is characterized by:",
+          section: "A",
+          options: [
+            { text: "Multiple owners with limited liability", value: "A" },
+            { text: "One owner with unlimited personal liability", value: "B" },
+            { text: "Ownership by a corporation", value: "C" },
+            { text: "Government control", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 8,
+          course: "BUS 001",
+          text: "Which organizational structure has the most levels of hierarchy?",
+          section: "A",
+          options: [
+            { text: "Flat structure", value: "A" },
+            { text: "Matrix structure", value: "B" },
+            { text: "Functional structure", value: "C" },
+            { text: "Hierarchical structure", value: "D" },
+          ],
+          correct: "D",
+        },
+        {
+          id: 9,
+          course: "BUS 001",
+          text: "The process of identifying customer needs and developing solutions is called:",
+          section: "A",
+          options: [
+            { text: "Market research", value: "A" },
+            { text: "Pricing strategy", value: "B" },
+            { text: "Distribution management", value: "C" },
+            { text: "Advertising", value: "D" },
+          ],
+          correct: "A",
+        },
+        {
+          id: 10,
+          course: "BUS 001",
+          text: "An entrepreneur is best described as:",
+          section: "A",
+          options: [
+            { text: "An employee of a large corporation", value: "A" },
+            {
+              text: "A person who organizes and operates a business venture, taking on financial risk",
+              value: "B",
+            },
+            { text: "A government official", value: "C" },
+            { text: "A labor union leader", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 11,
+          course: "BUS 001",
+          text: "Which of the following is a characteristic of a service business?",
+          section: "A",
+          options: [
+            { text: "Produces tangible goods", value: "A" },
+            { text: "Provides intangible value to customers", value: "B" },
+            { text: "Always requires inventory", value: "C" },
+            { text: "Has fixed production locations", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 12,
+          course: "BUS 001",
+          text: "Corporate social responsibility refers to:",
+          section: "A",
+          options: [
+            { text: "Maximizing profits at any cost", value: "A" },
+            {
+              text: "A corporation's obligation to contribute to the well-being of society",
+              value: "B",
+            },
+            { text: "Avoiding government regulations", value: "C" },
+            { text: "Reducing customer satisfaction", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 13,
+          course: "BUS 001",
+          text: "The term 'stakeholders' in business refers to:",
+          section: "A",
+          options: [
+            { text: "Only the shareholders", value: "A" },
+            { text: "Only the employees", value: "B" },
+            {
+              text: "Any group affected by the business's activities",
+              value: "C",
+            },
+            { text: "Only the customers", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 14,
+          course: "BUS 001",
+          text: "Which of the following is the first step in starting a business?",
+          section: "A",
+          options: [
+            { text: "Securing financing", value: "A" },
+            { text: "Developing a business plan", value: "B" },
+            { text: "Hiring employees", value: "C" },
+            { text: "Opening a store", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 15,
+          course: "BUS 001",
+          text: "An opportunity cost is:",
+          section: "A",
+          options: [
+            { text: "The total cost of a business venture", value: "A" },
+            {
+              text: "The benefit foregone when choosing one alternative over another",
+              value: "B",
+            },
+            { text: "A government tax on businesses", value: "C" },
+            { text: "The cost of training employees", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 16,
+          course: "BUS 001",
+          text: "Which of the following best describes economies of scale?",
+          section: "A",
+          options: [
+            { text: "Costs increase as production increases", value: "A" },
+            { text: "All businesses have the same cost structure", value: "B" },
+            {
+              text: "Average costs per unit decrease as production increases",
+              value: "C",
+            },
+            { text: "Profit margins always decrease", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 17,
+          course: "BUS 001",
+          text: "A limited liability company (LLC) provides:",
+          section: "A",
+          options: [
+            { text: "No liability protection for owners", value: "A" },
+            { text: "Limited liability protection for owners", value: "B" },
+            { text: "Unlimited liability for all owners", value: "C" },
+            { text: "Government ownership", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 18,
+          course: "BUS 001",
+          text: "The concept of 'comparative advantage' means:",
+          section: "A",
+          options: [
+            { text: "One producer is superior in all aspects", value: "A" },
+            {
+              text: "Each producer specializes in what they do relatively most efficiently",
+              value: "B",
+            },
+            { text: "All producers have equal advantages", value: "C" },
+            { text: "Competition is always harmful", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 19,
+          course: "BUS 001",
+          text: "Working capital refers to:",
+          section: "A",
+          options: [
+            { text: "The company's stock price", value: "A" },
+            { text: "The assets minus liabilities", value: "B" },
+            { text: "Current assets minus current liabilities", value: "C" },
+            { text: "Total revenues", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 20,
+          course: "BUS 001",
+          text: "Which of the following is NOT a function of a business manager?",
+          section: "A",
+          options: [
+            { text: "Planning organizational strategy", value: "A" },
+            { text: "Managing human resources", value: "B" },
+            { text: "Ensuring company compliance with laws", value: "C" },
+            { text: "Determining government tax policy", value: "D" },
+          ],
+          correct: "D",
+        },
+        // BUS 002 MCQs (21-40)
+        {
+          id: 21,
+          course: "BUS 002",
+          text: "In economics, 'demand' refers to:",
+          section: "A",
+          options: [
+            { text: "The quantity supplied by producers", value: "A" },
+            {
+              text: "The desire and ability to purchase goods at various prices",
+              value: "B",
+            },
+            { text: "The total production capacity", value: "C" },
+            { text: "Government regulations", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 22,
+          course: "BUS 002",
+          text: "The law of supply states that:",
+          section: "A",
+          options: [
+            {
+              text: "Higher prices lead to lower quantities supplied",
+              value: "A",
+            },
+            {
+              text: "Higher prices lead to higher quantities supplied",
+              value: "B",
+            },
+            { text: "Price has no effect on supply", value: "C" },
+            { text: "All goods have unlimited supply", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 23,
+          course: "BUS 002",
+          text: "Market equilibrium occurs when:",
+          section: "A",
+          options: [
+            { text: "Demand exceeds supply", value: "A" },
+            { text: "Supply exceeds demand", value: "B" },
+            { text: "Quantity demanded equals quantity supplied", value: "C" },
+            { text: "Prices are at their lowest", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 24,
+          course: "BUS 002",
+          text: "Price elasticity of demand measures:",
+          section: "A",
+          options: [
+            { text: "The cost of production", value: "A" },
+            {
+              text: "The responsiveness of quantity demanded to price changes",
+              value: "B",
+            },
+            { text: "Customer satisfaction levels", value: "C" },
+            { text: "Government price controls", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 25,
+          course: "BUS 002",
+          text: "A monopoly is characterized by:",
+          section: "A",
+          options: [
+            { text: "Many sellers with differentiated products", value: "A" },
+            {
+              text: "One seller controlling a market with no close substitutes",
+              value: "B",
+            },
+            { text: "Perfect competition among sellers", value: "C" },
+            { text: "Constant technological change", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 26,
+          course: "BUS 002",
+          text: "The break-even point is where:",
+          section: "A",
+          options: [
+            { text: "Profit is maximized", value: "A" },
+            { text: "Total revenue equals total costs", value: "B" },
+            { text: "Sales are at their peak", value: "C" },
+            { text: "Expenses are minimized", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 27,
+          course: "BUS 002",
+          text: "In accounting, assets refer to:",
+          section: "A",
+          options: [
+            { text: "Money owed to creditors", value: "A" },
+            {
+              text: "Resources owned by the business with economic value",
+              value: "B",
+            },
+            { text: "The owner's investment", value: "C" },
+            { text: "Annual profits", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 28,
+          course: "BUS 002",
+          text: "Liabilities in business accounting are:",
+          section: "A",
+          options: [
+            { text: "Valuable resources owned by the company", value: "A" },
+            { text: "Debts and obligations owed by the business", value: "B" },
+            { text: "Owner's equity in the company", value: "C" },
+            { text: "Revenue from operations", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 29,
+          course: "BUS 002",
+          text: "The balance sheet equation is:",
+          section: "A",
+          options: [
+            { text: "Assets = Liabilities - Equity", value: "A" },
+            { text: "Assets = Liabilities + Equity", value: "B" },
+            { text: "Liabilities = Assets + Equity", value: "C" },
+            { text: "Equity = Assets - Revenue", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 30,
+          course: "BUS 002",
+          text: "A cash flow statement shows:",
+          section: "A",
+          options: [
+            { text: "The company's profitability only", value: "A" },
+            {
+              text: "The movement of cash in and out of a business",
+              value: "B",
+            },
+            { text: "The financial position at a point in time", value: "C" },
+            { text: "Customer payment information", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 31,
+          course: "BUS 002",
+          text: "Return on Investment (ROI) is calculated as:",
+          section: "A",
+          options: [
+            { text: "Total Assets / Total Sales", value: "A" },
+            { text: "Net Profit / Initial Investment", value: "B" },
+            { text: "Revenue / Expenses", value: "C" },
+            { text: "Assets / Liabilities", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 32,
+          course: "BUS 002",
+          text: "The concept of 'leverage' in finance refers to:",
+          section: "A",
+          options: [
+            {
+              text: "Using borrowed funds to increase potential returns",
+              value: "A",
+            },
+            { text: "Increasing employee productivity", value: "B" },
+            { text: "Reducing product prices", value: "C" },
+            { text: "Improving customer service", value: "D" },
+          ],
+          correct: "A",
+        },
+        {
+          id: 33,
+          course: "BUS 002",
+          text: "Fixed costs are expenses that:",
+          section: "A",
+          options: [
+            { text: "Increase with production levels", value: "A" },
+            { text: "Vary with the quantity produced", value: "B" },
+            {
+              text: "Remain constant regardless of production level",
+              value: "C",
+            },
+            { text: "Decrease over time", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 34,
+          course: "BUS 002",
+          text: "Contribution margin is calculated as:",
+          section: "A",
+          options: [
+            { text: "Revenue - Fixed Costs", value: "A" },
+            { text: "Sales Revenue - Variable Costs", value: "B" },
+            { text: "Profit / Sales Revenue", value: "C" },
+            { text: "Total Costs / Production Units", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 35,
+          course: "BUS 002",
+          text: "A company's gross profit is:",
+          section: "A",
+          options: [
+            { text: "Total revenue minus cost of goods sold", value: "A" },
+            { text: "Total revenue minus all expenses", value: "B" },
+            { text: "Revenue from all sources", value: "C" },
+            { text: "Operating expenses only", value: "D" },
+          ],
+          correct: "A",
+        },
+        {
+          id: 36,
+          course: "BUS 002",
+          text: "The debt-to-equity ratio measures:",
+          section: "A",
+          options: [
+            { text: "The company's ability to pay employees", value: "A" },
+            {
+              text: "The proportion of debt and equity used to finance assets",
+              value: "B",
+            },
+            { text: "The cost of borrowing money", value: "C" },
+            { text: "Customer payment reliability", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 37,
+          course: "BUS 002",
+          text: "Depreciation in accounting represents:",
+          section: "A",
+          options: [
+            { text: "A loss of business value", value: "A" },
+            {
+              text: "The allocation of an asset's cost over its useful life",
+              value: "B",
+            },
+            { text: "A reduction in product quality", value: "C" },
+            { text: "Decline in company revenue", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 38,
+          course: "BUS 002",
+          text: "Budget variance refers to:",
+          section: "A",
+          options: [
+            {
+              text: "The difference between actual and budgeted performance",
+              value: "A",
+            },
+            { text: "The cost of producing a product", value: "B" },
+            { text: "Total company expenditures", value: "C" },
+            { text: "Employee salary adjustments", value: "D" },
+          ],
+          correct: "A",
+        },
+        {
+          id: 39,
+          course: "BUS 002",
+          text: "Working capital management is primarily concerned with:",
+          section: "A",
+          options: [
+            { text: "Long-term asset investments", value: "A" },
+            { text: "Maximizing fixed assets", value: "B" },
+            {
+              text: "Managing short-term assets and liabilities efficiently",
+              value: "C",
+            },
+            { text: "Reducing employee costs", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 40,
+          course: "BUS 002",
+          text: "A company's cost of capital is:",
+          section: "A",
+          options: [
+            { text: "The price of manufacturing products", value: "A" },
+            {
+              text: "The weighted average cost of debt and equity financing",
+              value: "B",
+            },
+            { text: "The cost of hiring employees", value: "C" },
+            { text: "The cost of raw materials only", value: "D" },
+          ],
+          correct: "B",
+        },
+        // Theory Questions (41-46)
+        {
+          id: 41,
+          course: "BUS 001",
+          text: "(a) Compare and contrast three different forms of business organization: sole proprietorship, partnership, and corporation. Include at least three characteristics for each. (5 marks)\n\n(b) Discuss the advantages and disadvantages of entrepreneurship. (3 marks)\n\n(c) Explain the importance of a business plan in starting a new venture. (2 marks)",
+          section: "B",
+          marks: 10,
+        },
+        {
+          id: 42,
+          course: "BUS 001",
+          text: "(a) Explain the concept of the '4Ps of Marketing' and provide an example for each P. (5 marks)\n\n(b) Discuss market segmentation and its importance in business strategy. (3 marks)\n\n(c) What is customer value and how can businesses create it? (2 marks)",
+          section: "B",
+          marks: 10,
+        },
+        {
+          id: 43,
+          course: "BUS 001",
+          text: "(a) Describe the five management functions and explain how they work together. (5 marks)\n\n(b) Explain the difference between autocratic and democratic leadership styles. (3 marks)\n\n(c) What is motivation and how can managers motivate employees? (2 marks)",
+          section: "B",
+          marks: 10,
+        },
+        {
+          id: 44,
+          course: "BUS 002",
+          text: "(a) Explain the three main financial statements and what each reveals about a business. (5 marks)\n\n(b) Calculate and interpret key financial ratios. (3 marks)\n\n(c) Discuss the importance of budgeting in business management. (2 marks)",
+          section: "B",
+          marks: 10,
+        },
+        {
+          id: 45,
+          course: "BUS 002",
+          text: "(a) Explain the different types of costs and show how to calculate the break-even point. (5 marks)\n\n(b) Discuss different pricing strategies and when each should be used. (3 marks)\n\n(c) How does contribution margin help in business decision-making? (2 marks)",
+          section: "B",
+          marks: 10,
+        },
+        {
+          id: 46,
+          course: "BUS 002",
+          text: "(a) Explain the difference between debt and equity financing and discuss the advantages of each. (5 marks)\n\n(b) Discuss the concept of capital structure optimization. (3 marks)\n\n(c) What is Return on Investment (ROI) and how is it used in investment decisions? (2 marks)",
+          section: "B",
+          marks: 10,
+        },
+      ];
+
+      let currentQ = 0;
+      let answers = {};
+      let flagged = {};
+      let examSubmitted = false;
+      let calcExpression = "";
+      let startTime = Date.now();
+
+      window.addEventListener("load", () => {
+        displayQuestion();
+        startTimer();
+      });
+
+      function displayQuestion() {
+        updateStats();
+        const q = questionsData[currentQ];
+        if (!q) return;
+
+        let html = `<div class="question-section">
+                <div class="question-header">
+                    <div>
+                        <div class="question-course">${q.course}</div>
+                        <div class="question-number">Question ${currentQ + 1} of ${questionsData.length}</div>
+                    </div>
+                    <button class="flag-btn ${flagged[currentQ] ? "flagged" : ""}" onclick="toggleFlag(${currentQ})">
+                        ${flagged[currentQ] ? "🚩 Flagged" : "📌 Flag"}
+                    </button>
+                </div>
+                <div class="question-text">${q.text}</div>`;
+
+        if (q.options) {
+          html += '<div class="options">';
+          q.options.forEach((opt) => {
+            const selected = answers[currentQ] === opt.value ? "selected" : "";
+            html += `<label class="option ${selected}">
+                        <input type="radio" name="q${currentQ}" value="${opt.value}" onchange="selectAnswer(${currentQ}, '${opt.value}')">
+                        <span>${opt.value})</span> ${opt.text}
+                    </label>`;
+          });
+          html += "</div>";
+        } else {
+          html += `<textarea id="theory${currentQ}" placeholder="Type your answer..." onchange="saveTheoryAnswer(${currentQ})">${answers[currentQ] || ""}</textarea>
+                <div style="margin-top: 10px; font-size: 12px; color: #666; font-weight: 600;">Total Marks: ${q.marks}</div>`;
+        }
+
+        html += "</div>";
+        document.getElementById("questionContent").innerHTML = html;
+        updateButtons();
+      }
+
+      function selectAnswer(qIdx, value) {
+        answers[qIdx] = value;
+        updateStats();
+        autoSave();
+      }
+
+      function saveTheoryAnswer(qIdx) {
+        answers[qIdx] = document.getElementById(`theory${qIdx}`).value;
+        updateStats();
+        autoSave();
+      }
+
+      function toggleFlag(qIdx) {
+        flagged[qIdx] = !flagged[qIdx];
+        updateStats();
+      }
+
+      function nextQuestion() {
+        if (currentQ < questionsData.length - 1) {
+          currentQ++;
+          displayQuestion();
+        }
+      }
+
+      function previousQuestion() {
+        if (currentQ > 0) {
+          currentQ--;
+          displayQuestion();
+        }
+      }
+
+      function updateStats() {
+        const answered = Object.keys(answers).filter((k) => answers[k]).length;
+        const total = questionsData.length;
+        const flaggedCount = Object.values(flagged).filter((f) => f).length;
+
+        document.getElementById("answeredCount").textContent = answered;
+        document.getElementById("unansweredCount").textContent =
+          total - answered;
+        document.getElementById("flaggedCount").textContent = flaggedCount;
+      }
+
+      function updateButtons() {
+        document.getElementById("prevBtn").disabled = currentQ === 0;
+        document.getElementById("nextBtn").style.display =
+          currentQ === questionsData.length - 1 ? "none" : "block";
+        document.getElementById("submitBtn").style.display =
+          currentQ === questionsData.length - 1 ? "block" : "none";
+      }
+
+      function autoSave() {
+        const indicator = document.getElementById("autoSaveIndicator");
+        indicator.style.display = "inline-block";
+        setTimeout(() => (indicator.style.display = "none"), 2000);
+      }
+
+      function startTimer() {
+        setInterval(() => {
+          let elapsed = Math.floor((Date.now() - startTime) / 1000);
+          let remaining = 7200 - elapsed;
+          if (remaining < 0) remaining = 0;
+
+          let mins = Math.floor(remaining / 60);
+          let secs = remaining % 60;
+          document.getElementById("timerDisplay").textContent =
+            `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+
+          if (remaining < 300) {
+            document.getElementById("timerDisplay").classList.add("warning");
+          }
+        }, 1000);
+      }
+
+      function submitExam() {
+        if (confirm("Submit exam? You cannot make changes after submission.")) {
+          examSubmitted = true;
+          displayResults();
+        }
+      }
+
+      function displayResults() {
+        document.getElementById("questionView").classList.remove("active");
+        document.getElementById("resultsView").classList.add("active");
+
+        const totalQuestions = questionsData.length;
+        const mcqQuestions = questionsData.filter((q) => q.section === "A");
+        let correctCount = 0;
+        let answeredCount = 0;
+
+        mcqQuestions.forEach((q, idx) => {
+          if (answers[idx]) {
+            answeredCount++;
+            if (answers[idx] === q.correct) correctCount++;
+          }
+        });
+
+        const score = ((correctCount / mcqQuestions.length) * 100).toFixed(1);
+
+        let summary = `
+                <div class="summary-card correct">
+                    <div class="summary-label">Correct Answers</div>
+                    <div class="summary-value">${correctCount}/${mcqQuestions.length}</div>
+                </div>
+                <div class="summary-card incorrect">
+                    <div class="summary-label">Incorrect Answers</div>
+                    <div class="summary-value">${mcqQuestions.length - correctCount}</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-label">Section A Score</div>
+                    <div class="summary-value">${score}%</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-label">Questions Answered</div>
+                    <div class="summary-value">${answeredCount}/${mcqQuestions.length}</div>
+                </div>
+            `;
+
+        document.getElementById("resultsSummary").innerHTML = summary;
+
+        let review = `<div class="section-title">📝 Section A: Multiple Choice Questions</div>`;
+
+        questionsData.forEach((q, idx) => {
+          if (q.section === "A") {
+            const userAnswer = answers[idx];
+            const isCorrect = userAnswer === q.correct;
+            const status = userAnswer
+              ? isCorrect
+                ? "correct"
+                : "incorrect"
+              : "unanswered";
+            const statusLabel = userAnswer
+              ? isCorrect
+                ? "✓ Correct"
+                : "✗ Incorrect"
+              : "? Unanswered";
+
+            review += `<div class="question-review">
+                        <div class="review-question-header">
+                            <div>
+                                <div class="review-q-number">Question ${idx + 1}</div>
+                                <span class="review-q-course">${q.course}</span>
+                                <span class="review-status ${status}">${statusLabel}</span>
+                            </div>
+                        </div>
+                        <div class="review-q-text">${q.text}</div>
+                        <div class="answer-display">
+                            <div class="answer-row">
+                                <span class="answer-label">Your Answer:</span>
+                                <span class="answer-value">${userAnswer || "Not answered"}</span>
+                            </div>
+                            <div class="answer-row">
+                                <span class="answer-label">Correct Answer:</span>
+                                <span class="answer-value">${q.correct}</span>
+                            </div>
+                            ${
+                              userAnswer && userAnswer !== q.correct
+                                ? `
+                            <div class="answer-row">
+                                <span class="answer-label">Explanation:</span>
+                                <span class="answer-value" style="color: #e74c3c;">You selected ${userAnswer}. The correct answer is ${q.correct}.</span>
+                            </div>
+                            `
+                                : ""
+                            }
+                        </div>
+                        ${isCorrect ? `<div class="feedback correct">✓ Excellent! Your answer is correct.</div>` : userAnswer ? `<div class="feedback incorrect">✗ Incorrect. Please review this concept.</div>` : `<div class="feedback unanswered">⚠ This question was not answered.</div>`}
+                    </div>`;
+          }
+        });
+
+        review += `<div class="section-title" style="margin-top: 30px;">📝 Section B: Theory Questions</div>`;
+
+        questionsData.forEach((q, idx) => {
+          if (q.section === "B") {
+            const userAnswer = answers[idx];
+            const status = userAnswer ? "answered" : "unanswered";
+            const statusLabel = userAnswer ? "✓ Answered" : "? Unanswered";
+
+            review += `<div class="question-review">
+                        <div class="review-question-header">
+                            <div>
+                                <div class="review-q-number">Question ${idx + 1}</div>
+                                <span class="review-q-course">${q.course}</span>
+                                <span class="review-status ${status}">${statusLabel}</span>
+                            </div>
+                        </div>
+                        <div class="review-q-text">${q.text}</div>
+                        <div class="answer-display">
+                            <div class="answer-row">
+                                <span class="answer-label">Total Marks:</span>
+                                <span class="answer-value">${q.marks}</span>
+                            </div>
+                            <div class="answer-row" style="flex-direction: column; align-items: flex-start;">
+                                <span class="answer-label" style="margin-bottom: 8px;">Your Answer:</span>
+                                <div style="background: #f0f0f0; padding: 10px; border-radius: 4px; width: 100%; white-space: pre-wrap; font-family: monospace; font-size: 12px;">
+                                    ${userAnswer || "<em>No answer provided</em>"}
+                                </div>
+                            </div>
+                        </div>
+                        ${userAnswer ? `<div class="feedback correct">✓ Your answer has been recorded. This will be evaluated by the examiner.</div>` : `<div class="feedback unanswered">⚠ This question was not answered.</div>`}
+                    </div>`;
+          }
+        });
+
+        document.getElementById("answerReview").innerHTML = review;
+      }
+
+      function downloadResults() {
+        alert("PDF download feature coming soon!");
+      }
+
+      function toggleHeaderMenu() {
+        const headerTools = document.getElementById("headerTools");
+        headerTools.classList.toggle("active");
+      }
+
+      function openSettings() {
+        document.getElementById("headerTools").classList.remove("active");
+        document.getElementById("settingsModal").classList.add("active");
+      }
+
+      function closeSettings() {
+        document.getElementById("settingsModal").classList.remove("active");
+      }
+
+      function setFontSize(size) {
+        const sizes = { small: "12px", normal: "16px", large: "18px" };
+        document.documentElement.style.fontSize = sizes[size];
+      }
+
+      function setTheme(theme) {
+        document.body.classList.toggle("dark-mode", theme === "dark");
+      }
+
+      function openCalculator() {
+        document.getElementById("headerTools").classList.remove("active");
+        document.getElementById("calculatorModal").classList.add("active");
+      }
+
+      function closeCalculator() {
+        document.getElementById("calculatorModal").classList.remove("active");
+      }
+
+      function calcAppend(val) {
+        calcExpression += val;
+        document.getElementById("calcDisplay").textContent =
+          calcExpression || "0";
+      }
+
+      function calcClear() {
+        calcExpression = "";
+        document.getElementById("calcDisplay").textContent = "0";
+      }
+
+      function calcEquals() {
+        try {
+          calcExpression = String(eval(calcExpression));
+          document.getElementById("calcDisplay").textContent = calcExpression;
+        } catch (e) {
+          document.getElementById("calcDisplay").textContent = "Error";
+        }
+      }
+
+      // Mobile touch optimization
+      const isMobile = window.matchMedia("(max-width: 479px)").matches;
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const buttons = document.querySelectorAll(
+          ".btn, .tool-btn, .option, .flag-btn",
+        );
+        buttons.forEach((btn) => {
+          btn.addEventListener("touchstart", function () {
+            this.style.opacity = "0.8";
+          });
+          btn.addEventListener("touchend", function () {
+            this.style.opacity = "1";
+          });
+        });
+      });
+
+      const viewportMeta = document.querySelector('meta[name="viewport"]');
+      if (viewportMeta) {
+        document.addEventListener("focusin", (e) => {
+          if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") {
+            viewportMeta.setAttribute(
+              "content",
+              "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no",
+            );
+          }
+        });
+        document.addEventListener("focusout", () => {
+          viewportMeta.setAttribute(
+            "content",
+            "width=device-width, initial-scale=1.0",
+          );
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const textareas = document.querySelectorAll("textarea");
+        textareas.forEach((textarea) => {
+          textarea.addEventListener("focus", function () {
+            setTimeout(() => {
+              this.scrollIntoView({ behavior: "smooth", block: "center" });
+            }, 300);
+          });
+        });
+      });
+
+      let touchStartX = 0;
+      let touchEndX = 0;
+
+      function handleSwipe() {
+        if (touchEndX < touchStartX - 50) {
+          if (currentQ < questionsData.length - 1) {
+            nextQuestion();
+          }
+        } else if (touchEndX > touchStartX + 50) {
+          if (currentQ > 0) {
+            previousQuestion();
+          }
+        }
+      }
+
+      document.addEventListener("touchstart", (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      });
+
+      document.addEventListener("touchend", (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (examSubmitted) return;
+
+        if (e.key === "ArrowRight" && currentQ < questionsData.length - 1) {
+          nextQuestion();
+        } else if (e.key === "ArrowLeft" && currentQ > 0) {
+          previousQuestion();
+        } else if ((e.altKey || e.metaKey) && e.key === "f") {
+          e.preventDefault();
+          toggleFlag(currentQ);
+        }
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          document.getElementById("settingsModal").classList.remove("active");
+          document.getElementById("calculatorModal").classList.remove("active");
+        }
+      });
+
+      window.addEventListener("orientationchange", () => {
+        displayQuestion();
+      });
+    </script>
+  </body>
+</html>

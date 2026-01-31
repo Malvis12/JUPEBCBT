@@ -1,0 +1,1738 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JUPEB Chemistry CBT - CHM 001 & CHM 002</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        color: #333;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 900px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+      }
+
+      .header {
+        background: linear-gradient(135deg, #003d82 0%, #005a9c 100%);
+        color: white;
+        padding: 25px;
+        text-align: center;
+        border-bottom: 4px solid #002855;
+      }
+
+      .header h1 {
+        font-size: 24px;
+        margin-bottom: 8px;
+        font-weight: 600;
+      }
+
+      .header p {
+        font-size: 14px;
+        opacity: 0.9;
+      }
+
+      .top-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 25px;
+        background: #f5f5f5;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .timer-section {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .timer-display {
+        font-size: 20px;
+        font-weight: bold;
+        color: #003d82;
+        font-family: "Courier New", monospace;
+        min-width: 80px;
+        text-align: center;
+      }
+
+      .timer-display.warning {
+        color: #ff6b6b;
+        animation: blink 1s infinite;
+      }
+
+      @keyframes blink {
+        0%,
+        50% {
+          opacity: 1;
+        }
+        51%,
+        100% {
+          opacity: 0.5;
+        }
+      }
+
+      .progress-section {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .progress-bar {
+        width: 150px;
+        height: 8px;
+        background: #ddd;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #003d82, #005a9c);
+        transition: width 0.3s ease;
+      }
+
+      .progress-text {
+        font-size: 13px;
+        color: #666;
+        min-width: 50px;
+      }
+
+      .content-area {
+        padding: 40px;
+        min-height: 500px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .question-section {
+        display: none;
+      }
+
+      .question-section.active {
+        display: block;
+        animation: fadeIn 0.3s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .question-number {
+        color: #003d82;
+        font-weight: bold;
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+
+      .question-course {
+        display: inline-block;
+        background: #e8f0f8;
+        color: #003d82;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 15px;
+      }
+
+      .question-text {
+        font-size: 18px;
+        color: #1a1a1a;
+        margin-bottom: 25px;
+        line-height: 1.6;
+        font-weight: 500;
+      }
+
+      .options {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+
+      .option {
+        padding: 15px 20px;
+        border: 2px solid #ddd;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: white;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+      }
+
+      .option:hover {
+        border-color: #005a9c;
+        background: #f0f6ff;
+      }
+
+      .option input[type="radio"] {
+        margin-right: 15px;
+        cursor: pointer;
+        width: 18px;
+        height: 18px;
+      }
+
+      .option.selected {
+        border-color: #003d82;
+        background: #e8f0f8;
+        font-weight: 600;
+      }
+
+      .option.correct {
+        border-color: #27ae60;
+        background: #d5f4e6;
+      }
+
+      .option.incorrect {
+        border-color: #e74c3c;
+        background: #fadbd8;
+      }
+
+      .theory-section {
+        background: #f9f9f9;
+        padding: 20px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+      }
+
+      .theory-instructions {
+        background: #e8f0f8;
+        color: #003d82;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 15px;
+        font-weight: 500;
+        line-height: 1.6;
+      }
+
+      textarea {
+        width: 100%;
+        height: 200px;
+        padding: 12px;
+        border: 2px solid #ddd;
+        border-radius: 6px;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        resize: vertical;
+        transition: border-color 0.3s ease;
+      }
+
+      textarea:focus {
+        outline: none;
+        border-color: #003d82;
+        box-shadow: 0 0 0 3px rgba(0, 61, 130, 0.1);
+      }
+
+      .bottom-controls {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        padding-top: 20px;
+        border-top: 1px solid #ddd;
+      }
+
+      .btn {
+        padding: 12px 30px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #003d82 0%, #005a9c 100%);
+        color: white;
+        flex: 1;
+      }
+
+      .btn-primary:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 61, 130, 0.3);
+      }
+
+      .btn-primary:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .btn-secondary {
+        background: #f0f0f0;
+        color: #333;
+        flex: 1;
+      }
+
+      .btn-secondary:hover:not(:disabled) {
+        background: #e0e0e0;
+      }
+
+      .btn-secondary:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+      }
+
+      .question-nav {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #ddd;
+      }
+
+      .nav-btn {
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        border: 2px solid #ddd;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        background: white;
+        color: #333;
+      }
+
+      .nav-btn:hover {
+        border-color: #005a9c;
+        background: #f0f6ff;
+      }
+
+      .nav-btn.active {
+        background: #003d82;
+        color: white;
+        border-color: #003d82;
+      }
+
+      .nav-btn.answered {
+        border-color: #27ae60;
+        color: #27ae60;
+      }
+
+      .nav-btn.current {
+        border-color: #005a9c;
+        background: #e8f0f8;
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .modal.active {
+        display: flex;
+      }
+
+      .modal-content {
+        background: white;
+        padding: 40px;
+        border-radius: 10px;
+        max-width: 500px;
+        text-align: center;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      }
+
+      .modal-content h2 {
+        color: #003d82;
+        margin-bottom: 15px;
+        font-size: 22px;
+      }
+
+      .modal-content p {
+        color: #666;
+        margin-bottom: 20px;
+        line-height: 1.6;
+      }
+
+      .modal-buttons {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+      }
+
+      .modal-buttons .btn {
+        min-width: 120px;
+      }
+
+      .instructions-modal {
+        max-width: 600px;
+      }
+
+      .instructions-modal h2 {
+        text-align: left;
+        margin-bottom: 20px;
+      }
+
+      .instructions-modal ul {
+        text-align: left;
+        margin-left: 20px;
+        margin-bottom: 20px;
+        color: #666;
+        line-height: 1.8;
+      }
+
+      .instructions-modal li {
+        margin-bottom: 10px;
+      }
+
+      .section-indicator {
+        display: inline-block;
+        background: #003d82;
+        color: white;
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 15px;
+      }
+
+      .summary-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      .summary-table th,
+      .summary-table td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .summary-table th {
+        background: #f5f5f5;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .summary-table tr:hover {
+        background: #f9f9f9;
+      }
+
+      .status-answered {
+        color: #27ae60;
+        font-weight: 600;
+      }
+
+      .status-unanswered {
+        color: #e74c3c;
+        font-weight: 600;
+      }
+
+      @media (max-width: 768px) {
+        .header h1 {
+          font-size: 18px;
+        }
+
+        .content-area {
+          padding: 20px;
+        }
+
+        .top-bar {
+          flex-direction: column;
+          gap: 15px;
+        }
+
+        .question-text {
+          font-size: 16px;
+        }
+
+        .option {
+          font-size: 14px;
+          padding: 12px 15px;
+        }
+
+        .nav-btn {
+          width: 35px;
+          height: 35px;
+          font-size: 12px;
+        }
+      }
+
+      .review-summary {
+        background: #f9f9f9;
+        padding: 20px;
+        border-radius: 6px;
+        margin-top: 20px;
+      }
+
+      .submitted-message {
+        background: #d5f4e6;
+        color: #27ae60;
+        padding: 20px;
+        border-radius: 6px;
+        text-align: center;
+        font-weight: 600;
+        margin-bottom: 20px;
+      }
+
+      .marked-message {
+        background: #fff3cd;
+        color: #856404;
+        padding: 15px;
+        border-radius: 6px;
+        text-align: center;
+        margin-bottom: 20px;
+        border-left: 4px solid #ffc107;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>JUPEB CHEMISTRY PRACTICE EXAMINATION</h1>
+        <p>Courses: CHM 001 & CHM 002 | Level: JUPEB Standard</p>
+      </div>
+
+      <div class="top-bar">
+        <div class="timer-section">
+          <span style="font-weight: 600; color: #333">Time Remaining:</span>
+          <div class="timer-display" id="timerDisplay">120:00</div>
+        </div>
+        <div class="progress-section">
+          <span style="font-weight: 600; color: #333">Progress:</span>
+          <div class="progress-bar">
+            <div
+              class="progress-fill"
+              id="progressFill"
+              style="width: 0%"
+            ></div>
+          </div>
+          <span class="progress-text"
+            ><span id="currentQuestion">1</span>/<span id="totalQuestions"
+              >40</span
+            ></span
+          >
+        </div>
+      </div>
+
+      <div class="content-area">
+        <!-- Section A Content -->
+        <div id="sectionA">
+          <!-- Questions will be generated here by JavaScript -->
+        </div>
+
+        <!-- Section B Content -->
+        <div id="sectionB" style="display: none">
+          <!-- Theory questions will be generated here by JavaScript -->
+        </div>
+
+        <!-- Summary/Review Screen -->
+        <div id="summaryScreen" style="display: none">
+          <h2 style="color: #003d82; margin-bottom: 20px">
+            Examination Summary
+          </h2>
+          <div id="summaryContent"></div>
+        </div>
+
+        <div class="bottom-controls">
+          <button
+            class="btn btn-secondary"
+            id="prevBtn"
+            onclick="previousQuestion()"
+          >
+            ← Previous
+          </button>
+          <button
+            class="btn btn-secondary"
+            id="reviewBtn"
+            onclick="showReview()"
+            style="display: none"
+          >
+            Review All Answers
+          </button>
+          <button
+            class="btn btn-secondary"
+            id="sectionBBtn"
+            onclick="goToSectionB()"
+            style="display: none"
+          >
+            Proceed to Section B
+          </button>
+          <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">
+            Next →
+          </button>
+          <button
+            class="btn btn-primary"
+            id="submitBtn"
+            onclick="submitExam()"
+            style="
+              display: none;
+              background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            "
+          >
+            Submit Exam
+          </button>
+        </div>
+
+        <!-- Question Navigation -->
+        <div class="question-nav" id="questionNav"></div>
+      </div>
+    </div>
+
+    <!-- Instructions Modal -->
+    <div class="modal" id="instructionsModal">
+      <div class="modal-content instructions-modal">
+        <h2>EXAMINATION INSTRUCTIONS</h2>
+        <ul>
+          <li><strong>Duration:</strong> 2 hours (120 minutes)</li>
+          <li>
+            <strong>Total Marks:</strong> 100 marks (Section A: 40 marks |
+            Section B: 60 marks)
+          </li>
+          <li>
+            <strong>Section A:</strong> Answer ALL 40 objective questions (1
+            mark each). Choose the BEST option from A, B, C, or D.
+          </li>
+          <li>
+            <strong>Section B:</strong> Answer ANY TWO (2) questions from CHM
+            001 and ANY TWO (2) questions from CHM 002. Each theory question
+            carries 10 marks.
+          </li>
+          <li>
+            <strong>For Calculations:</strong> Show all working and use clear
+            scientific notation and units.
+          </li>
+          <li>
+            <strong>Navigation:</strong> Use Previous/Next buttons or click
+            question numbers to navigate.
+          </li>
+          <li>
+            <strong>Timer:</strong> The countdown timer is active. Manage your
+            time wisely.
+          </li>
+        </ul>
+        <div class="modal-buttons">
+          <button class="btn btn-primary" onclick="closeInstructions()">
+            I Understand - Start Exam
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Time Warning Modal -->
+    <div class="modal" id="timeWarningModal">
+      <div class="modal-content">
+        <h2>⏰ Time Warning</h2>
+        <p id="timeWarningText"></p>
+        <div class="modal-buttons">
+          <button class="btn btn-secondary" onclick="closeTimeWarning()">
+            Continue
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit Confirmation Modal -->
+    <div class="modal" id="submitModal">
+      <div class="modal-content">
+        <h2>Submit Examination?</h2>
+        <p>
+          Are you sure you want to submit your examination? You will not be able
+          to make any changes after submission.
+        </p>
+        <p id="unansweredCount" style="color: #e74c3c; font-weight: 600"></p>
+        <div class="modal-buttons">
+          <button class="btn btn-secondary" onclick="closeSubmitModal()">
+            Cancel
+          </button>
+          <button
+            class="btn btn-primary"
+            style="
+              background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            "
+            onclick="confirmSubmit()"
+          >
+            Submit Now
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Time Out Modal -->
+    <div class="modal" id="timeOutModal">
+      <div class="modal-content">
+        <h2>Time's Up!</h2>
+        <p>
+          Your examination time has expired. Your answers have been
+          automatically submitted.
+        </p>
+        <div class="modal-buttons">
+          <button class="btn btn-primary" onclick="showFinalSummary()">
+            View Results
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Question Database
+      const questionsData = {
+        sectionA: [
+          // CHM 001 - Questions 1-20
+          {
+            id: 1,
+            course: "CHM 001",
+            text: "Which of the following represents the Heisenberg Uncertainty Principle?",
+            options: [
+              { text: "ΔE·Δt ≥ h/4π", value: "A" },
+              { text: "Δx·Δp ≥ h/4π", value: "B" },
+              { text: "E = mc²", value: "C" },
+              { text: "F = ma", value: "D" },
+            ],
+            correct: "B",
+          },
+          {
+            id: 2,
+            course: "CHM 001",
+            text: "The electronic configuration of potassium (K, Z=19) is:",
+            options: [
+              { text: "1s² 2s² 2p⁶ 3s² 3p⁶ 4s¹", value: "A" },
+              { text: "1s² 2s² 2p⁶ 3s² 3p⁵ 4s²", value: "B" },
+              { text: "1s² 2s² 2p⁶ 3s² 3p⁶ 3d¹", value: "C" },
+              { text: "1s² 2s² 2p⁶ 3s¹ 3p⁶ 4s²", value: "D" },
+            ],
+            correct: "A",
+          },
+          {
+            id: 3,
+            course: "CHM 001",
+            text: "Calculate the pH of a 0.01 M HCl solution at 25°C:",
+            options: [
+              { text: "pH = 2.00", value: "A" },
+              { text: "pH = 12.00", value: "B" },
+              { text: "pH = 1.00", value: "C" },
+              { text: "pH = 3.00", value: "D" },
+            ],
+            correct: "A",
+          },
+          {
+            id: 4,
+            course: "CHM 001",
+            text: "Which statement is correct regarding ionic bonding?",
+            options: [
+              {
+                text: "It involves the sharing of electrons between atoms",
+                value: "A",
+              },
+              {
+                text: "It involves the transfer of electrons from one atom to another",
+                value: "B",
+              },
+              {
+                text: "It is stronger than covalent bonding in all cases",
+                value: "C",
+              },
+              {
+                text: "It occurs only between nonmetallic elements",
+                value: "D",
+              },
+            ],
+            correct: "B",
+          },
+          {
+            id: 5,
+            course: "CHM 001",
+            text: "The standard molar volume of an ideal gas at STP (273.15 K, 1 atm) is:",
+            options: [
+              { text: "11.2 L/mol", value: "A" },
+              { text: "22.4 L/mol", value: "B" },
+              { text: "44.8 L/mol", value: "C" },
+              { text: "5.6 L/mol", value: "D" },
+            ],
+            correct: "B",
+          },
+          {
+            id: 6,
+            course: "CHM 001",
+            text: "How many moles of O₂ are required to completely burn 2 moles of CH₄?\nCH₄ + 2O₂ → CO₂ + 2H₂O",
+            options: [
+              { text: "1 mole", value: "A" },
+              { text: "2 moles", value: "B" },
+              { text: "4 moles", value: "C" },
+              { text: "8 moles", value: "D" },
+            ],
+            correct: "C",
+          },
+          {
+            id: 7,
+            course: "CHM 001",
+            text: "The oxidation state of nitrogen in NO₃⁻ is:",
+            options: [
+              { text: "+3", value: "A" },
+              { text: "+5", value: "B" },
+              { text: "-3", value: "C" },
+              { text: "+2", value: "D" },
+            ],
+            correct: "B",
+          },
+          {
+            id: 8,
+            course: "CHM 001",
+            text: "Which is NOT a characteristic of metallic bonding?",
+            options: [
+              { text: "Electrons are delocalized", value: "A" },
+              { text: "High electrical conductivity", value: "B" },
+              {
+                text: "Directional bonding between specific atoms",
+                value: "C",
+              },
+              { text: "Malleability and ductility", value: "D" },
+            ],
+            correct: "C",
+          },
+          {
+            id: 9,
+            course: "CHM 001",
+            text: "The activation energy of a reaction is:",
+            options: [
+              { text: "The energy released in the reaction", value: "A" },
+              {
+                text: "The minimum energy required for reactants to form products",
+                value: "B",
+              },
+              { text: "The average kinetic energy of molecules", value: "C" },
+              { text: "The bond dissociation energy", value: "D" },
+            ],
+            correct: "B",
+          },
+          {
+            id: 10,
+            course: "CHM 001",
+            text: "How many electrons are present in a chloride ion (Cl⁻, Z=17)?",
+            options: [
+              { text: "16", value: "A" },
+              { text: "17", value: "B" },
+              { text: "18", value: "C" },
+              { text: "19", value: "D" },
+            ],
+            correct: "C",
+          },
+          {
+            id: 11,
+            course: "CHM 001",
+            text: "Which of the following would increase the rate of a chemical reaction?",
+            options: [
+              { text: "Decreasing temperature", value: "A" },
+              { text: "Decreasing pressure for gaseous reactants", value: "B" },
+              {
+                text: "Increasing surface area of solid reactants",
+                value: "C",
+              },
+              { text: "Removing a catalyst", value: "D" },
+            ],
+            correct: "C",
+          },
+          {
+            id: 12,
+            course: "CHM 001",
+            text: "The first ionization energy generally increases across a period because:",
+            options: [
+              { text: "Atomic radius increases", value: "A" },
+              {
+                text: "Nuclear charge increases and atomic radius decreases",
+                value: "B",
+              },
+              { text: "Electrons are added to the same shell", value: "C" },
+              { text: "The number of electron shells increases", value: "D" },
+            ],
+            correct: "B",
+          },
+          {
+            id: 13,
+            course: "CHM 001",
+            text: "Calculate the mass of CO₂ produced when 10 g of CaCO₃ decomposes completely.\n(Molar masses: Ca=40, C=12, O=16)\nCaCO₃ → CaO + CO₂",
+            options: [
+              { text: "2.2 g", value: "A" },
+              { text: "4.4 g", value: "B" },
+              { text: "8.8 g", value: "C" },
+              { text: "5.6 g", value: "D" },
+            ],
+            correct: "B",
+          },
+          {
+            id: 14,
+            course: "CHM 001",
+            text: "Which of the following is an endothermic process?",
+            options: [
+              { text: "Combustion of methane", value: "A" },
+              { text: "Freezing of water", value: "B" },
+              { text: "Melting of ice", value: "C" },
+              { text: "Condensation of steam", value: "D" },
+            ],
+            correct: "C",
+          },
+          {
+            id: 15,
+            course: "CHM 001",
+            text: "The pH of a 0.1 M NaOH solution is:",
+            options: [
+              { text: "1", value: "A" },
+              { text: "13", value: "B" },
+              { text: "7", value: "C" },
+              { text: "0.1", value: "D" },
+            ],
+            correct: "B",
+          },
+          {
+            id: 16,
+            course: "CHM 001",
+            text: "In the reaction: 2H₂ + O₂ → 2H₂O, the hydrogen is acting as:",
+            options: [
+              { text: "An oxidizing agent", value: "A" },
+              { text: "A reducing agent", value: "B" },
+              { text: "A catalyst", value: "C" },
+              { text: "An inert substance", value: "D" },
+            ],
+            correct: "B",
+          },
+          {
+            id: 17,
+            course: "CHM 001",
+            text: "Which pair of elements would form an ionic compound?",
+            options: [
+              { text: "H and O", value: "A" },
+              { text: "C and H", value: "B" },
+              { text: "Na and Cl", value: "C" },
+              { text: "N and O", value: "D" },
+            ],
+            correct: "C",
+          },
+          {
+            id: 18,
+            course: "CHM 001",
+            text: "Calculate the molarity of a solution containing 5.85 g of NaCl in 500 mL of solution.\n(Molar mass of NaCl = 58.5 g/mol)",
+            options: [
+              { text: "0.1 M", value: "A" },
+              { text: "0.2 M", value: "B" },
+              { text: "1.0 M", value: "C" },
+              { text: "2.0 M", value: "D" },
+            ],
+            correct: "B",
+          },
+          {
+            id: 19,
+            course: "CHM 001",
+            text: "The hybridization of carbon in CO₂ is:",
+            options: [
+              { text: "sp", value: "A" },
+              { text: "sp²", value: "B" },
+              { text: "sp³", value: "C" },
+              { text: "sp³d", value: "D" },
+            ],
+            correct: "A",
+          },
+          {
+            id: 20,
+            course: "CHM 001",
+            text: "Which statement best describes Le Chatelier's Principle?",
+            options: [
+              {
+                text: "The rate of a reaction is proportional to the concentration of reactants",
+                value: "A",
+              },
+              {
+                text: "A system at equilibrium responds to a stress by shifting in a direction to counteract the stress",
+                value: "B",
+              },
+              {
+                text: "The equilibrium constant changes with temperature",
+                value: "C",
+              },
+              {
+                text: "Catalysts shift the position of equilibrium",
+                value: "D",
+              },
+            ],
+            correct: "B",
+          },
+          // CHM 002 - Questions 21-40
+          {
+            id: 21,
+            course: "CHM 002",
+            text: "The IUPAC name for CH₃-CH(CH₃)-CH₂-CH₃ is:",
+            options: [
+              { text: "2-methylbutane", value: "A" },
+              { text: "3-methylbutane", value: "B" },
+              { text: "1,1-dimethylpropane", value: "C" },
+              { text: "Isopentane", value: "D" },
+            ],
+            correct: "A",
+          },
+          {
+            id: 22,
+            course: "CHM 002",
+            text: "Which functional group is present in ethanoic acid (acetic acid)?",
+            options: [
+              { text: "Aldehyde", value: "A" },
+              { text: "Ketone", value: "B" },
+              { text: "Carboxylic acid", value: "C" },
+              { text: "Ester", value: "D" },
+            ],
+            correct: "C",
+          },
+          {
+            id: 23,
+            course: "CHM 002",
+            text: "What is the molecular formula of cyclopropane?",
+            options: [
+              { text: "C₂H₆", value: "A" },
+              { text: "C₃H₆", value: "B" },
+              { text: "C₃H₈", value: "C" },
+              { text: "C₄H₈", value: "D" },
+            ],
+            correct: "B",
+          },
+          {
+            id: 24,
+            course: "CHM 002",
+            text: "The product of the reaction between ethene and bromine is:",
+            options: [
+              { text: "1,1-dibromoethane", value: "A" },
+              { text: "1,2-dibromoethane", value: "B" },
+              { text: "Bromoethane", value: "C" },
+              { text: "Ethane", value: "D" },
+            ],
+            correct: "B",
+          },
+          {
+            id: 25,
+            course: "CHM 002",
+            text: "Which of the following is a primary alcohol?",
+            options: [
+              { text: "(CH₃)₃C-OH", value: "A" },
+              { text: "CH₃-CH(OH)-CH₃", value: "B" },
+              { text: "CH₃-CH₂-OH", value: "C" },
+              { text: "C₆H₅-OH", value: "D" },
+            ],
+            correct: "C",
+          },
+          {
+            id: 26,
+            course: "CHM 002",
+            text: "The addition of HBr to propene follows Markovnikov's Rule. What is the major product?",
+            options: [
+              { text: "1-bromopropane", value: "A" },
+              { text: "2-bromopropane", value: "B" },
+              { text: "1,2-dibromopropane", value: "C" },
+              { text: "Propane", value: "D" },
+            ],
+            correct: "B",
+          },
+          {
+            id: 27,
+            course: "CHM 002",
+            text: "Benzene (C₆H₆) undergoes which type of reaction predominantly?",
+            options: [
+              { text: "Addition reactions", value: "A" },
+              { text: "Substitution reactions", value: "B" },
+              { text: "Elimination reactions", value: "C" },
+              { text: "Polymerization reactions", value: "D" },
+            ],
+            correct: "B",
+          },
+          {
+            id: 28,
+            course: "CHM 002",
+            text: "The oxidation of primary alcohols produces:",
+            options: [
+              { text: "Ketones", value: "A" },
+              { text: "Secondary alcohols", value: "B" },
+              { text: "Aldehydes or carboxylic acids", value: "C" },
+              { text: "Esters", value: "D" },
+            ],
+            correct: "C",
+          },
+          {
+            id: 29,
+            course: "CHM 002",
+            text: "Which compound has geometric isomerism?",
+            options: [
+              { text: "Propane", value: "A" },
+              { text: "Butane", value: "B" },
+              { text: "But-2-ene", value: "C" },
+              { text: "Pentane", value: "D" },
+            ],
+            correct: "C",
+          },
+          {
+            id: 30,
+            course: "CHM 002",
+            text: "The esterification of ethanoic acid with methanol produces:",
+            options: [
+              { text: "Ethyl methanoate", value: "A" },
+              { text: "Methyl ethanoate", value: "B" },
+              { text: "Ethyl ethanoate", value: "C" },
+              { text: "Methyl methanoate", value: "D" },
+            ],
+            correct: "B",
+          },
+          {
+            id: 31,
+            course: "CHM 002",
+            text: "How many structural isomers exist for C₅H₁₂?",
+            options: [
+              { text: "2", value: "A" },
+              { text: "3", value: "B" },
+              { text: "4", value: "C" },
+              { text: "5", value: "D" },
+            ],
+            correct: "B",
+          },
+          {
+            id: 32,
+            course: "CHM 002",
+            text: "The reaction of benzene with chlorine in the presence of AlCl₃ is an example of:",
+            options: [
+              { text: "Free radical substitution", value: "A" },
+              { text: "Electrophilic aromatic substitution", value: "B" },
+              { text: "Nucleophilic substitution", value: "C" },
+              { text: "Addition reaction", value: "D" },
+            ],
+            correct: "B",
+          },
+          {
+            id: 33,
+            course: "CHM 002",
+            text: "Which of the following compounds is unsaturated?",
+            options: [
+              { text: "Hexane", value: "A" },
+              { text: "Hexene", value: "B" },
+              { text: "Hexadiene", value: "C" },
+              { text: "Both B and C", value: "D" },
+            ],
+            correct: "D",
+          },
+          {
+            id: 34,
+            course: "CHM 002",
+            text: "The dehydration of ethanol produces:",
+            options: [
+              { text: "Acetaldehyde", value: "A" },
+              { text: "Ethane", value: "B" },
+              { text: "Ethene", value: "C" },
+              { text: "Diethyl ether", value: "D" },
+            ],
+            correct: "C",
+          },
+          {
+            id: 35,
+            course: "CHM 002",
+            text: "What is the hybridization of carbon in ethyne (C₂H₂)?",
+            options: [
+              { text: "sp", value: "A" },
+              { text: "sp²", value: "B" },
+              { text: "sp³", value: "C" },
+              { text: "sp³d", value: "D" },
+            ],
+            correct: "A",
+          },
+          {
+            id: 36,
+            course: "CHM 002",
+            text: "Calculate the percentage composition of carbon in C₂H₆O.\n(Molar masses: C=12, H=1, O=16)",
+            options: [
+              { text: "52.2%", value: "A" },
+              { text: "30.0%", value: "B" },
+              { text: "13.0%", value: "C" },
+              { text: "40.0%", value: "D" },
+            ],
+            correct: "A",
+          },
+          {
+            id: 37,
+            course: "CHM 002",
+            text: "Which functional group would undergo nucleophilic addition most readily?",
+            options: [
+              { text: "Alkene", value: "A" },
+              { text: "Ketone", value: "B" },
+              { text: "Ether", value: "C" },
+              { text: "Aromatic ring", value: "D" },
+            ],
+            correct: "B",
+          },
+          {
+            id: 38,
+            course: "CHM 002",
+            text: "The polymer formed from ethene monomers is:",
+            options: [
+              { text: "Polyethyne", value: "A" },
+              { text: "Polyethene", value: "B" },
+              { text: "Polypropene", value: "C" },
+              { text: "Polyethene terephthalate", value: "D" },
+            ],
+            correct: "B",
+          },
+          {
+            id: 39,
+            course: "CHM 002",
+            text: "Methanoic acid is stronger than ethanoic acid because:",
+            options: [
+              { text: "It has fewer carbon atoms", value: "A" },
+              {
+                text: "The carboxyl group is attached directly to the electron-withdrawing effect",
+                value: "B",
+              },
+              { text: "It forms stronger hydrogen bonds", value: "C" },
+              { text: "It has a lower molecular weight", value: "D" },
+            ],
+            correct: "B",
+          },
+          {
+            id: 40,
+            course: "CHM 002",
+            text: "How many isomers exist for dichlorobenzene (C₆H₄Cl₂)?",
+            options: [
+              { text: "2", value: "A" },
+              { text: "3", value: "B" },
+              { text: "4", value: "C" },
+              { text: "5", value: "D" },
+            ],
+            correct: "B",
+          },
+        ],
+        sectionB: [
+          // CHM 001 Theory Questions
+          {
+            id: 41,
+            course: "CHM 001",
+            text: "(a) Define what is meant by the term 'electronegativity' and explain how it differs from electron affinity. (4 marks)\n\n(b) Using the Born-Haber cycle or relevant thermodynamic principles, explain why sodium chloride (NaCl) has a very high melting point despite the fact that the first ionization energy of sodium is relatively low. (6 marks)",
+            marks: 10,
+          },
+          {
+            id: 42,
+            course: "CHM 001",
+            text: "(a) State the Heisenberg Uncertainty Principle and explain its significance in determining electron positions in atoms. (4 marks)\n\n(b) Compare and contrast the properties of ionic, covalent, and metallic bonding, with specific reference to their electrical conductivity and solubility in water. (6 marks)",
+            marks: 10,
+          },
+          {
+            id: 43,
+            course: "CHM 001",
+            text: "(a) Calculate the number of moles of H₂SO₄ required to completely neutralize 250 mL of 0.5 M NaOH solution.\nH₂SO₄ + 2NaOH → Na₂SO₄ + 2H₂O\nShow all working. (5 marks)\n\n(b) Explain, using Le Chatelier's Principle, what would happen to the position of equilibrium if the following reaction mixture were subjected to an increase in pressure at constant temperature:\n2SO₂(g) + O₂(g) ⇌ 2SO₃(g) (5 marks)",
+            marks: 10,
+          },
+          // CHM 002 Theory Questions
+          {
+            id: 44,
+            course: "CHM 002",
+            text: "(a) Explain what is meant by 'addition polymerization' and give a detailed reaction mechanism for the polymerization of ethene. (5 marks)\n\n(b) Why do polymers formed from substituted ethene monomers (such as propene) display different physical properties from polyethene? Explain with reference to molecular structure. (5 marks)",
+            marks: 10,
+          },
+          {
+            id: 45,
+            course: "CHM 002",
+            text: "(a) Define the terms 'isomerism' and 'structural isomerism.' Give three different structural isomers of C₆H₁₂ and name each one according to IUPAC rules. (5 marks)\n\n(b) Explain why geometric isomerism cannot occur in alkanes but can occur in alkenes. Use a specific example in your explanation. (5 marks)",
+            marks: 10,
+          },
+          {
+            id: 46,
+            course: "CHM 002",
+            text: "(a) Write the equation for the esterification of propanoic acid with ethanol and identify which product contains the oxygen atoms from the alcohol. (4 marks)\n\n(b) Benzene undergoes electrophilic aromatic substitution rather than addition reactions. Explain, with reference to the structure and stability of benzene, why substitution is preferred over addition. What name is given to the type of intermediate formed during this reaction? (6 marks)",
+            marks: 10,
+          },
+        ],
+      };
+
+      // State Variables
+      let currentQuestion = 0;
+      let currentSection = "A";
+      let answers = {};
+      let examStarted = false;
+      let examSubmitted = false;
+      let timerInterval;
+      let timeRemaining = 7200; // 2 hours in seconds
+
+      // Initialize Exam
+      function initExam() {
+        showInstructions();
+        buildQuestionNavigation();
+        startTimer();
+      }
+
+      function closeInstructions() {
+        document.getElementById("instructionsModal").classList.remove("active");
+        examStarted = true;
+        displayQuestion();
+      }
+
+      function showInstructions() {
+        document.getElementById("instructionsModal").classList.add("active");
+      }
+
+      function buildQuestionNavigation() {
+        const nav = document.getElementById("questionNav");
+        const totalQuestions =
+          questionsData.sectionA.length + questionsData.sectionB.length;
+
+        // Section A Navigation
+        const sectionALabel = document.createElement("div");
+        sectionALabel.innerHTML =
+          '<strong style="display: block; margin-bottom: 10px; color: #003d82;">Section A (MCQs)</strong>';
+        nav.appendChild(sectionALabel);
+
+        for (let i = 0; i < questionsData.sectionA.length; i++) {
+          const btn = document.createElement("button");
+          btn.className = "nav-btn";
+          btn.textContent = i + 1;
+          btn.onclick = () => goToQuestion(i, "A");
+          nav.appendChild(btn);
+        }
+
+        // Section B Navigation
+        const sectionBLabel = document.createElement("div");
+        sectionBLabel.innerHTML =
+          '<strong style="display: block; margin-top: 15px; margin-bottom: 10px; color: #003d82;">Section B (Theory)</strong>';
+        nav.appendChild(sectionBLabel);
+
+        for (let i = 0; i < questionsData.sectionB.length; i++) {
+          const btn = document.createElement("button");
+          btn.className = "nav-btn";
+          btn.textContent = questionsData.sectionA.length + i + 1;
+          btn.onclick = () => goToQuestion(i, "B");
+          nav.appendChild(btn);
+        }
+      }
+
+      function displayQuestion() {
+        const questions =
+          currentSection === "A"
+            ? questionsData.sectionA
+            : questionsData.sectionB;
+        const question = questions[currentQuestion];
+
+        if (!question) return;
+
+        // Update UI state
+        document.getElementById("currentQuestion").textContent =
+          currentSection === "A"
+            ? currentQuestion + 1
+            : questionsData.sectionA.length + currentQuestion + 1;
+        document.getElementById("totalQuestions").textContent =
+          questionsData.sectionA.length + questionsData.sectionB.length;
+
+        // Update progress
+        updateProgress();
+        updateNavigation();
+
+        // Hide all sections
+        document.getElementById("sectionA").innerHTML = "";
+        document.getElementById("sectionB").innerHTML = "";
+        document.getElementById("summaryScreen").style.display = "none";
+
+        // Build and display question
+        const container =
+          currentSection === "A"
+            ? document.getElementById("sectionA")
+            : document.getElementById("sectionB");
+        container.style.display = "block";
+
+        const questionHTML = buildQuestionHTML(
+          question,
+          currentQuestion,
+          currentSection,
+        );
+        container.innerHTML = questionHTML;
+
+        // Update button states
+        updateButtonStates();
+
+        // Attach event listeners
+        if (currentSection === "A") {
+          const options = document.querySelectorAll(".option");
+          options.forEach((option) => {
+            option.addEventListener("click", () => selectOption(option));
+            option
+              .querySelector("input")
+              .addEventListener("change", () => selectOption(option));
+          });
+        }
+      }
+
+      function buildQuestionHTML(question, index, section) {
+        const questionNum =
+          section === "A"
+            ? index + 1
+            : questionsData.sectionA.length + index + 1;
+
+        if (section === "A") {
+          // MCQ
+          const answeredClass = answers[questionNum] ? " selected" : "";
+          const answeredValue = answers[questionNum] || "";
+
+          let optionsHTML = "";
+          const options = [...question.options];
+          // Shuffle options
+          for (let i = options.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [options[i], options[j]] = [options[j], options[i]];
+          }
+
+          options.forEach((option) => {
+            const checked = answeredValue === option.value ? "checked" : "";
+            optionsHTML += `
+                        <label class="option ${checked ? "selected" : ""}">
+                            <input type="radio" name="question_${questionNum}" value="${option.value}" ${checked}>
+                            <span>${option.value})</span> ${option.text}
+                        </label>
+                    `;
+          });
+
+          return `
+                    <div class="question-section active">
+                        <div class="question-course">${question.course}</div>
+                        <div class="question-number">Question ${questionNum}</div>
+                        <div class="question-text">${question.text}</div>
+                        <div class="options">${optionsHTML}</div>
+                    </div>
+                `;
+        } else {
+          // Theory Question
+          const answeredText = answers[questionNum] || "";
+          return `
+                    <div class="question-section active">
+                        <div class="theory-section">
+                            <div class="question-course">${question.course}</div>
+                            <div class="question-number">Question ${questionNum}</div>
+                            <div class="theory-instructions" style="margin-top: 15px; margin-bottom: 15px;">
+                                <strong>Marks:</strong> ${question.marks}
+                            </div>
+                            <div class="question-text">${question.text}</div>
+                            <textarea id="theory_answer_${questionNum}" placeholder="Type your answer here... Show all working for calculations.">${answeredText}</textarea>
+                        </div>
+                    </div>
+                `;
+        }
+      }
+
+      function selectOption(optionElement) {
+        const questionNum = parseInt(
+          document.getElementById("currentQuestion").textContent,
+        );
+        const radio = optionElement.querySelector("input");
+
+        // Remove selected class from all options
+        document
+          .querySelectorAll(".option")
+          .forEach((opt) => opt.classList.remove("selected"));
+
+        // Add selected class to clicked option
+        optionElement.classList.add("selected");
+
+        // Save answer
+        answers[questionNum] = radio.value;
+
+        // Update navigation
+        updateNavigation();
+      }
+
+      function updateProgress() {
+        const totalQuestions =
+          questionsData.sectionA.length + questionsData.sectionB.length;
+        const currentQ =
+          currentSection === "A"
+            ? currentQuestion + 1
+            : questionsData.sectionA.length + currentQuestion + 1;
+        const progress = (currentQ / totalQuestions) * 100;
+
+        document.getElementById("progressFill").style.width = progress + "%";
+      }
+
+      function updateNavigation() {
+        const navBtns = document.querySelectorAll(".nav-btn");
+        const questionNum = parseInt(
+          document.getElementById("currentQuestion").textContent,
+        );
+
+        navBtns.forEach((btn, index) => {
+          const btnNum = parseInt(btn.textContent);
+          btn.classList.remove("active", "answered", "current");
+
+          if (btnNum === questionNum) {
+            btn.classList.add("current");
+          } else if (answers[btnNum]) {
+            btn.classList.add("answered");
+          }
+        });
+      }
+
+      function updateButtonStates() {
+        const totalSectionA = questionsData.sectionA.length;
+        const totalSectionB = questionsData.sectionB.length;
+        const isLastSectionA =
+          currentSection === "A" && currentQuestion === totalSectionA - 1;
+        const isLastQuestion =
+          currentSection === "B" && currentQuestion === totalSectionB - 1;
+
+        document.getElementById("prevBtn").disabled =
+          currentSection === "A" && currentQuestion === 0;
+        document.getElementById("nextBtn").style.display = isLastSectionA
+          ? "none"
+          : isLastQuestion
+            ? "none"
+            : "block";
+        document.getElementById("sectionBBtn").style.display = isLastSectionA
+          ? "block"
+          : "none";
+        document.getElementById("reviewBtn").style.display = isLastQuestion
+          ? "block"
+          : "none";
+        document.getElementById("submitBtn").style.display = isLastQuestion
+          ? "block"
+          : "none";
+      }
+
+      function goToQuestion(index, section) {
+        // Save current answer
+        saveCurrentAnswer();
+
+        currentQuestion = index;
+        currentSection = section;
+        displayQuestion();
+      }
+
+      function goToSectionB() {
+        saveCurrentAnswer();
+        currentSection = "B";
+        currentQuestion = 0;
+        displayQuestion();
+      }
+
+      function nextQuestion() {
+        saveCurrentAnswer();
+
+        if (
+          currentSection === "A" &&
+          currentQuestion < questionsData.sectionA.length - 1
+        ) {
+          currentQuestion++;
+        } else if (
+          currentSection === "B" &&
+          currentQuestion < questionsData.sectionB.length - 1
+        ) {
+          currentQuestion++;
+        }
+
+        displayQuestion();
+      }
+
+      function previousQuestion() {
+        saveCurrentAnswer();
+
+        if (currentQuestion > 0) {
+          currentQuestion--;
+        } else if (currentSection === "B" && currentQuestion === 0) {
+          currentSection = "A";
+          currentQuestion = questionsData.sectionA.length - 1;
+        }
+
+        displayQuestion();
+      }
+
+      function saveCurrentAnswer() {
+        const questionNum = parseInt(
+          document.getElementById("currentQuestion").textContent,
+        );
+
+        if (currentSection === "A") {
+          const selected = document.querySelector(
+            'input[type="radio"]:checked',
+          );
+          if (selected) {
+            answers[questionNum] = selected.value;
+          }
+        } else {
+          const textarea = document.getElementById(
+            `theory_answer_${questionNum}`,
+          );
+          if (textarea) {
+            answers[questionNum] = textarea.value;
+          }
+        }
+      }
+
+      function startTimer() {
+        timerInterval = setInterval(() => {
+          timeRemaining--;
+          updateTimerDisplay();
+
+          if (
+            timeRemaining <= 300 &&
+            timeRemaining > 0 &&
+            timeRemaining % 60 === 0
+          ) {
+            showTimeWarning();
+          }
+
+          if (timeRemaining <= 0) {
+            clearInterval(timerInterval);
+            timeOut();
+          }
+        }, 1000);
+      }
+
+      function updateTimerDisplay() {
+        const minutes = Math.floor(timeRemaining / 60);
+        const seconds = timeRemaining % 60;
+        const display = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+
+        const timerDisplay = document.getElementById("timerDisplay");
+        timerDisplay.textContent = display;
+
+        if (timeRemaining <= 300) {
+          timerDisplay.classList.add("warning");
+        }
+      }
+
+      function showTimeWarning() {
+        const modal = document.getElementById("timeWarningModal");
+        const minutes = Math.floor(timeRemaining / 60);
+        document.getElementById("timeWarningText").textContent =
+          `Only ${minutes} minute${minutes !== 1 ? "s" : ""} remaining!`;
+        modal.classList.add("active");
+      }
+
+      function closeTimeWarning() {
+        document.getElementById("timeWarningModal").classList.remove("active");
+      }
+
+      function showReview() {
+        saveCurrentAnswer();
+        showSummary();
+      }
+
+      function showSummary() {
+        const summaryContent = document.getElementById("summaryContent");
+        let html =
+          '<table class="summary-table"><thead><tr><th>Question</th><th>Course</th><th>Status</th></tr></thead><tbody>';
+
+        for (
+          let i = 1;
+          i <= questionsData.sectionA.length + questionsData.sectionB.length;
+          i++
+        ) {
+          const status = answers[i]
+            ? '<span class="status-answered">✓ Answered</span>'
+            : '<span class="status-unanswered">✗ Unanswered</span>';
+          const questions = [
+            ...questionsData.sectionA,
+            ...questionsData.sectionB,
+          ];
+          const question = questions[i - 1];
+
+          html += `<tr><td>Question ${i}</td><td>${question.course}</td><td>${status}</td></tr>`;
+        }
+
+        html += "</tbody></table>";
+
+        document.getElementById("sectionA").innerHTML = "";
+        document.getElementById("sectionB").innerHTML = "";
+        document.getElementById("summaryScreen").style.display = "block";
+        document.getElementById("summaryContent").innerHTML = html;
+
+        document.getElementById("nextBtn").style.display = "none";
+        document.getElementById("prevBtn").style.display = "none";
+        document.getElementById("reviewBtn").style.display = "none";
+        document.getElementById("sectionBBtn").style.display = "none";
+        document.getElementById("submitBtn").style.display = "block";
+      }
+
+      function submitExam() {
+        saveCurrentAnswer();
+        const unanswered =
+          questionsData.sectionA.length +
+          questionsData.sectionB.length -
+          Object.keys(answers).length;
+
+        const modal = document.getElementById("submitModal");
+        document.getElementById("unansweredCount").textContent =
+          unanswered > 0
+            ? `You have ${unanswered} unanswered question${unanswered !== 1 ? "s" : ""}.`
+            : "All questions answered.";
+        modal.classList.add("active");
+      }
+
+      function closeSubmitModal() {
+        document.getElementById("submitModal").classList.remove("active");
+      }
+
+      function confirmSubmit() {
+        closeSubmitModal();
+        examSubmitted = true;
+        clearInterval(timerInterval);
+
+        // Show final summary
+        const modal = document.getElementById("timeOutModal");
+        modal.querySelector("h2").textContent =
+          "Examination Submitted Successfully";
+        modal.querySelector("p").textContent =
+          "Your examination has been submitted. Thank you for completing the JUPEB Chemistry Practice Exam.";
+        modal.classList.add("active");
+      }
+
+      function timeOut() {
+        if (!examSubmitted) {
+          examSubmitted = true;
+          document.getElementById("timeOutModal").classList.add("active");
+        }
+      }
+
+      function showFinalSummary() {
+        document.getElementById("timeOutModal").classList.remove("active");
+        showSummary();
+      }
+
+      // Start exam on page load
+      window.addEventListener("load", () => {
+        initExam();
+      });
+
+      // Prevent accidental page exit
+      window.addEventListener("beforeunload", (e) => {
+        if (examStarted && !examSubmitted) {
+          e.preventDefault();
+          e.returnValue = "";
+        }
+      });
+    </script>
+  </body>
+</html>

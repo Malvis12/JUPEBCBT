@@ -1,0 +1,2518 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0"
+    />
+    <meta name="apple-mobile-web-app-capable" content="true" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="theme-color" content="#0066cc" />
+    <title>JUPEB Mathematics CBT - Complete Enhanced</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #0066cc 0%, #004da6 100%);
+        color: #333;
+        min-height: 100vh;
+        padding: 10px;
+        padding-left: max(10px, env(safe-area-inset-left));
+        padding-right: max(10px, env(safe-area-inset-right));
+        padding-top: max(10px, env(safe-area-inset-top));
+        padding-bottom: max(10px, env(safe-area-inset-bottom));
+      }
+
+      body.dark-mode {
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+      }
+
+      .container {
+        width: 100%;
+        max-width: 1200px;
+        background: white;
+        margin: 0 auto;
+        border-radius: 10px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+      }
+
+      body.dark-mode .container {
+        background: #1e1e1e;
+        color: #e0e0e0;
+      }
+
+      .header {
+        background: linear-gradient(135deg, #0066cc 0%, #0080ff 100%);
+        color: white;
+        padding: 20px 25px;
+        text-align: center;
+        border-bottom: 4px solid #004da6;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .header h1 {
+        font-size: 20px;
+        font-weight: 600;
+      }
+
+      .header-tools {
+        display: flex;
+        gap: 15px;
+      }
+
+      .tool-btn {
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 12px;
+        transition: all 0.3s;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .tool-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+        padding: 5px;
+        margin-left: auto;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .top-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 20px;
+        background: #f5f5f5;
+        border-bottom: 1px solid #ddd;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      body.dark-mode .top-bar {
+        background: #2a2a2a;
+        border-bottom-color: #444;
+      }
+
+      .timer-display {
+        font-size: 22px;
+        font-weight: bold;
+        color: #0066cc;
+        font-family: "Courier New", monospace;
+        min-width: 100px;
+      }
+
+      .timer-display.warning {
+        color: #ff6b6b;
+        animation: blink 1s infinite;
+      }
+
+      @keyframes blink {
+        0%,
+        50% {
+          opacity: 1;
+        }
+        51%,
+        100% {
+          opacity: 0.5;
+        }
+      }
+
+      .stats-bar {
+        display: flex;
+        gap: 20px;
+        font-size: 13px;
+        align-items: center;
+      }
+
+      .stat-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: white;
+        padding: 5px 12px;
+        border-radius: 4px;
+      }
+
+      body.dark-mode .stat-item {
+        background: #333;
+      }
+
+      .stat-label {
+        font-weight: 600;
+        color: #666;
+      }
+
+      .stat-value {
+        font-weight: bold;
+        color: #0066cc;
+      }
+
+      .auto-save-indicator {
+        font-size: 11px;
+        color: #0066cc;
+        padding: 4px 8px;
+        background: #e6f2ff;
+        border-radius: 3px;
+        display: none;
+      }
+
+      .content-area {
+        padding: 30px;
+        min-height: 500px;
+      }
+
+      .question-view,
+      .results-view {
+        display: none;
+      }
+
+      .question-view.active,
+      .results-view.active {
+        display: block;
+      }
+
+      .question-section {
+        animation: fadeIn 0.3s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .question-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .question-number {
+        color: #0066cc;
+        font-weight: bold;
+        font-size: 18px;
+      }
+
+      .flag-btn {
+        background: none;
+        border: 2px solid #ffc107;
+        color: #ffc107;
+        padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        transition: all 0.3s;
+        min-height: 44px;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .flag-btn.flagged {
+        background: #ffc107;
+        color: white;
+      }
+
+      .question-course {
+        display: inline-block;
+        background: #e6f2ff;
+        color: #0066cc;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 10px;
+      }
+
+      .question-text {
+        font-size: 17px;
+        color: #1a1a1a;
+        margin-bottom: 20px;
+        line-height: 1.7;
+        font-weight: 500;
+      }
+
+      body.dark-mode .question-text {
+        color: #e0e0e0;
+      }
+
+      .options {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 15px;
+      }
+
+      .option {
+        padding: 12px 15px;
+        border: 2px solid #ddd;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: white;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        min-height: 44px;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-user-select: none;
+        user-select: none;
+      }
+
+      body.dark-mode .option {
+        background: #2a2a2a;
+        border-color: #444;
+        color: #e0e0e0;
+      }
+
+      .option:hover {
+        border-color: #0066cc;
+        background: #e6f2ff;
+      }
+
+      .option input[type="radio"] {
+        margin-right: 12px;
+        cursor: pointer;
+      }
+
+      .option.selected {
+        border-color: #0066cc;
+        background: #e6f2ff;
+        font-weight: 600;
+      }
+
+      .option.correct {
+        border-color: #27ae60;
+        background: #d5f4e6;
+      }
+
+      .option.incorrect {
+        border-color: #e74c3c;
+        background: #fadbd8;
+      }
+
+      textarea {
+        width: 100%;
+        height: 150px;
+        padding: 12px;
+        border: 2px solid #ddd;
+        border-radius: 6px;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        resize: vertical;
+        background: white;
+        color: #333;
+        -webkit-appearance: none;
+        appearance: none;
+      }
+
+      textarea:focus {
+        outline: none;
+        border-color: #0066cc;
+        box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.1);
+      }
+
+      body.dark-mode textarea {
+        background: #2a2a2a;
+        border-color: #444;
+        color: #e0e0e0;
+      }
+
+      .bottom-controls {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding-top: 15px;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-user-select: none;
+        user-select: none;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #0066cc 0%, #0080ff 100%);
+        color: white;
+      }
+
+      .btn-primary:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 102, 204, 0.3);
+      }
+
+      .btn-secondary {
+        background: #f0f0f0;
+        color: #333;
+      }
+
+      body.dark-mode .btn-secondary {
+        background: #333;
+        color: #e0e0e0;
+      }
+
+      .btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .btn:focus,
+      .tool-btn:focus,
+      .option:focus {
+        outline: 2px solid #0066cc;
+        outline-offset: 2px;
+      }
+
+      @media (max-width: 767px) {
+        .btn:focus,
+        .tool-btn:focus,
+        .option:focus {
+          outline: none;
+        }
+      }
+
+      .results-header {
+        background: #e6f2ff;
+        border-left: 5px solid #0066cc;
+        padding: 20px;
+        margin-bottom: 30px;
+        border-radius: 6px;
+      }
+
+      body.dark-mode .results-header {
+        background: rgba(0, 102, 204, 0.2);
+      }
+
+      .results-header h2 {
+        color: #0066cc;
+        margin-bottom: 10px;
+      }
+
+      .results-summary {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+        margin-bottom: 30px;
+      }
+
+      .summary-card {
+        background: white;
+        border: 1px solid #ddd;
+        padding: 20px;
+        border-radius: 6px;
+        text-align: center;
+      }
+
+      body.dark-mode .summary-card {
+        background: #2a2a2a;
+        border-color: #444;
+      }
+
+      .summary-label {
+        font-size: 12px;
+        color: #666;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .summary-value {
+        font-size: 28px;
+        font-weight: bold;
+        color: #0066cc;
+      }
+
+      .summary-card.correct .summary-value {
+        color: #27ae60;
+      }
+
+      .summary-card.incorrect .summary-value {
+        color: #e74c3c;
+      }
+
+      .answer-review {
+        margin-bottom: 30px;
+      }
+
+      .section-title {
+        background: #0066cc;
+        color: white;
+        padding: 15px 20px;
+        border-radius: 6px;
+        margin-bottom: 15px;
+        font-size: 16px;
+        font-weight: 600;
+      }
+
+      .question-review {
+        background: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        padding: 20px;
+        margin-bottom: 15px;
+      }
+
+      body.dark-mode .question-review {
+        background: #2a2a2a;
+        border-color: #444;
+      }
+
+      .review-question-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: 15px;
+      }
+
+      .review-q-number {
+        font-weight: bold;
+        color: #0066cc;
+        font-size: 14px;
+      }
+
+      .review-q-course {
+        display: inline-block;
+        background: #e6f2ff;
+        color: #0066cc;
+        padding: 3px 10px;
+        border-radius: 15px;
+        font-size: 11px;
+        font-weight: 600;
+      }
+
+      .review-status {
+        display: inline-block;
+        padding: 5px 12px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .review-status.correct {
+        background: #d5f4e6;
+        color: #27ae60;
+      }
+
+      .review-status.incorrect {
+        background: #fadbd8;
+        color: #e74c3c;
+      }
+
+      .review-status.unanswered {
+        background: #fff3cd;
+        color: #856404;
+      }
+
+      .review-q-text {
+        color: #1a1a1a;
+        margin-bottom: 15px;
+        line-height: 1.6;
+      }
+
+      body.dark-mode .review-q-text {
+        color: #e0e0e0;
+      }
+
+      .answer-display {
+        background: white;
+        padding: 15px;
+        border-radius: 4px;
+        margin-bottom: 10px;
+      }
+
+      body.dark-mode .answer-display {
+        background: #333;
+      }
+
+      .answer-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        font-size: 14px;
+      }
+
+      .answer-row:last-child {
+        margin-bottom: 0;
+      }
+
+      .answer-label {
+        font-weight: 600;
+        color: #666;
+        min-width: 150px;
+      }
+
+      body.dark-mode .answer-label {
+        color: #aaa;
+      }
+
+      .answer-value {
+        color: #0066cc;
+        font-weight: 600;
+      }
+
+      .feedback {
+        padding: 10px;
+        border-radius: 4px;
+        font-size: 13px;
+        margin-top: 10px;
+      }
+
+      .feedback.correct {
+        background: #d5f4e6;
+        color: #27ae60;
+        border-left: 3px solid #27ae60;
+      }
+
+      .feedback.incorrect {
+        background: #fadbd8;
+        color: #e74c3c;
+        border-left: 3px solid #e74c3c;
+      }
+
+      .feedback.unanswered {
+        background: #fff3cd;
+        color: #856404;
+        border-left: 3px solid #ffc107;
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .modal.active {
+        display: flex;
+      }
+
+      .modal-content {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        max-width: 600px;
+        width: 90%;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        margin: auto;
+        -webkit-appearance: none;
+        appearance: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      body.dark-mode .modal-content {
+        background: #1e1e1e;
+        color: #e0e0e0;
+      }
+
+      .modal-content h2 {
+        color: #0066cc;
+        margin-bottom: 20px;
+      }
+
+      .calculator {
+        background: #f9f9f9;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+
+      .calc-display {
+        background: white;
+        padding: 12px;
+        border-radius: 4px;
+        text-align: right;
+        font-size: 20px;
+        margin-bottom: 10px;
+        font-family: "Courier New", monospace;
+        min-height: 40px;
+      }
+
+      .calc-buttons {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+      }
+
+      .calc-btn {
+        padding: 10px;
+        border: 1px solid #ddd;
+        background: white;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 600;
+        min-height: 44px;
+      }
+
+      .calc-btn.operator {
+        background: #0066cc;
+        color: white;
+      }
+
+      @media print {
+        body {
+          background: white;
+        }
+        .header-tools,
+        .tool-btn,
+        .bottom-controls,
+        .timer-section {
+          display: none !important;
+        }
+        .content-area {
+          padding: 0;
+        }
+      }
+
+      /* ==================== MOBILE OPTIMIZATION ==================== */
+
+      @media (max-width: 1199px) {
+        .container {
+          border-radius: 0;
+          box-shadow: none;
+        }
+        .header {
+          padding: 15px 20px;
+        }
+        .header h1 {
+          font-size: 18px;
+        }
+        .timer-display {
+          font-size: 18px;
+        }
+      }
+
+      @media (max-width: 1023px) {
+        body {
+          padding: 5px;
+        }
+        .header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 12px;
+          padding: 12px 15px;
+        }
+        .header h1 {
+          font-size: 16px;
+        }
+        .header-tools {
+          width: 100%;
+          gap: 10px;
+        }
+        .tool-btn {
+          flex: 1;
+          padding: 10px 12px;
+          font-size: 11px;
+        }
+        .top-bar {
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 10px 15px;
+          gap: 8px;
+        }
+        .stats-bar {
+          width: 100%;
+          flex-wrap: wrap;
+          gap: 10px;
+        }
+        .stat-item {
+          flex: 1;
+          min-width: 120px;
+          padding: 6px 10px;
+          font-size: 12px;
+        }
+        .timer-display {
+          font-size: 18px;
+        }
+        .content-area {
+          padding: 15px;
+          min-height: 400px;
+        }
+        .question-text {
+          font-size: 15px;
+        }
+        .option {
+          padding: 10px 12px;
+          font-size: 14px;
+        }
+        .btn {
+          padding: 10px 16px;
+          font-size: 12px;
+        }
+        textarea {
+          height: 120px;
+          font-size: 13px;
+        }
+        .results-summary {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 12px;
+        }
+        .summary-card {
+          padding: 15px;
+        }
+        .summary-label {
+          font-size: 11px;
+        }
+        .summary-value {
+          font-size: 24px;
+        }
+        .modal-content {
+          max-width: 90%;
+          padding: 20px;
+        }
+        .question-number {
+          font-size: 16px;
+        }
+      }
+
+      @media (max-width: 767px) {
+        body {
+          font-size: 14px;
+          padding: 0;
+        }
+        .container {
+          border-radius: 0;
+          max-width: 100%;
+          box-shadow: none;
+          margin: 0;
+        }
+        .header {
+          padding: 10px 12px;
+          gap: 10px;
+          border-bottom: 3px solid #004da6;
+        }
+        .header h1 {
+          font-size: 14px;
+          margin: 0;
+        }
+        .header-tools {
+          width: 100%;
+          gap: 8px;
+        }
+        .menu-toggle {
+          display: none;
+        }
+        .top-bar {
+          flex-direction: row;
+          padding: 8px 12px;
+          gap: 6px;
+          flex-wrap: wrap;
+          align-items: stretch;
+        }
+        .top-bar > div:first-child {
+          display: flex;
+          gap: 8px;
+          align-items: center;
+        }
+        .stats-bar {
+          gap: 6px;
+          font-size: 11px;
+          width: 100%;
+        }
+        .stat-item {
+          flex: 1;
+          min-width: 80px;
+          padding: 4px 8px;
+          font-size: 10px;
+          justify-content: center;
+          flex-direction: column;
+          align-items: center;
+        }
+        .timer-display {
+          font-size: 16px;
+          min-width: 70px;
+        }
+        .content-area {
+          padding: 12px;
+          min-height: auto;
+        }
+        .question-header {
+          flex-direction: column;
+          gap: 8px;
+          align-items: flex-start;
+        }
+        .question-number {
+          font-size: 14px;
+        }
+        .flag-btn {
+          width: 100%;
+          padding: 8px;
+          font-size: 12px;
+        }
+        .question-text {
+          font-size: 14px;
+          margin-bottom: 15px;
+        }
+        .options {
+          gap: 10px;
+        }
+        .option {
+          padding: 10px 12px;
+          font-size: 13px;
+          min-height: 44px;
+        }
+        .option input[type="radio"] {
+          margin-right: 10px;
+          width: 18px;
+          height: 18px;
+        }
+        textarea {
+          height: 100px;
+          font-size: 12px;
+          padding: 10px;
+        }
+        .bottom-controls {
+          gap: 8px;
+          margin-top: 12px;
+        }
+        .btn {
+          flex: 1;
+          min-width: 100px;
+          padding: 10px 12px;
+          font-size: 11px;
+          min-height: 40px;
+        }
+        .results-header {
+          padding: 15px;
+          margin-bottom: 20px;
+        }
+        .results-summary {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 10px;
+          margin-bottom: 20px;
+        }
+        .summary-card {
+          padding: 12px;
+        }
+        .summary-label {
+          font-size: 10px;
+        }
+        .summary-value {
+          font-size: 20px;
+        }
+        .section-title {
+          padding: 12px 15px;
+          font-size: 14px;
+        }
+        .question-review {
+          padding: 12px;
+          margin-bottom: 12px;
+        }
+        .review-q-number {
+          font-size: 12px;
+        }
+        .review-q-text {
+          font-size: 13px;
+          margin-bottom: 12px;
+        }
+        .answer-display {
+          padding: 10px;
+        }
+        .answer-row {
+          font-size: 12px;
+          flex-direction: column;
+          margin-bottom: 8px;
+        }
+        .answer-label {
+          min-width: auto;
+          font-size: 11px;
+          margin-bottom: 4px;
+        }
+        .feedback {
+          padding: 8px;
+          font-size: 12px;
+        }
+        .modal {
+          padding: 20px 0;
+        }
+        .modal-content {
+          max-width: 95%;
+          width: 95%;
+          padding: 20px;
+          margin: 20px auto;
+          max-height: 90vh;
+          overflow-y: auto;
+        }
+        .modal-content h2 {
+          font-size: 14px;
+          margin-bottom: 15px;
+        }
+        .calculator {
+          padding: 12px;
+        }
+        .calc-display {
+          font-size: 18px;
+          padding: 10px;
+          min-height: 36px;
+          margin-bottom: 8px;
+        }
+        .calc-buttons {
+          gap: 6px;
+        }
+        .calc-btn {
+          padding: 10px 6px;
+          font-size: 13px;
+          min-height: 40px;
+        }
+      }
+
+      @media (max-width: 479px) {
+        body {
+          font-size: 13px;
+          padding: 0;
+          background: linear-gradient(135deg, #0066cc 0%, #004da6 100%);
+        }
+        .container {
+          max-width: 100%;
+          border-radius: 0;
+          box-shadow: none;
+        }
+        .header {
+          padding: 8px 10px;
+          gap: 8px;
+          border-bottom: 3px solid #004da6;
+          flex-wrap: wrap;
+        }
+        .header h1 {
+          font-size: 13px;
+          margin: 0;
+          line-height: 1.2;
+          flex: 1;
+        }
+        .menu-toggle {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0;
+          padding: 6px 8px;
+        }
+        .header-tools {
+          width: 100%;
+          gap: 6px;
+          display: none;
+          flex-direction: column;
+        }
+        .header-tools.active {
+          display: flex;
+        }
+        .tool-btn {
+          flex: 1;
+          padding: 8px 10px;
+          font-size: 10px;
+          min-height: 36px;
+          border-radius: 4px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-overflow: ellipsis;
+        }
+        .top-bar {
+          flex-direction: column;
+          padding: 8px 10px;
+          gap: 6px;
+          align-items: stretch;
+        }
+        .top-bar > div:first-child {
+          display: flex;
+          gap: 8px;
+          align-items: center;
+        }
+        .stats-bar {
+          flex-direction: column;
+          gap: 6px;
+          font-size: 10px;
+          width: 100%;
+        }
+        .stat-item {
+          background: white;
+          padding: 5px 8px;
+          border-radius: 4px;
+          font-size: 10px;
+          gap: 6px;
+          justify-content: space-between;
+        }
+        .timer-display {
+          font-size: 14px;
+          min-width: 60px;
+          font-weight: bold;
+        }
+        .content-area {
+          padding: 10px;
+          min-height: auto;
+        }
+        .question-section {
+          animation: fadeIn 0.3s ease;
+        }
+        .question-header {
+          flex-direction: column;
+          gap: 8px;
+          margin-bottom: 12px;
+        }
+        .question-course {
+          font-size: 11px;
+          padding: 3px 8px;
+        }
+        .question-number {
+          font-size: 12px;
+          margin-bottom: 8px;
+        }
+        .flag-btn {
+          width: 100%;
+          padding: 8px 10px;
+          font-size: 11px;
+          min-height: 40px;
+          border-radius: 5px;
+        }
+        .question-text {
+          font-size: 13px;
+          margin-bottom: 12px;
+          line-height: 1.5;
+        }
+        .options {
+          gap: 8px;
+        }
+        .option {
+          padding: 10px 10px;
+          font-size: 12px;
+          min-height: 44px;
+          border-radius: 5px;
+          align-items: center;
+        }
+        .option input[type="radio"] {
+          margin-right: 8px;
+          width: 16px;
+          height: 16px;
+          cursor: pointer;
+        }
+        .option span {
+          flex: 1;
+        }
+        textarea {
+          width: 100%;
+          height: 100px;
+          font-size: 12px;
+          padding: 8px;
+          border-radius: 4px;
+          resize: vertical;
+        }
+        .bottom-controls {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          margin-top: 12px;
+        }
+        .btn {
+          width: 100%;
+          padding: 10px 12px;
+          font-size: 11px;
+          min-height: 44px;
+          border-radius: 5px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .results-header {
+          padding: 12px;
+          margin-bottom: 15px;
+          border-left-width: 3px;
+        }
+        .results-header h2 {
+          font-size: 13px;
+          margin-bottom: 6px;
+        }
+        .results-header p {
+          font-size: 11px;
+        }
+        .results-summary {
+          grid-template-columns: 1fr;
+          gap: 8px;
+        }
+        .summary-card {
+          padding: 12px;
+        }
+        .summary-label {
+          font-size: 10px;
+        }
+        .summary-value {
+          font-size: 18px;
+        }
+        .section-title {
+          padding: 10px 12px;
+          font-size: 13px;
+          margin-top: 15px;
+          margin-bottom: 10px;
+        }
+        .question-review {
+          padding: 10px;
+          margin-bottom: 10px;
+        }
+        .review-question-header {
+          flex-direction: column;
+          gap: 6px;
+          margin-bottom: 10px;
+        }
+        .review-q-number {
+          font-size: 11px;
+        }
+        .review-q-course {
+          font-size: 10px;
+        }
+        .review-status {
+          font-size: 10px;
+          padding: 3px 8px;
+        }
+        .review-q-text {
+          font-size: 12px;
+          margin-bottom: 10px;
+          line-height: 1.5;
+        }
+        .answer-display {
+          padding: 8px;
+        }
+        .answer-row {
+          font-size: 11px;
+          flex-direction: column;
+          margin-bottom: 8px;
+        }
+        .answer-label {
+          font-size: 10px;
+          margin-bottom: 4px;
+        }
+        .answer-value {
+          font-size: 11px;
+        }
+        .feedback {
+          padding: 8px;
+          font-size: 11px;
+          margin-top: 8px;
+        }
+        .modal {
+          padding: 10px 0;
+          align-items: flex-end;
+        }
+        .modal-content {
+          max-width: 100%;
+          width: 100%;
+          padding: 15px;
+          margin: 0;
+          border-radius: 15px 15px 0 0;
+          max-height: 85vh;
+          overflow-y: auto;
+          box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.3);
+        }
+        .modal-content h2 {
+          font-size: 13px;
+          margin-bottom: 12px;
+        }
+        .calculator {
+          padding: 10px;
+          background: #f9f9f9;
+          border-radius: 5px;
+        }
+        .calc-display {
+          font-size: 16px;
+          padding: 8px;
+          min-height: 32px;
+          margin-bottom: 8px;
+          border-radius: 4px;
+        }
+        .calc-buttons {
+          grid-template-columns: repeat(4, 1fr);
+          gap: 5px;
+        }
+        .calc-btn {
+          padding: 8px 4px;
+          font-size: 12px;
+          min-height: 36px;
+          border-radius: 3px;
+        }
+        .modal > .modal-content > div {
+          display: grid;
+          gap: 12px;
+        }
+        .modal > .modal-content button {
+          margin-top: 12px;
+        }
+      }
+
+      @media (max-width: 319px) {
+        .header h1 {
+          font-size: 11px;
+        }
+        .timer-display {
+          font-size: 12px;
+        }
+        .question-text {
+          font-size: 12px;
+        }
+        .option {
+          font-size: 11px;
+          padding: 8px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>JUPEB MATHEMATICS PRACTICE EXAM</h1>
+        <button
+          class="menu-toggle"
+          id="menuToggle"
+          onclick="toggleHeaderMenu()"
+          aria-label="Toggle menu"
+        >
+          ☰
+        </button>
+        <div class="header-tools" id="headerTools">
+          <button class="tool-btn" onclick="openCalculator()">
+            🧮 Calculator
+          </button>
+          <button class="tool-btn" onclick="openSettings()">⚙️ Settings</button>
+        </div>
+      </div>
+
+      <div class="top-bar">
+        <div>
+          <span style="font-weight: 600">⏱️ Time:</span>
+          <span class="timer-display" id="timerDisplay">120:00</span>
+        </div>
+        <div class="stats-bar">
+          <div class="stat-item">
+            <span class="stat-label">Answered:</span>
+            <span class="stat-value" id="answeredCount">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Unanswered:</span>
+            <span class="stat-value" id="unansweredCount">46</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Flagged:</span>
+            <span class="stat-value" id="flaggedCount">0</span>
+          </div>
+          <div class="auto-save-indicator" id="autoSaveIndicator">
+            ✓ Auto-saved
+          </div>
+        </div>
+      </div>
+
+      <div class="content-area">
+        <div class="question-view active" id="questionView">
+          <div class="question-section" id="questionContent"></div>
+          <div class="bottom-controls">
+            <button
+              class="btn btn-secondary"
+              id="prevBtn"
+              onclick="previousQuestion()"
+            >
+              ← Previous
+            </button>
+            <button
+              class="btn btn-primary"
+              id="nextBtn"
+              onclick="nextQuestion()"
+            >
+              Next →
+            </button>
+            <button
+              class="btn btn-primary"
+              id="submitBtn"
+              onclick="submitExam()"
+              style="
+                background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+                display: none;
+              "
+            >
+              ✓ Submit Exam
+            </button>
+          </div>
+        </div>
+
+        <div class="results-view" id="resultsView">
+          <div class="results-header">
+            <h2>📊 Exam Results & Answer Key</h2>
+            <p>
+              Review your complete exam submission with correct answers and
+              explanations
+            </p>
+          </div>
+
+          <div class="results-summary" id="resultsSummary"></div>
+
+          <div class="answer-review" id="answerReview"></div>
+
+          <div class="bottom-controls">
+            <button class="btn btn-secondary" onclick="window.print()">
+              🖨️ Print Results
+            </button>
+            <button class="btn btn-secondary" onclick="downloadResults()">
+              💾 Download PDF
+            </button>
+            <button class="btn btn-primary" onclick="location.reload()">
+              Start New Exam
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="settingsModal">
+      <div class="modal-content">
+        <h2>⚙️ Settings</h2>
+        <div style="display: grid; gap: 15px">
+          <div>
+            <label style="font-weight: 600; display: block; margin-bottom: 10px"
+              >Font Size</label
+            >
+            <div style="display: flex; gap: 10px">
+              <button
+                class="btn btn-secondary"
+                onclick="setFontSize('small')"
+                style="flex: 1"
+              >
+                Small
+              </button>
+              <button
+                class="btn btn-secondary"
+                onclick="setFontSize('normal')"
+                style="flex: 1"
+              >
+                Normal
+              </button>
+              <button
+                class="btn btn-secondary"
+                onclick="setFontSize('large')"
+                style="flex: 1"
+              >
+                Large
+              </button>
+            </div>
+          </div>
+          <div>
+            <label style="font-weight: 600; display: block; margin-bottom: 10px"
+              >Theme</label
+            >
+            <div style="display: flex; gap: 10px">
+              <button
+                class="btn btn-secondary"
+                onclick="setTheme('light')"
+                style="flex: 1"
+              >
+                Light
+              </button>
+              <button
+                class="btn btn-secondary"
+                onclick="setTheme('dark')"
+                style="flex: 1"
+              >
+                Dark
+              </button>
+            </div>
+          </div>
+        </div>
+        <button
+          class="btn btn-primary"
+          onclick="closeSettings()"
+          style="width: 100%; margin-top: 20px"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+
+    <div class="modal" id="calculatorModal">
+      <div class="modal-content">
+        <h2>🧮 Scientific Calculator</h2>
+        <div class="calculator">
+          <div class="calc-display" id="calcDisplay">0</div>
+          <div class="calc-buttons">
+            <button
+              class="calc-btn"
+              onclick="calcClear()"
+              style="grid-column: span 2; background: #e74c3c; color: white"
+            >
+              Clear
+            </button>
+            <button class="calc-btn operator" onclick="calcAppend('/')">
+              /
+            </button>
+            <button class="calc-btn operator" onclick="calcAppend('*')">
+              ×
+            </button>
+
+            <button class="calc-btn" onclick="calcAppend('7')">7</button>
+            <button class="calc-btn" onclick="calcAppend('8')">8</button>
+            <button class="calc-btn" onclick="calcAppend('9')">9</button>
+            <button class="calc-btn operator" onclick="calcAppend('-')">
+              −
+            </button>
+
+            <button class="calc-btn" onclick="calcAppend('4')">4</button>
+            <button class="calc-btn" onclick="calcAppend('5')">5</button>
+            <button class="calc-btn" onclick="calcAppend('6')">6</button>
+            <button class="calc-btn operator" onclick="calcAppend('+')">
+              +
+            </button>
+
+            <button class="calc-btn" onclick="calcAppend('1')">1</button>
+            <button class="calc-btn" onclick="calcAppend('2')">2</button>
+            <button class="calc-btn" onclick="calcAppend('3')">3</button>
+            <button class="calc-btn operator" onclick="calcAppend('.')">
+              .
+            </button>
+
+            <button
+              class="calc-btn"
+              onclick="calcAppend('0')"
+              style="grid-column: span 2"
+            >
+              0
+            </button>
+            <button
+              class="calc-btn operator"
+              style="grid-column: span 2"
+              onclick="calcEquals()"
+            >
+              =
+            </button>
+          </div>
+        </div>
+        <button
+          class="btn btn-primary"
+          onclick="closeCalculator()"
+          style="width: 100%"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+
+    <script>
+      const questionsData = [
+        // MTH 001 MCQs (1-20)
+        {
+          id: 1,
+          course: "MTH 001",
+          text: "If A = {1, 2, 3, 4} and B = {3, 4, 5, 6}, then A ∩ B equals:",
+          section: "A",
+          options: [
+            { text: "{1, 2, 3, 4, 5, 6}", value: "A" },
+            { text: "{3, 4}", value: "B" },
+            { text: "{1, 2, 5, 6}", value: "C" },
+            { text: "∅", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 2,
+          course: "MTH 001",
+          text: "The number of subsets of a set with 5 elements is:",
+          section: "A",
+          options: [
+            { text: "5", value: "A" },
+            { text: "10", value: "B" },
+            { text: "25", value: "C" },
+            { text: "32", value: "D" },
+          ],
+          correct: "D",
+        },
+        {
+          id: 3,
+          course: "MTH 001",
+          text: "If p ⟹ q is true and p is true, then q must be:",
+          section: "A",
+          options: [
+            { text: "False", value: "A" },
+            { text: "True", value: "B" },
+            { text: "Either true or false", value: "C" },
+            { text: "Undetermined", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 4,
+          course: "MTH 001",
+          text: 'The negation of "All students are diligent" is:',
+          section: "A",
+          options: [
+            { text: '"No students are diligent"', value: "A" },
+            { text: '"Some students are diligent"', value: "B" },
+            { text: '"Some students are not diligent"', value: "C" },
+            { text: '"Most students are not diligent"', value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 5,
+          course: "MTH 001",
+          text: "For the quadratic equation ax² + bx + c = 0, the discriminant is:",
+          section: "A",
+          options: [
+            { text: "b² - 4ac", value: "A" },
+            { text: "b² + 4ac", value: "B" },
+            { text: "4ac - b²", value: "C" },
+            { text: "(b - 2ac)²", value: "D" },
+          ],
+          correct: "A",
+        },
+        {
+          id: 6,
+          course: "MTH 001",
+          text: "The sum of roots of the equation 2x² - 8x + 6 = 0 is:",
+          section: "A",
+          options: [
+            { text: "8", value: "A" },
+            { text: "4", value: "B" },
+            { text: "3", value: "C" },
+            { text: "2", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 7,
+          course: "MTH 001",
+          text: "If a function f(x) = 3x + 2, then f(f(x)) equals:",
+          section: "A",
+          options: [
+            { text: "3x + 2", value: "A" },
+            { text: "9x + 8", value: "B" },
+            { text: "6x + 4", value: "C" },
+            { text: "3x² + 2", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 8,
+          course: "MTH 001",
+          text: "The inverse function of f(x) = 2x - 5 is:",
+          section: "A",
+          options: [
+            { text: "f⁻¹(x) = x/2 + 5/2", value: "A" },
+            { text: "f⁻¹(x) = (x + 5)/2", value: "B" },
+            { text: "f⁻¹(x) = 2x + 5", value: "C" },
+            { text: "f⁻¹(x) = (x - 5)/2", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 9,
+          course: "MTH 001",
+          text: "An arithmetic sequence has first term a = 3 and common difference d = 2. The 10th term is:",
+          section: "A",
+          options: [
+            { text: "21", value: "A" },
+            { text: "20", value: "B" },
+            { text: "23", value: "C" },
+            { text: "19", value: "D" },
+          ],
+          correct: "A",
+        },
+        {
+          id: 10,
+          course: "MTH 001",
+          text: "The sum of the first n terms of a geometric sequence with first term a and common ratio r is:",
+          section: "A",
+          options: [
+            { text: "S_n = a(r^n - 1)/(r - 1), r ≠ 1", value: "A" },
+            { text: "S_n = a(1 - r^n)/(1 - r), r ≠ 1", value: "B" },
+            { text: "S_n = nr", value: "C" },
+            { text: "S_n = an/(r - 1)", value: "D" },
+          ],
+          correct: "A",
+        },
+        {
+          id: 11,
+          course: "MTH 001",
+          text: "If log₂(x) = 3, then x equals:",
+          section: "A",
+          options: [
+            { text: "6", value: "A" },
+            { text: "8", value: "B" },
+            { text: "9", value: "C" },
+            { text: "16", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 12,
+          course: "MTH 001",
+          text: "The value of (log₃(9)) + (log₃(3)) is:",
+          section: "A",
+          options: [
+            { text: "1", value: "A" },
+            { text: "2", value: "B" },
+            { text: "3", value: "C" },
+            { text: "4", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 13,
+          course: "MTH 001",
+          text: "The solution to 2^x = 32 is:",
+          section: "A",
+          options: [
+            { text: "x = 4", value: "A" },
+            { text: "x = 5", value: "B" },
+            { text: "x = 6", value: "C" },
+            { text: "x = 8", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 14,
+          course: "MTH 001",
+          text: "A binomial expansion (x + y)^n has n + 1 terms. For (a + b)^5, the number of terms is:",
+          section: "A",
+          options: [
+            { text: "4", value: "A" },
+            { text: "5", value: "B" },
+            { text: "6", value: "C" },
+            { text: "7", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 15,
+          course: "MTH 001",
+          text: "The coefficient of x² in the expansion of (2x - 1)^4 is:",
+          section: "A",
+          options: [
+            { text: "16", value: "A" },
+            { text: "24", value: "B" },
+            { text: "32", value: "C" },
+            { text: "48", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 16,
+          course: "MTH 001",
+          text: "If sin(θ) = 3/5 and θ is acute, then cos(θ) equals:",
+          section: "A",
+          options: [
+            { text: "4/5", value: "A" },
+            { text: "3/4", value: "B" },
+            { text: "2/5", value: "C" },
+            { text: "1/5", value: "D" },
+          ],
+          correct: "A",
+        },
+        {
+          id: 17,
+          course: "MTH 001",
+          text: "The general solution of sin(x) = 1/2 is:",
+          section: "A",
+          options: [
+            { text: "x = π/6 + 2πn or x = 5π/6 + 2πn", value: "A" },
+            { text: "x = π/3 + πn", value: "B" },
+            { text: "x = π/6 + πn", value: "C" },
+            { text: "x = π/2 + 2πn", value: "D" },
+          ],
+          correct: "A",
+        },
+        {
+          id: 18,
+          course: "MTH 001",
+          text: "In a right triangle, if one angle is 30°, the sides are in the ratio:",
+          section: "A",
+          options: [
+            { text: "1:1:√2", value: "A" },
+            { text: "1:√3:2", value: "B" },
+            { text: "1:2:3", value: "C" },
+            { text: "3:4:5", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 19,
+          course: "MTH 001",
+          text: "The modulus of the complex number z = 3 + 4i is:",
+          section: "A",
+          options: [
+            { text: "3", value: "A" },
+            { text: "4", value: "B" },
+            { text: "5", value: "C" },
+            { text: "7", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 20,
+          course: "MTH 001",
+          text: "If z₁ = 2 + i and z₂ = 1 - i, then z₁ + z₂ equals:",
+          section: "A",
+          options: [
+            { text: "3 + 0i", value: "A" },
+            { text: "1 + 2i", value: "B" },
+            { text: "3 + 2i", value: "C" },
+            { text: "2 + 0i", value: "D" },
+          ],
+          correct: "A",
+        },
+        // MTH 002 MCQs (21-40)
+        {
+          id: 21,
+          course: "MTH 002",
+          text: "The derivative of f(x) = x³ + 2x² - 5x + 3 is:",
+          section: "A",
+          options: [
+            { text: "3x² + 4x - 5", value: "A" },
+            { text: "x³ + 2x² - 5", value: "B" },
+            { text: "3x² + 4x + 3", value: "C" },
+            { text: "x² + 2x - 5", value: "D" },
+          ],
+          correct: "A",
+        },
+        {
+          id: 22,
+          course: "MTH 002",
+          text: "The limit lim(x→2) (x² - 4)/(x - 2) equals:",
+          section: "A",
+          options: [
+            { text: "0", value: "A" },
+            { text: "2", value: "B" },
+            { text: "4", value: "C" },
+            { text: "∞", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 23,
+          course: "MTH 002",
+          text: "The critical points of f(x) = x³ - 3x² occur where:",
+          section: "A",
+          options: [
+            { text: "f'(x) = 0", value: "A" },
+            { text: "f(x) = 0", value: "B" },
+            { text: "f''(x) = 0", value: "C" },
+            { text: "f'(x) < 0", value: "D" },
+          ],
+          correct: "A",
+        },
+        {
+          id: 24,
+          course: "MTH 002",
+          text: "If f(x) = e^x, then f'(x) equals:",
+          section: "A",
+          options: [
+            { text: "xe^(x-1)", value: "A" },
+            { text: "e^x", value: "B" },
+            { text: "e^x + 1", value: "C" },
+            { text: "1/e^x", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 25,
+          course: "MTH 002",
+          text: "The integral of f(x) = 6x² is:",
+          section: "A",
+          options: [
+            { text: "6x³ + C", value: "A" },
+            { text: "2x³ + C", value: "B" },
+            { text: "12x + C", value: "C" },
+            { text: "6x + C", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 26,
+          course: "MTH 002",
+          text: "∫₀¹ x dx equals:",
+          section: "A",
+          options: [
+            { text: "0", value: "A" },
+            { text: "1/2", value: "B" },
+            { text: "1", value: "C" },
+            { text: "2", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 27,
+          course: "MTH 002",
+          text: "The second derivative test uses f''(x) to determine:",
+          section: "A",
+          options: [
+            { text: "Increasing/decreasing intervals", value: "A" },
+            { text: "Concavity and inflection points", value: "B" },
+            { text: "Critical points", value: "C" },
+            { text: "Domain of the function", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 28,
+          course: "MTH 002",
+          text: "The area under the curve y = x² from x = 0 to x = 2 is:",
+          section: "A",
+          options: [
+            { text: "4", value: "A" },
+            { text: "8/3", value: "B" },
+            { text: "4/3", value: "C" },
+            { text: "2", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 29,
+          course: "MTH 002",
+          text: "Using the quotient rule, the derivative of f(x) = x/(x + 1) is:",
+          section: "A",
+          options: [
+            { text: "1/(x + 1)²", value: "A" },
+            { text: "1", value: "B" },
+            { text: "(x + 1)/x", value: "C" },
+            { text: "x/(x + 1)²", value: "D" },
+          ],
+          correct: "A",
+        },
+        {
+          id: 30,
+          course: "MTH 002",
+          text: "The derivative of f(x) = sin(x) is:",
+          section: "A",
+          options: [
+            { text: "sin(x)", value: "A" },
+            { text: "cos(x)", value: "B" },
+            { text: "-cos(x)", value: "C" },
+            { text: "tan(x)", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 31,
+          course: "MTH 002",
+          text: "In coordinate geometry, the distance between points (1, 2) and (4, 6) is:",
+          section: "A",
+          options: [
+            { text: "5", value: "A" },
+            { text: "4", value: "B" },
+            { text: "√7", value: "C" },
+            { text: "6", value: "D" },
+          ],
+          correct: "A",
+        },
+        {
+          id: 32,
+          course: "MTH 002",
+          text: "The equation of a circle with center (2, 3) and radius 5 is:",
+          section: "A",
+          options: [
+            { text: "(x - 2)² + (y - 3)² = 5", value: "A" },
+            { text: "(x - 2)² + (y - 3)² = 25", value: "B" },
+            { text: "(x + 2)² + (y + 3)² = 25", value: "C" },
+            { text: "x² + y² = 25", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 33,
+          course: "MTH 002",
+          text: "The slope of the line 3x + 2y - 6 = 0 is:",
+          section: "A",
+          options: [
+            { text: "3/2", value: "A" },
+            { text: "-3/2", value: "B" },
+            { text: "2/3", value: "C" },
+            { text: "-2/3", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 34,
+          course: "MTH 002",
+          text: "Two lines are perpendicular if the product of their slopes is:",
+          section: "A",
+          options: [
+            { text: "0", value: "A" },
+            { text: "1", value: "B" },
+            { text: "-1", value: "C" },
+            { text: "Undefined", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 35,
+          course: "MTH 002",
+          text: "The eccentricity of an ellipse is always:",
+          section: "A",
+          options: [
+            { text: "Greater than 1", value: "A" },
+            { text: "Equal to 1", value: "B" },
+            { text: "Between 0 and 1", value: "C" },
+            { text: "Less than 0", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 36,
+          course: "MTH 002",
+          text: "The equation of a parabola with vertex at origin and focus at (0, 2) is:",
+          section: "A",
+          options: [
+            { text: "y² = 4x", value: "A" },
+            { text: "x² = 8y", value: "B" },
+            { text: "x² = 4y", value: "C" },
+            { text: "y² = 8x", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 37,
+          course: "MTH 002",
+          text: "The eccentricity of a hyperbola is:",
+          section: "A",
+          options: [
+            { text: "Less than 1", value: "A" },
+            { text: "Equal to 1", value: "B" },
+            { text: "Between 0 and 1", value: "C" },
+            { text: "Greater than 1", value: "D" },
+          ],
+          correct: "D",
+        },
+        {
+          id: 38,
+          course: "MTH 002",
+          text: "A matrix A is singular if its determinant is:",
+          section: "A",
+          options: [
+            { text: "1", value: "A" },
+            { text: "0", value: "B" },
+            { text: "Positive", value: "C" },
+            { text: "Negative", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 39,
+          course: "MTH 002",
+          text: "For a 2×2 matrix, the trace equals:",
+          section: "A",
+          options: [
+            { text: "Product of diagonal elements", value: "A" },
+            { text: "Sum of diagonal elements", value: "B" },
+            { text: "Determinant", value: "C" },
+            { text: "Sum of all elements", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 40,
+          course: "MTH 002",
+          text: "The rank of a matrix is:",
+          section: "A",
+          options: [
+            { text: "Number of rows", value: "A" },
+            { text: "Number of columns", value: "B" },
+            { text: "Dimension of the largest non-zero minor", value: "C" },
+            { text: "Determinant value", value: "D" },
+          ],
+          correct: "C",
+        },
+        // Theory Questions (41-46)
+        {
+          id: 41,
+          course: "MTH 001",
+          text: "(a) Solve the quadratic equation 3x² - 7x + 2 = 0 using the quadratic formula. (3 marks)\n\n(b) For the quadratic function f(x) = -2x² + 8x - 6, find: (i) The vertex (2 marks) (ii) The axis of symmetry (1 mark) (iii) Whether the parabola opens upward or downward (1 mark)\n\n(c) Sketch the graph showing key features. (3 marks)",
+          section: "B",
+          marks: 10,
+        },
+        {
+          id: 42,
+          course: "MTH 001",
+          text: "(a) An arithmetic sequence has first term a = 5 and common difference d = 3. Find the sum of the first 20 terms. (4 marks)\n\n(b) A geometric sequence has first term a = 2 and common ratio r = 1/2. Find the sum to infinity. (3 marks)\n\n(c) The sum of an arithmetic sequence is 100, the first term is 2, and the common difference is 3. Find the number of terms. (3 marks)",
+          section: "B",
+          marks: 10,
+        },
+        {
+          id: 43,
+          course: "MTH 001",
+          text: "(a) If z₁ = 3 + 4i and z₂ = 1 - 2i, calculate: (i) z₁ + z₂ (1 mark) (ii) z₁ - z₂ (1 mark) (iii) z₁ × z₂ (2 marks)\n\n(b) Express z = 3 + 3i in polar form (r, θ). (3 marks)\n\n(c) Prove that sin²(x) + cos²(x) = 1. (3 marks)",
+          section: "B",
+          marks: 10,
+        },
+        {
+          id: 44,
+          course: "MTH 002",
+          text: "(a) Find the derivative of f(x) = (2x³ - 5x)(x² + 3) using the product rule. (4 marks)\n\n(b) Find the maximum and minimum values of f(x) = x³ - 3x² - 9x + 5 on the interval [-2, 4]. (6 marks)",
+          section: "B",
+          marks: 10,
+        },
+        {
+          id: 45,
+          course: "MTH 002",
+          text: "(a) Evaluate the following indefinite integrals: (i) ∫(6x² - 4x + 3) dx (2 marks) (ii) ∫(e^x + 1/x) dx, x > 0 (2 marks)\n\n(b) Evaluate the definite integral ∫₁³ (2x + 1) dx. (3 marks)\n\n(c) Find the area enclosed between the curves y = x² and y = x + 2. (3 marks)",
+          section: "B",
+          marks: 10,
+        },
+        {
+          id: 46,
+          course: "MTH 002",
+          text: "(a) Find the equation of a line passing through points A(2, 3) and B(5, 9). (3 marks)\n\n(b) Find the center and radius of the circle with equation x² + y² - 4x + 6y - 3 = 0. (4 marks)\n\n(c) Determine whether the point P(3, 1) lies inside, on, or outside the circle with center C(0, 0) and radius 3. (3 marks)",
+          section: "B",
+          marks: 10,
+        },
+      ];
+
+      let currentQ = 0;
+      let answers = {};
+      let flagged = {};
+      let examSubmitted = false;
+      let calcExpression = "";
+      let startTime = Date.now();
+
+      window.addEventListener("load", () => {
+        displayQuestion();
+        startTimer();
+      });
+
+      function displayQuestion() {
+        updateStats();
+        const q = questionsData[currentQ];
+        if (!q) return;
+
+        let html = `<div class="question-section">
+                <div class="question-header">
+                    <div>
+                        <div class="question-course">${q.course}</div>
+                        <div class="question-number">Question ${currentQ + 1} of ${questionsData.length}</div>
+                    </div>
+                    <button class="flag-btn ${flagged[currentQ] ? "flagged" : ""}" onclick="toggleFlag(${currentQ})">
+                        ${flagged[currentQ] ? "🚩 Flagged" : "📌 Flag"}
+                    </button>
+                </div>
+                <div class="question-text">${q.text}</div>`;
+
+        if (q.options) {
+          html += '<div class="options">';
+          q.options.forEach((opt) => {
+            const selected = answers[currentQ] === opt.value ? "selected" : "";
+            html += `<label class="option ${selected}">
+                        <input type="radio" name="q${currentQ}" value="${opt.value}" onchange="selectAnswer(${currentQ}, '${opt.value}')">
+                        <span>${opt.value})</span> ${opt.text}
+                    </label>`;
+          });
+          html += "</div>";
+        } else {
+          html += `<textarea id="theory${currentQ}" placeholder="Type your answer..." onchange="saveTheoryAnswer(${currentQ})">${answers[currentQ] || ""}</textarea>
+                <div style="margin-top: 10px; font-size: 12px; color: #666; font-weight: 600;">Total Marks: ${q.marks}</div>`;
+        }
+
+        html += "</div>";
+        document.getElementById("questionContent").innerHTML = html;
+        updateButtons();
+      }
+
+      function selectAnswer(qIdx, value) {
+        answers[qIdx] = value;
+        updateStats();
+        autoSave();
+      }
+
+      function saveTheoryAnswer(qIdx) {
+        answers[qIdx] = document.getElementById(`theory${qIdx}`).value;
+        updateStats();
+        autoSave();
+      }
+
+      function toggleFlag(qIdx) {
+        flagged[qIdx] = !flagged[qIdx];
+        updateStats();
+      }
+
+      function nextQuestion() {
+        if (currentQ < questionsData.length - 1) {
+          currentQ++;
+          displayQuestion();
+        }
+      }
+
+      function previousQuestion() {
+        if (currentQ > 0) {
+          currentQ--;
+          displayQuestion();
+        }
+      }
+
+      function updateStats() {
+        const answered = Object.keys(answers).filter((k) => answers[k]).length;
+        const total = questionsData.length;
+        const flaggedCount = Object.values(flagged).filter((f) => f).length;
+
+        document.getElementById("answeredCount").textContent = answered;
+        document.getElementById("unansweredCount").textContent =
+          total - answered;
+        document.getElementById("flaggedCount").textContent = flaggedCount;
+      }
+
+      function updateButtons() {
+        document.getElementById("prevBtn").disabled = currentQ === 0;
+        document.getElementById("nextBtn").style.display =
+          currentQ === questionsData.length - 1 ? "none" : "block";
+        document.getElementById("submitBtn").style.display =
+          currentQ === questionsData.length - 1 ? "block" : "none";
+      }
+
+      function autoSave() {
+        const indicator = document.getElementById("autoSaveIndicator");
+        indicator.style.display = "inline-block";
+        setTimeout(() => (indicator.style.display = "none"), 2000);
+      }
+
+      function startTimer() {
+        setInterval(() => {
+          let elapsed = Math.floor((Date.now() - startTime) / 1000);
+          let remaining = 7200 - elapsed;
+          if (remaining < 0) remaining = 0;
+
+          let mins = Math.floor(remaining / 60);
+          let secs = remaining % 60;
+          document.getElementById("timerDisplay").textContent =
+            `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+
+          if (remaining < 300) {
+            document.getElementById("timerDisplay").classList.add("warning");
+          }
+        }, 1000);
+      }
+
+      function submitExam() {
+        if (confirm("Submit exam? You cannot make changes after submission.")) {
+          examSubmitted = true;
+          displayResults();
+        }
+      }
+
+      function displayResults() {
+        document.getElementById("questionView").classList.remove("active");
+        document.getElementById("resultsView").classList.add("active");
+
+        const totalQuestions = questionsData.length;
+        const mcqQuestions = questionsData.filter((q) => q.section === "A");
+        let correctCount = 0;
+        let answeredCount = 0;
+
+        mcqQuestions.forEach((q, idx) => {
+          if (answers[idx]) {
+            answeredCount++;
+            if (answers[idx] === q.correct) correctCount++;
+          }
+        });
+
+        const score = ((correctCount / mcqQuestions.length) * 100).toFixed(1);
+
+        let summary = `
+                <div class="summary-card correct">
+                    <div class="summary-label">Correct Answers</div>
+                    <div class="summary-value">${correctCount}/${mcqQuestions.length}</div>
+                </div>
+                <div class="summary-card incorrect">
+                    <div class="summary-label">Incorrect Answers</div>
+                    <div class="summary-value">${mcqQuestions.length - correctCount}</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-label">Section A Score</div>
+                    <div class="summary-value">${score}%</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-label">Questions Answered</div>
+                    <div class="summary-value">${answeredCount}/${mcqQuestions.length}</div>
+                </div>
+            `;
+
+        document.getElementById("resultsSummary").innerHTML = summary;
+
+        let review = `<div class="section-title">📝 Section A: Multiple Choice Questions</div>`;
+
+        questionsData.forEach((q, idx) => {
+          if (q.section === "A") {
+            const userAnswer = answers[idx];
+            const isCorrect = userAnswer === q.correct;
+            const status = userAnswer
+              ? isCorrect
+                ? "correct"
+                : "incorrect"
+              : "unanswered";
+            const statusLabel = userAnswer
+              ? isCorrect
+                ? "✓ Correct"
+                : "✗ Incorrect"
+              : "? Unanswered";
+
+            review += `<div class="question-review">
+                        <div class="review-question-header">
+                            <div>
+                                <div class="review-q-number">Question ${idx + 1}</div>
+                                <span class="review-q-course">${q.course}</span>
+                                <span class="review-status ${status}">${statusLabel}</span>
+                            </div>
+                        </div>
+                        <div class="review-q-text">${q.text}</div>
+                        <div class="answer-display">
+                            <div class="answer-row">
+                                <span class="answer-label">Your Answer:</span>
+                                <span class="answer-value">${userAnswer || "Not answered"}</span>
+                            </div>
+                            <div class="answer-row">
+                                <span class="answer-label">Correct Answer:</span>
+                                <span class="answer-value">${q.correct}</span>
+                            </div>
+                            ${
+                              userAnswer && userAnswer !== q.correct
+                                ? `
+                            <div class="answer-row">
+                                <span class="answer-label">Explanation:</span>
+                                <span class="answer-value" style="color: #e74c3c;">You selected ${userAnswer}. The correct answer is ${q.correct}.</span>
+                            </div>
+                            `
+                                : ""
+                            }
+                        </div>
+                        ${isCorrect ? `<div class="feedback correct">✓ Excellent! Your answer is correct.</div>` : userAnswer ? `<div class="feedback incorrect">✗ Incorrect. Please review this concept.</div>` : `<div class="feedback unanswered">⚠ This question was not answered.</div>`}
+                    </div>`;
+          }
+        });
+
+        review += `<div class="section-title" style="margin-top: 30px;">📝 Section B: Theory Questions</div>`;
+
+        questionsData.forEach((q, idx) => {
+          if (q.section === "B") {
+            const userAnswer = answers[idx];
+            const status = userAnswer ? "answered" : "unanswered";
+            const statusLabel = userAnswer ? "✓ Answered" : "? Unanswered";
+
+            review += `<div class="question-review">
+                        <div class="review-question-header">
+                            <div>
+                                <div class="review-q-number">Question ${idx + 1}</div>
+                                <span class="review-q-course">${q.course}</span>
+                                <span class="review-status ${status}">${statusLabel}</span>
+                            </div>
+                        </div>
+                        <div class="review-q-text">${q.text}</div>
+                        <div class="answer-display">
+                            <div class="answer-row">
+                                <span class="answer-label">Total Marks:</span>
+                                <span class="answer-value">${q.marks}</span>
+                            </div>
+                            <div class="answer-row" style="flex-direction: column; align-items: flex-start;">
+                                <span class="answer-label" style="margin-bottom: 8px;">Your Answer:</span>
+                                <div style="background: #f0f0f0; padding: 10px; border-radius: 4px; width: 100%; white-space: pre-wrap; font-family: monospace; font-size: 12px;">
+                                    ${userAnswer || "<em>No answer provided</em>"}
+                                </div>
+                            </div>
+                        </div>
+                        ${userAnswer ? `<div class="feedback correct">✓ Your answer has been recorded. This will be evaluated by the examiner.</div>` : `<div class="feedback unanswered">⚠ This question was not answered.</div>`}
+                    </div>`;
+          }
+        });
+
+        document.getElementById("answerReview").innerHTML = review;
+      }
+
+      function downloadResults() {
+        alert("PDF download feature coming soon!");
+      }
+
+      function toggleHeaderMenu() {
+        const headerTools = document.getElementById("headerTools");
+        headerTools.classList.toggle("active");
+      }
+
+      function openSettings() {
+        document.getElementById("headerTools").classList.remove("active");
+        document.getElementById("settingsModal").classList.add("active");
+      }
+
+      function closeSettings() {
+        document.getElementById("settingsModal").classList.remove("active");
+      }
+
+      function setFontSize(size) {
+        const sizes = { small: "12px", normal: "16px", large: "18px" };
+        document.documentElement.style.fontSize = sizes[size];
+      }
+
+      function setTheme(theme) {
+        document.body.classList.toggle("dark-mode", theme === "dark");
+      }
+
+      function openCalculator() {
+        document.getElementById("headerTools").classList.remove("active");
+        document.getElementById("calculatorModal").classList.add("active");
+      }
+
+      function closeCalculator() {
+        document.getElementById("calculatorModal").classList.remove("active");
+      }
+
+      function calcAppend(val) {
+        calcExpression += val;
+        document.getElementById("calcDisplay").textContent =
+          calcExpression || "0";
+      }
+
+      function calcClear() {
+        calcExpression = "";
+        document.getElementById("calcDisplay").textContent = "0";
+      }
+
+      function calcEquals() {
+        try {
+          calcExpression = String(eval(calcExpression));
+          document.getElementById("calcDisplay").textContent = calcExpression;
+        } catch (e) {
+          document.getElementById("calcDisplay").textContent = "Error";
+        }
+      }
+
+      // Mobile touch optimization
+      const isMobile = window.matchMedia("(max-width: 479px)").matches;
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const buttons = document.querySelectorAll(
+          ".btn, .tool-btn, .option, .flag-btn",
+        );
+        buttons.forEach((btn) => {
+          btn.addEventListener("touchstart", function () {
+            this.style.opacity = "0.8";
+          });
+          btn.addEventListener("touchend", function () {
+            this.style.opacity = "1";
+          });
+        });
+      });
+
+      const viewportMeta = document.querySelector('meta[name="viewport"]');
+      if (viewportMeta) {
+        document.addEventListener("focusin", (e) => {
+          if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") {
+            viewportMeta.setAttribute(
+              "content",
+              "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no",
+            );
+          }
+        });
+        document.addEventListener("focusout", () => {
+          viewportMeta.setAttribute(
+            "content",
+            "width=device-width, initial-scale=1.0",
+          );
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const textareas = document.querySelectorAll("textarea");
+        textareas.forEach((textarea) => {
+          textarea.addEventListener("focus", function () {
+            setTimeout(() => {
+              this.scrollIntoView({ behavior: "smooth", block: "center" });
+            }, 300);
+          });
+        });
+      });
+
+      let touchStartX = 0;
+      let touchEndX = 0;
+
+      function handleSwipe() {
+        if (touchEndX < touchStartX - 50) {
+          if (currentQ < questionsData.length - 1) {
+            nextQuestion();
+          }
+        } else if (touchEndX > touchStartX + 50) {
+          if (currentQ > 0) {
+            previousQuestion();
+          }
+        }
+      }
+
+      document.addEventListener("touchstart", (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      });
+
+      document.addEventListener("touchend", (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (examSubmitted) return;
+
+        if (e.key === "ArrowRight" && currentQ < questionsData.length - 1) {
+          nextQuestion();
+        } else if (e.key === "ArrowLeft" && currentQ > 0) {
+          previousQuestion();
+        } else if ((e.altKey || e.metaKey) && e.key === "f") {
+          e.preventDefault();
+          toggleFlag(currentQ);
+        }
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          document.getElementById("settingsModal").classList.remove("active");
+          document.getElementById("calculatorModal").classList.remove("active");
+        }
+      });
+
+      window.addEventListener("orientationchange", () => {
+        displayQuestion();
+      });
+    </script>
+  </body>
+</html>

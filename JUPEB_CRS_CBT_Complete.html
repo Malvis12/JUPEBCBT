@@ -1,0 +1,1949 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="theme-color" content="#6c3483" />
+    <title>JUPEB Christian Religious Studies CBT</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --primary-color: #6c3483;
+        --primary-dark: #5c2a73;
+        --primary-light: #8b4ba8;
+        --success-color: #27ae60;
+        --danger-color: #e74c3c;
+        --warning-color: #f39c12;
+        --text-dark: #2c3e50;
+        --text-light: #ecf0f1;
+        --bg-light: #f8f9fa;
+        --bg-dark: #1a1a1a;
+        --border-color: #e0e0e0;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        color: var(--text-dark);
+        background-color: var(--bg-light);
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      body.dark-mode {
+        background-color: var(--bg-dark);
+        color: var(--text-light);
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0;
+      }
+
+      /* Header Styles */
+      .header {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color) 0%,
+          var(--primary-dark) 100%
+        );
+        color: white;
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .header-title {
+        font-size: 22px;
+        font-weight: bold;
+        flex-grow: 1;
+      }
+
+      .header-tools {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .header-btn {
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.3s;
+      }
+
+      .header-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        cursor: pointer;
+      }
+
+      .hamburger span {
+        width: 25px;
+        height: 3px;
+        background: white;
+        margin: 3px 0;
+        transition: 0.3s;
+      }
+
+      /* Top Bar */
+      .top-bar {
+        background: white;
+        padding: 12px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      body.dark-mode .top-bar {
+        background: #2a2a2a;
+        border-bottom-color: #444;
+      }
+
+      .timer {
+        font-size: 20px;
+        font-weight: bold;
+        color: var(--primary-color);
+        font-family: "Courier New", monospace;
+      }
+
+      body.dark-mode .timer {
+        color: var(--primary-light);
+      }
+
+      .timer.warning {
+        color: var(--warning-color);
+        animation: blink 1s infinite;
+      }
+
+      .timer.danger {
+        color: var(--danger-color);
+        animation: blink 0.5s infinite;
+      }
+
+      @keyframes blink {
+        0%,
+        50% {
+          opacity: 1;
+        }
+        51%,
+        100% {
+          opacity: 0.5;
+        }
+      }
+
+      .stats {
+        display: flex;
+        gap: 15px;
+        font-size: 14px;
+        flex-wrap: wrap;
+      }
+
+      .stat-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .stat-badge {
+        background: var(--primary-color);
+        color: white;
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-weight: bold;
+      }
+
+      .auto-save {
+        font-size: 12px;
+        color: var(--success-color);
+      }
+
+      /* Main Content */
+      .content-area {
+        padding: 20px;
+        min-height: calc(100vh - 220px);
+      }
+
+      .question-view {
+        display: block;
+      }
+
+      .question-view.hidden {
+        display: none;
+      }
+
+      .results-view {
+        display: none;
+      }
+
+      .results-view.active {
+        display: block;
+      }
+
+      .question-card {
+        background: white;
+        border-radius: 8px;
+        padding: 25px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        animation: fadeIn 0.3s;
+      }
+
+      body.dark-mode .question-card {
+        background: #2a2a2a;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .question-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .course-badge {
+        background: var(--primary-color);
+        color: white;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+      }
+
+      .question-number {
+        font-size: 18px;
+        font-weight: bold;
+        color: var(--primary-color);
+      }
+
+      body.dark-mode .question-number {
+        color: var(--primary-light);
+      }
+
+      .flag-btn {
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      .flag-btn.flagged {
+        color: #f39c12;
+        transform: scale(1.2);
+      }
+
+      .question-text {
+        font-size: 16px;
+        font-weight: 500;
+        margin-bottom: 20px;
+        line-height: 1.6;
+      }
+
+      .options {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .option {
+        display: flex;
+        align-items: center;
+        padding: 12px;
+        border: 2px solid var(--border-color);
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      body.dark-mode .option {
+        border-color: #444;
+      }
+
+      .option:hover {
+        border-color: var(--primary-color);
+        background: rgba(108, 52, 131, 0.05);
+      }
+
+      body.dark-mode .option:hover {
+        background: rgba(108, 52, 131, 0.2);
+      }
+
+      .option input[type="radio"] {
+        margin-right: 12px;
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+      }
+
+      .option label {
+        cursor: pointer;
+        flex-grow: 1;
+      }
+
+      .theory-answer {
+        margin-top: 15px;
+      }
+
+      .theory-answer textarea {
+        width: 100%;
+        height: 150px;
+        padding: 10px;
+        border: 2px solid var(--border-color);
+        border-radius: 5px;
+        font-family: "Segoe UI", sans-serif;
+        font-size: 14px;
+        resize: vertical;
+      }
+
+      body.dark-mode .theory-answer textarea {
+        background: #1a1a1a;
+        color: var(--text-light);
+        border-color: #444;
+      }
+
+      /* Navigation */
+      .nav-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+        justify-content: space-between;
+      }
+
+      .btn {
+        padding: 12px 20px;
+        border: none;
+        border-radius: 5px;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .btn-primary {
+        background: var(--primary-color);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+      }
+
+      .btn-secondary {
+        background: var(--border-color);
+        color: var(--text-dark);
+      }
+
+      body.dark-mode .btn-secondary {
+        background: #444;
+        color: var(--text-light);
+      }
+
+      .btn-secondary:hover {
+        background: #d0d0d0;
+      }
+
+      .btn-success {
+        background: var(--success-color);
+        color: white;
+      }
+
+      .btn-success:hover {
+        background: #229954;
+      }
+
+      .btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      /* Results Section */
+      .results-container {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      .results-header {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .results-header h2 {
+        color: var(--primary-color);
+        margin-bottom: 10px;
+      }
+
+      body.dark-mode .results-header h2 {
+        color: var(--primary-light);
+      }
+
+      .score-display {
+        font-size: 48px;
+        font-weight: bold;
+        color: var(--success-color);
+        margin: 10px 0;
+      }
+
+      .score-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-bottom: 30px;
+      }
+
+      .score-card {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      body.dark-mode .score-card {
+        background: #2a2a2a;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      }
+
+      .score-card-value {
+        font-size: 32px;
+        font-weight: bold;
+        color: var(--primary-color);
+      }
+
+      body.dark-mode .score-card-value {
+        color: var(--primary-light);
+      }
+
+      .score-card-label {
+        font-size: 14px;
+        color: #7f8c8d;
+      }
+
+      .answer-review {
+        margin-top: 30px;
+      }
+
+      .answer-item {
+        background: white;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-left: 4px solid #ccc;
+        border-radius: 4px;
+      }
+
+      body.dark-mode .answer-item {
+        background: #2a2a2a;
+      }
+
+      .answer-item.correct {
+        border-left-color: var(--success-color);
+        background: rgba(39, 174, 96, 0.05);
+      }
+
+      body.dark-mode .answer-item.correct {
+        background: rgba(39, 174, 96, 0.1);
+      }
+
+      .answer-item.incorrect {
+        border-left-color: var(--danger-color);
+        background: rgba(231, 76, 60, 0.05);
+      }
+
+      body.dark-mode .answer-item.incorrect {
+        background: rgba(231, 76, 60, 0.1);
+      }
+
+      .answer-item-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+
+      .answer-item-number {
+        font-weight: bold;
+        color: var(--primary-color);
+      }
+
+      body.dark-mode .answer-item-number {
+        color: var(--primary-light);
+      }
+
+      .answer-status {
+        font-weight: bold;
+      }
+
+      .answer-status.correct {
+        color: var(--success-color);
+      }
+
+      .answer-status.incorrect {
+        color: var(--danger-color);
+      }
+
+      .answer-details {
+        font-size: 14px;
+      }
+
+      /* Modals */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .modal.active {
+        display: flex;
+      }
+
+      .modal-content {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        max-width: 500px;
+        width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      body.dark-mode .modal-content {
+        background: #2a2a2a;
+        color: var(--text-light);
+      }
+
+      .modal-header {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: var(--primary-color);
+      }
+
+      body.dark-mode .modal-header {
+        color: var(--primary-light);
+      }
+
+      .close-btn {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        font-size: 28px;
+        font-weight: bold;
+        color: #7f8c8d;
+        cursor: pointer;
+        border: none;
+        background: none;
+      }
+
+      .close-btn:hover {
+        color: var(--text-dark);
+      }
+
+      body.dark-mode .close-btn:hover {
+        color: var(--text-light);
+      }
+
+      /* Calculator Styles */
+      .calculator {
+        max-width: 280px;
+      }
+
+      .calc-display {
+        background: #222;
+        color: #00ff00;
+        padding: 15px;
+        text-align: right;
+        font-size: 24px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        font-family: "Courier New", monospace;
+        word-wrap: break-word;
+        word-break: break-all;
+      }
+
+      .calc-buttons {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+      }
+
+      .calc-btn {
+        padding: 15px;
+        font-size: 16px;
+        font-weight: bold;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        background: var(--primary-color);
+        color: white;
+        transition: all 0.3s;
+      }
+
+      .calc-btn:hover {
+        background: var(--primary-dark);
+        transform: scale(1.05);
+      }
+
+      .calc-btn.operator {
+        background: var(--warning-color);
+      }
+
+      .calc-btn.operator:hover {
+        background: #d68910;
+      }
+
+      .calc-btn.equals {
+        background: var(--success-color);
+        grid-column: span 2;
+      }
+
+      .calc-btn.equals:hover {
+        background: #229954;
+      }
+
+      .calc-btn.clear {
+        background: var(--danger-color);
+        grid-column: span 2;
+      }
+
+      .calc-btn.clear:hover {
+        background: #c0392b;
+      }
+
+      /* Settings */
+      .settings-group {
+        margin-bottom: 20px;
+      }
+
+      .settings-label {
+        font-weight: bold;
+        margin-bottom: 10px;
+        display: block;
+      }
+
+      .settings-options {
+        display: flex;
+        gap: 10px;
+      }
+
+      .settings-option {
+        padding: 8px 12px;
+        border: 2px solid var(--border-color);
+        background: white;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      body.dark-mode .settings-option {
+        background: #1a1a1a;
+        border-color: #444;
+      }
+
+      .settings-option.active {
+        background: var(--primary-color);
+        color: white;
+        border-color: var(--primary-color);
+      }
+
+      /* Responsive Design */
+      @media (max-width: 1200px) {
+        .header-title {
+          font-size: 18px;
+        }
+        .question-card {
+          padding: 15px;
+        }
+        .content-area {
+          padding: 15px;
+        }
+      }
+
+      @media (max-width: 1024px) {
+        .header {
+          padding: 12px 15px;
+        }
+        .top-bar {
+          padding: 10px 15px;
+        }
+        .stats {
+          gap: 10px;
+        }
+        .score-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .hamburger {
+          display: flex;
+        }
+        .header-tools {
+          gap: 8px;
+        }
+        .header-btn {
+          padding: 6px 10px;
+          font-size: 12px;
+        }
+        .top-bar {
+          padding: 8px 12px;
+        }
+        .timer {
+          font-size: 16px;
+        }
+        .stats {
+          font-size: 12px;
+          gap: 8px;
+        }
+        .question-card {
+          padding: 15px;
+        }
+        .content-area {
+          padding: 10px;
+          min-height: calc(100vh - 200px);
+        }
+        .nav-buttons {
+          flex-direction: column;
+        }
+        .btn {
+          width: 100%;
+        }
+        .score-card {
+          padding: 15px;
+        }
+        .score-card-value {
+          font-size: 24px;
+        }
+        .results-header h2 {
+          font-size: 20px;
+        }
+        .score-display {
+          font-size: 36px;
+        }
+        .modal-content {
+          width: 95%;
+          padding: 20px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .header-title {
+          font-size: 16px;
+        }
+        .question-header {
+          flex-direction: column;
+          gap: 10px;
+          align-items: flex-start;
+        }
+        .question-text {
+          font-size: 15px;
+        }
+        .stats {
+          flex-direction: column;
+          gap: 5px;
+        }
+        .score-grid {
+          grid-template-columns: 1fr;
+        }
+        .theory-answer textarea {
+          height: 120px;
+          font-size: 13px;
+        }
+        .question-card {
+          padding: 12px;
+          margin-bottom: 15px;
+        }
+        .option {
+          padding: 10px;
+        }
+        .calc-buttons {
+          grid-template-columns: repeat(4, 1fr);
+          gap: 6px;
+        }
+        .calc-btn {
+          padding: 12px;
+          font-size: 14px;
+        }
+      }
+
+      @media (max-width: 320px) {
+        .header-title {
+          font-size: 14px;
+        }
+        .timer {
+          font-size: 14px;
+        }
+        .question-text {
+          font-size: 14px;
+        }
+        .btn {
+          padding: 10px;
+          font-size: 12px;
+        }
+      }
+
+      /* Accessibility */
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation-duration: 0.01ms !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
+      }
+
+      /* Print Styles */
+      @media print {
+        body,
+        .header,
+        .top-bar,
+        .nav-buttons {
+          display: none;
+        }
+        .results-view {
+          display: block !important;
+        }
+        .question-card {
+          page-break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <div class="header">
+        <div class="header-title">
+          JUPEB CHRISTIAN RELIGIOUS STUDIES PRACTICE EXAM
+        </div>
+        <div class="header-tools">
+          <button class="header-btn" onclick="openCalculator()">
+            🧮 Calculator
+          </button>
+          <button class="header-btn" onclick="openSettings()">
+            ⚙️ Settings
+          </button>
+          <div class="hamburger" onclick="toggleMenu()">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top Bar -->
+      <div class="top-bar">
+        <div class="timer" id="timer">02:00:00</div>
+        <div class="stats">
+          <div class="stat-item">
+            Answered: <span class="stat-badge" id="answeredCount">0</span>
+          </div>
+          <div class="stat-item">
+            Unanswered: <span class="stat-badge" id="unansweredCount">46</span>
+          </div>
+          <div class="stat-item">
+            Flagged: <span class="stat-badge" id="flaggedCount">0</span>
+          </div>
+          <div class="auto-save" id="autoSave">✓ Auto-saved</div>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="content-area">
+        <!-- Question View -->
+        <div class="question-view" id="questionView">
+          <div class="question-card">
+            <div class="question-header">
+              <div>
+                <span class="course-badge" id="courseBadge">CRS 001</span>
+                <span class="question-number" id="questionNum"
+                  >Question 1/46</span
+                >
+              </div>
+              <button
+                class="flag-btn"
+                id="flagBtn"
+                onclick="toggleFlag()"
+                title="Flag for review"
+              >
+                📌
+              </button>
+            </div>
+            <div class="question-text" id="questionText">
+              Loading question...
+            </div>
+            <div class="options" id="optionsContainer"></div>
+            <div
+              class="theory-answer"
+              id="theoryAnswerContainer"
+              style="display: none"
+            >
+              <textarea
+                id="theoryAnswer"
+                placeholder="Type your answer here..."
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="nav-buttons">
+            <button
+              class="btn btn-secondary"
+              onclick="previousQuestion()"
+              id="prevBtn"
+            >
+              ← Previous
+            </button>
+            <button
+              class="btn btn-primary"
+              onclick="nextQuestion()"
+              id="nextBtn"
+            >
+              Next →
+            </button>
+            <button class="btn btn-success" onclick="submitExam()">
+              Submit Exam
+            </button>
+          </div>
+        </div>
+
+        <!-- Results View -->
+        <div class="results-view" id="resultsView">
+          <div class="results-container">
+            <div class="results-header">
+              <h2>Exam Results</h2>
+              <div class="score-display" id="scoreDisplay">0%</div>
+              <p>Review your answers below</p>
+            </div>
+
+            <div class="score-grid">
+              <div class="score-card">
+                <div class="score-card-value" id="correctCount">0</div>
+                <div class="score-card-label">Correct Answers</div>
+              </div>
+              <div class="score-card">
+                <div class="score-card-value" id="incorrectCount">0</div>
+                <div class="score-card-label">Incorrect Answers</div>
+              </div>
+              <div class="score-card">
+                <div class="score-card-value" id="unansweredResults">0</div>
+                <div class="score-card-label">Unanswered</div>
+              </div>
+              <div class="score-card">
+                <div class="score-card-value" id="totalScore">0</div>
+                <div class="score-card-label">Total Score</div>
+              </div>
+            </div>
+
+            <div class="answer-review">
+              <h3 style="margin-bottom: 15px">Answer Review</h3>
+              <div id="answersList"></div>
+            </div>
+
+            <div class="nav-buttons" style="margin-top: 30px">
+              <button class="btn btn-secondary" onclick="restartExam()">
+                Restart Exam
+              </button>
+              <button class="btn btn-primary" onclick="downloadResults()">
+                📥 Download Results
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Calculator Modal -->
+    <div class="modal" id="calculatorModal">
+      <div class="modal-content">
+        <button class="close-btn" onclick="closeCalculator()">✕</button>
+        <div class="modal-header">Scientific Calculator</div>
+        <div class="calculator">
+          <div class="calc-display" id="calcDisplay">0</div>
+          <div class="calc-buttons">
+            <button class="calc-btn clear" onclick="calcClear()">C</button>
+            <button class="calc-btn operator" onclick="calcAppend('/')">
+              /
+            </button>
+            <button class="calc-btn operator" onclick="calcAppend('*')">
+              ×
+            </button>
+
+            <button class="calc-btn" onclick="calcAppend('7')">7</button>
+            <button class="calc-btn" onclick="calcAppend('8')">8</button>
+            <button class="calc-btn" onclick="calcAppend('9')">9</button>
+            <button class="calc-btn operator" onclick="calcAppend('-')">
+              −
+            </button>
+
+            <button class="calc-btn" onclick="calcAppend('4')">4</button>
+            <button class="calc-btn" onclick="calcAppend('5')">5</button>
+            <button class="calc-btn" onclick="calcAppend('6')">6</button>
+            <button class="calc-btn operator" onclick="calcAppend('+')">
+              +
+            </button>
+
+            <button class="calc-btn" onclick="calcAppend('1')">1</button>
+            <button class="calc-btn" onclick="calcAppend('2')">2</button>
+            <button class="calc-btn" onclick="calcAppend('3')">3</button>
+            <button class="calc-btn operator" onclick="calcAppend('%')">
+              %
+            </button>
+
+            <button class="calc-btn" onclick="calcAppend('0')">0</button>
+            <button class="calc-btn" onclick="calcAppend('.')">.</button>
+            <button class="calc-btn equals" onclick="calcEquals()">=</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal" id="settingsModal">
+      <div class="modal-content">
+        <button class="close-btn" onclick="closeSettings()">✕</button>
+        <div class="modal-header">Settings</div>
+
+        <div class="settings-group">
+          <label class="settings-label">Font Size</label>
+          <div class="settings-options">
+            <button class="settings-option" onclick="setFontSize('small')">
+              Small
+            </button>
+            <button
+              class="settings-option active"
+              onclick="setFontSize('normal')"
+            >
+              Normal
+            </button>
+            <button class="settings-option" onclick="setFontSize('large')">
+              Large
+            </button>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <label class="settings-label">Theme</label>
+          <div class="settings-options">
+            <button class="settings-option active" onclick="setTheme('light')">
+              ☀️ Light
+            </button>
+            <button class="settings-option" onclick="setTheme('dark')">
+              🌙 Dark
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Questions Data
+      const questionsData = [
+        // CRS 001: Questions 1-20
+        {
+          id: 1,
+          course: "CRS 001",
+          text: "Who was the first human being created according to the Bible?",
+          section: "A",
+          options: [
+            { text: "Adam", value: "A" },
+            { text: "Noah", value: "B" },
+            { text: "Abraham", value: "C" },
+            { text: "Moses", value: "D" },
+          ],
+          correct: "A",
+        },
+        {
+          id: 2,
+          course: "CRS 001",
+          text: "How many days did God take to create the world?",
+          section: "A",
+          options: [
+            { text: "Five days", value: "A" },
+            { text: "Seven days (including rest)", value: "B" },
+            { text: "Ten days", value: "C" },
+            { text: "Fourteen days", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 3,
+          course: "CRS 001",
+          text: "Which son of Adam and Eve was born after Abel's death?",
+          section: "A",
+          options: [
+            { text: "Enoch", value: "A" },
+            { text: "Methuselah", value: "B" },
+            { text: "Seth", value: "C" },
+            { text: "Lamech", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 4,
+          course: "CRS 001",
+          text: "Who was the first patriarch promised the land of Canaan?",
+          section: "A",
+          options: [
+            { text: "Isaac", value: "A" },
+            { text: "Jacob", value: "B" },
+            { text: "Abraham", value: "C" },
+            { text: "Joseph", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 5,
+          course: "CRS 001",
+          text: "How many sons did Jacob have who became the founders of the twelve tribes?",
+          section: "A",
+          options: [
+            { text: "10", value: "A" },
+            { text: "11", value: "B" },
+            { text: "12", value: "C" },
+            { text: "13", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 6,
+          course: "CRS 001",
+          text: "In which Egyptian structure was Joseph imprisoned before becoming Pharaoh's advisor?",
+          section: "A",
+          options: [
+            { text: "The pyramid", value: "A" },
+            { text: "The palace", value: "B" },
+            { text: "The prison", value: "C" },
+            { text: "The temple", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 7,
+          course: "CRS 001",
+          text: "What was the name of the mountain where God gave Moses the Ten Commandments?",
+          section: "A",
+          options: [
+            { text: "Mount Horeb", value: "A" },
+            { text: "Mount Sinai", value: "B" },
+            { text: "Mount Carmel", value: "C" },
+            { text: "Mount Ararat", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 8,
+          course: "CRS 001",
+          text: "How long did the Israelites wander in the desert before reaching Canaan?",
+          section: "A",
+          options: [
+            { text: "20 years", value: "A" },
+            { text: "30 years", value: "B" },
+            { text: "40 years", value: "C" },
+            { text: "50 years", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 9,
+          course: "CRS 001",
+          text: "Who was the military leader that conquered Jericho?",
+          section: "A",
+          options: [
+            { text: "Moses", value: "A" },
+            { text: "Joshua", value: "B" },
+            { text: "Samson", value: "C" },
+            { text: "David", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 10,
+          course: "CRS 001",
+          text: "Which prophet anointed David as king of Israel?",
+          section: "A",
+          options: [
+            { text: "Nathan", value: "A" },
+            { text: "Samuel", value: "B" },
+            { text: "Elijah", value: "C" },
+            { text: "Jeremiah", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 11,
+          course: "CRS 001",
+          text: "What was David's profession before becoming king?",
+          section: "A",
+          options: [
+            { text: "Farmer", value: "A" },
+            { text: "Shepherd", value: "B" },
+            { text: "Carpenter", value: "C" },
+            { text: "Tax collector", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 12,
+          course: "CRS 001",
+          text: "Who was Solomon's mother?",
+          section: "A",
+          options: [
+            { text: "Michal", value: "A" },
+            { text: "Bathsheba", value: "B" },
+            { text: "Abishag", value: "C" },
+            { text: "Naamah", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 13,
+          course: "CRS 001",
+          text: "What was Solomon famous for building?",
+          section: "A",
+          options: [
+            { text: "The Tabernacle", value: "A" },
+            { text: "The First Temple", value: "B" },
+            { text: "The Second Temple", value: "C" },
+            { text: "The Wall of Jerusalem", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 14,
+          course: "CRS 001",
+          text: "Which kingdom emerged after the division of Solomon's kingdom?",
+          section: "A",
+          options: [
+            { text: "Egypt and Judah", value: "A" },
+            { text: "Israel and Judah", value: "B" },
+            { text: "Assyria and Judah", value: "C" },
+            { text: "Babylon and Israel", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 15,
+          course: "CRS 001",
+          text: "Who was the prophet that confronted King Ahab about his sins?",
+          section: "A",
+          options: [
+            { text: "Elisha", value: "A" },
+            { text: "Elijah", value: "B" },
+            { text: "Jeremiah", value: "C" },
+            { text: "Isaiah", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 16,
+          course: "CRS 001",
+          text: "What miracle did Elijah perform to prove God's power?",
+          section: "A",
+          options: [
+            { text: "Parting the Red Sea", value: "A" },
+            { text: "Calling fire from heaven", value: "B" },
+            { text: "Making the sun stand still", value: "C" },
+            { text: "Turning water into wine", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 17,
+          course: "CRS 001",
+          text: "Which nation captured and exiled the Northern Kingdom of Israel?",
+          section: "A",
+          options: [
+            { text: "Egypt", value: "A" },
+            { text: "Babylon", value: "B" },
+            { text: "Assyria", value: "C" },
+            { text: "Persia", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 18,
+          course: "CRS 001",
+          text: "Which nation destroyed the First Temple in Jerusalem?",
+          section: "A",
+          options: [
+            { text: "Assyria", value: "A" },
+            { text: "Egypt", value: "B" },
+            { text: "Greece", value: "C" },
+            { text: "Babylon", value: "D" },
+          ],
+          correct: "D",
+        },
+        {
+          id: 19,
+          course: "CRS 001",
+          text: "What was the period called when the Jews were forcibly removed from their homeland?",
+          section: "A",
+          options: [
+            { text: "Diaspora", value: "A" },
+            { text: "Exile", value: "B" },
+            { text: "Dispersion", value: "C" },
+            { text: "Migration", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 20,
+          course: "CRS 001",
+          text: "Under which Persian king were the Jews allowed to return to Jerusalem?",
+          section: "A",
+          options: [
+            { text: "Darius I", value: "A" },
+            { text: "Cyrus II", value: "B" },
+            { text: "Xerxes", value: "C" },
+            { text: "Artaxerxes", value: "D" },
+          ],
+          correct: "B",
+        },
+
+        // CRS 002: Questions 21-40
+        {
+          id: 21,
+          course: "CRS 002",
+          text: "In which town was Jesus Christ born?",
+          section: "A",
+          options: [
+            { text: "Nazareth", value: "A" },
+            { text: "Bethlehem", value: "B" },
+            { text: "Jerusalem", value: "C" },
+            { text: "Capernaum", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 22,
+          course: "CRS 002",
+          text: "What was John the Baptist's main message?",
+          section: "A",
+          options: [
+            { text: "Repentance and forgiveness of sins", value: "A" },
+            { text: "Love your neighbor", value: "B" },
+            { text: "Follow the law", value: "C" },
+            { text: "Worship the Temple", value: "D" },
+          ],
+          correct: "A",
+        },
+        {
+          id: 23,
+          course: "CRS 002",
+          text: "How many apostles did Jesus choose?",
+          section: "A",
+          options: [
+            { text: "10", value: "A" },
+            { text: "11", value: "B" },
+            { text: "12", value: "C" },
+            { text: "13", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 24,
+          course: "CRS 002",
+          text: "Which disciple betrayed Jesus for thirty pieces of silver?",
+          section: "A",
+          options: [
+            { text: "Peter", value: "A" },
+            { text: "Judas Iscariot", value: "B" },
+            { text: "Thomas", value: "C" },
+            { text: "Philip", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 25,
+          course: "CRS 002",
+          text: "On which day of the week was Jesus crucified?",
+          section: "A",
+          options: [
+            { text: "Thursday", value: "A" },
+            { text: "Friday", value: "B" },
+            { text: "Saturday", value: "C" },
+            { text: "Sunday", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 26,
+          course: "CRS 002",
+          text: "After his resurrection, how many days did Jesus appear to his disciples?",
+          section: "A",
+          options: [
+            { text: "10 days", value: "A" },
+            { text: "20 days", value: "B" },
+            { text: "40 days", value: "C" },
+            { text: "50 days", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 27,
+          course: "CRS 002",
+          text: "What is the theological term for Jesus' return to heaven?",
+          section: "A",
+          options: [
+            { text: "Resurrection", value: "A" },
+            { text: "Transfiguration", value: "B" },
+            { text: "Ascension", value: "C" },
+            { text: "Reconciliation", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 28,
+          course: "CRS 002",
+          text: "On which day of Jewish celebration did the Holy Spirit come upon the disciples?",
+          section: "A",
+          options: [
+            { text: "Passover", value: "A" },
+            { text: "Pentecost", value: "B" },
+            { text: "Tabernacles", value: "C" },
+            { text: "Yom Kippur", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 29,
+          course: "CRS 002",
+          text: "Who was the first Christian martyr?",
+          section: "A",
+          options: [
+            { text: "Peter", value: "A" },
+            { text: "Paul", value: "B" },
+            { text: "Stephen", value: "C" },
+            { text: "James", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 30,
+          course: "CRS 002",
+          text: "Which event resulted in the persecution of early Christians?",
+          section: "A",
+          options: [
+            { text: "John's baptism", value: "A" },
+            { text: "Jesus' teaching", value: "B" },
+            { text: "Stephen's stoning", value: "C" },
+            { text: "Peter's vision", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 31,
+          course: "CRS 002",
+          text: "What was Saul's name changed to after his conversion?",
+          section: "A",
+          options: [
+            { text: "Peter", value: "A" },
+            { text: "Paul", value: "B" },
+            { text: "Barnabas", value: "C" },
+            { text: "Timothy", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 32,
+          course: "CRS 002",
+          text: "How many missionary journeys did Paul undertake?",
+          section: "A",
+          options: [
+            { text: "Two", value: "A" },
+            { text: "Three", value: "B" },
+            { text: "Four", value: "C" },
+            { text: "Five", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 33,
+          course: "CRS 002",
+          text: "Which city was the center of early Christian leadership?",
+          section: "A",
+          options: [
+            { text: "Antioch", value: "A" },
+            { text: "Corinth", value: "B" },
+            { text: "Jerusalem", value: "C" },
+            { text: "Alexandria", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 34,
+          course: "CRS 002",
+          text: "Who was the first bishop of the church at Rome?",
+          section: "A",
+          options: [
+            { text: "Paul", value: "A" },
+            { text: "Peter", value: "B" },
+            { text: "James", value: "C" },
+            { text: "Andrew", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 35,
+          course: "CRS 002",
+          text: "What council settled the question of Gentile inclusion in the church?",
+          section: "A",
+          options: [
+            { text: "Council of Nicaea", value: "A" },
+            { text: "Council of Antioch", value: "B" },
+            { text: "Council of Jerusalem", value: "C" },
+            { text: "Council of Ephesus", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 36,
+          course: "CRS 002",
+          text: "What is the central sacrament of Christian worship?",
+          section: "A",
+          options: [
+            { text: "Confession", value: "A" },
+            { text: "Baptism", value: "B" },
+            { text: "Communion/Eucharist", value: "C" },
+            { text: "Confirmation", value: "D" },
+          ],
+          correct: "C",
+        },
+        {
+          id: 37,
+          course: "CRS 002",
+          text: "According to Christian theology, who is the Son of God?",
+          section: "A",
+          options: [
+            { text: "John the Baptist", value: "A" },
+            { text: "Jesus Christ", value: "B" },
+            { text: "Moses", value: "C" },
+            { text: "Peter", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 38,
+          course: "CRS 002",
+          text: 'What does "Gospel" mean?',
+          section: "A",
+          options: [
+            { text: "Law", value: "A" },
+            { text: "Good news", value: "B" },
+            { text: "Testament", value: "C" },
+            { text: "Doctrine", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 39,
+          course: "CRS 002",
+          text: "How many gospels are in the New Testament?",
+          section: "A",
+          options: [
+            { text: "Three", value: "A" },
+            { text: "Four", value: "B" },
+            { text: "Five", value: "C" },
+            { text: "Six", value: "D" },
+          ],
+          correct: "B",
+        },
+        {
+          id: 40,
+          course: "CRS 002",
+          text: "Which gospel was written by a tax collector turned disciple?",
+          section: "A",
+          options: [
+            { text: "Mark", value: "A" },
+            { text: "Luke", value: "B" },
+            { text: "Matthew", value: "C" },
+            { text: "John", value: "D" },
+          ],
+          correct: "C",
+        },
+
+        // Theory Questions: 41-46
+        {
+          id: 41,
+          course: "CRS 001/002",
+          text: "Explain the significance of the Ten Commandments in Judeo-Christian tradition",
+          section: "B",
+          marks: 10,
+        },
+        {
+          id: 42,
+          course: "CRS 001",
+          text: "Discuss the role of prophets in Old Testament Israel",
+          section: "B",
+          marks: 10,
+        },
+        {
+          id: 43,
+          course: "CRS 002",
+          text: "Analyze the life and teachings of Jesus Christ and their impact on Christianity",
+          section: "B",
+          marks: 10,
+        },
+        {
+          id: 44,
+          course: "CRS 002",
+          text: "Explain the role of the apostles in establishing the early church",
+          section: "B",
+          marks: 10,
+        },
+        {
+          id: 45,
+          course: "CRS 001/002",
+          text: "Compare and contrast Judaism and Christianity in terms of their sacred texts, beliefs, and practices",
+          section: "B",
+          marks: 10,
+        },
+        {
+          id: 46,
+          course: "CRS 001/002",
+          text: "Discuss the concept of covenant in the Bible and its theological significance",
+          section: "B",
+          marks: 10,
+        },
+      ];
+
+      // State variables
+      let currentQ = 0;
+      let answers = {};
+      let flagged = {};
+      let examSubmitted = false;
+      let startTime = null;
+      let timerInterval = null;
+      let calcDisplay = "0";
+      let calcPrevious = "";
+      let calcOperation = null;
+
+      // Initialize
+      window.addEventListener("load", function () {
+        startTime = Date.now();
+        startTimer();
+        displayQuestion();
+        document.addEventListener("keydown", handleKeyboard);
+      });
+
+      // Display current question
+      function displayQuestion() {
+        if (examSubmitted) return;
+        const q = questionsData[currentQ];
+        document.getElementById("questionNum").textContent =
+          `Question ${currentQ + 1}/${questionsData.length}`;
+        document.getElementById("courseBadge").textContent = q.course;
+        document.getElementById("questionText").textContent = q.text;
+
+        // Handle MCQ vs Theory
+        const optionsContainer = document.getElementById("optionsContainer");
+        const theoryContainer = document.getElementById(
+          "theoryAnswerContainer",
+        );
+
+        optionsContainer.innerHTML = "";
+        theoryContainer.style.display = "none";
+
+        if (q.section === "A") {
+          q.options.forEach((opt) => {
+            const div = document.createElement("div");
+            div.className = "option";
+            const isSelected = answers[currentQ] === opt.value;
+            div.innerHTML = `
+                        <input type="radio" id="opt_${opt.value}" name="option" value="${opt.value}" 
+                            ${isSelected ? "checked" : ""} onchange="selectAnswer('${opt.value}')">
+                        <label for="opt_${opt.value}">${opt.text}</label>
+                    `;
+            optionsContainer.appendChild(div);
+          });
+        } else {
+          theoryContainer.style.display = "block";
+          document.getElementById("theoryAnswer").value =
+            answers[currentQ] || "";
+          document.getElementById("theoryAnswer").onchange = saveTheoryAnswer;
+        }
+
+        // Update flag button
+        document
+          .getElementById("flagBtn")
+          .classList.toggle("flagged", flagged[currentQ]);
+
+        // Update navigation
+        document.getElementById("prevBtn").disabled = currentQ === 0;
+        document.getElementById("nextBtn").disabled =
+          currentQ === questionsData.length - 1;
+
+        updateStats();
+        autoSave();
+      }
+
+      function selectAnswer(value) {
+        answers[currentQ] = value;
+        autoSave();
+      }
+
+      function saveTheoryAnswer() {
+        answers[currentQ] = document.getElementById("theoryAnswer").value;
+        autoSave();
+      }
+
+      function nextQuestion() {
+        if (currentQ < questionsData.length - 1) {
+          currentQ++;
+          displayQuestion();
+          window.scrollTo(0, 0);
+        }
+      }
+
+      function previousQuestion() {
+        if (currentQ > 0) {
+          currentQ--;
+          displayQuestion();
+          window.scrollTo(0, 0);
+        }
+      }
+
+      function toggleFlag() {
+        flagged[currentQ] = !flagged[currentQ];
+        document
+          .getElementById("flagBtn")
+          .classList.toggle("flagged", flagged[currentQ]);
+        updateStats();
+      }
+
+      function updateStats() {
+        let answered = 0,
+          flaggedCount = 0;
+        for (let i = 0; i < questionsData.length; i++) {
+          if (answers[i]) answered++;
+          if (flagged[i]) flaggedCount++;
+        }
+        document.getElementById("answeredCount").textContent = answered;
+        document.getElementById("unansweredCount").textContent =
+          questionsData.length - answered;
+        document.getElementById("flaggedCount").textContent = flaggedCount;
+      }
+
+      function startTimer() {
+        timerInterval = setInterval(() => {
+          const elapsed = Date.now() - startTime;
+          const remaining = Math.max(0, 7200000 - elapsed);
+          const hours = Math.floor(remaining / 3600000);
+          const minutes = Math.floor((remaining % 3600000) / 60000);
+          const seconds = Math.floor((remaining % 60000) / 1000);
+          const display = `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+          document.getElementById("timer").textContent = display;
+
+          const timerEl = document.getElementById("timer");
+          timerEl.classList.remove("warning", "danger");
+          if (remaining < 300000) timerEl.classList.add("danger");
+          else if (remaining < 600000) timerEl.classList.add("warning");
+
+          if (remaining === 0) submitExam();
+        }, 1000);
+      }
+
+      function submitExam() {
+        if (examSubmitted) return;
+        if (
+          !confirm(
+            "Are you sure you want to submit? You cannot change your answers after submission.",
+          )
+        )
+          return;
+
+        examSubmitted = true;
+        clearInterval(timerInterval);
+        displayResults();
+      }
+
+      function displayResults() {
+        document.getElementById("questionView").classList.add("hidden");
+        document.getElementById("resultsView").classList.add("active");
+
+        let correct = 0,
+          total = 40; // Only MCQs count for scoring
+        const answersList = [];
+
+        for (let i = 0; i < 40; i++) {
+          const q = questionsData[i];
+          const userAnswer = answers[i];
+          const isCorrect = userAnswer === q.correct;
+          if (isCorrect) correct++;
+
+          const item = document.createElement("div");
+          item.className = `answer-item ${isCorrect ? "correct" : "incorrect"}`;
+          item.innerHTML = `
+                    <div class="answer-item-header">
+                        <span class="answer-item-number">Q${i + 1} (${q.course})</span>
+                        <span class="answer-status ${isCorrect ? "correct" : "incorrect"}">
+                            ${isCorrect ? "✓ Correct" : "✗ Incorrect"}
+                        </span>
+                    </div>
+                    <div class="answer-details">
+                        <strong>Your answer:</strong> ${userAnswer || "Not answered"} ${userAnswer ? `(${["A", "B", "C", "D"][questionsData[i].options.findIndex((o) => o.value === userAnswer)]})` : ""}
+                        <br><strong>Correct answer:</strong> ${q.correct}
+                    </div>
+                `;
+          document.getElementById("answersList").appendChild(item);
+        }
+
+        const percentage = Math.round((correct / total) * 100);
+        document.getElementById("scoreDisplay").textContent = `${percentage}%`;
+        document.getElementById("correctCount").textContent = correct;
+        document.getElementById("incorrectCount").textContent = total - correct;
+        document.getElementById("unansweredResults").textContent =
+          Object.keys(answers).length < 40
+            ? 40 - Object.keys(answers).length
+            : 0;
+        document.getElementById("totalScore").textContent =
+          `${correct}/${total}`;
+      }
+
+      function restartExam() {
+        location.reload();
+      }
+
+      function downloadResults() {
+        alert("PDF download feature coming soon!");
+      }
+
+      // Calculator functions
+      function openCalculator() {
+        document.getElementById("calculatorModal").classList.add("active");
+      }
+
+      function closeCalculator() {
+        document.getElementById("calculatorModal").classList.remove("active");
+      }
+
+      function calcAppend(val) {
+        if (calcDisplay === "0" && val !== ".") calcDisplay = "";
+        calcDisplay += val;
+        document.getElementById("calcDisplay").textContent = calcDisplay;
+      }
+
+      function calcClear() {
+        calcDisplay = "0";
+        calcPrevious = "";
+        calcOperation = null;
+        document.getElementById("calcDisplay").textContent = calcDisplay;
+      }
+
+      function calcEquals() {
+        // Simple calculator evaluation (security note: use Function instead of eval in production)
+        try {
+          const result = eval(calcDisplay);
+          calcDisplay = String(result);
+          document.getElementById("calcDisplay").textContent = calcDisplay;
+        } catch (e) {
+          alert("Invalid operation");
+          calcClear();
+        }
+      }
+
+      // Settings
+      function openSettings() {
+        document.getElementById("settingsModal").classList.add("active");
+      }
+
+      function closeSettings() {
+        document.getElementById("settingsModal").classList.remove("active");
+      }
+
+      function setFontSize(size) {
+        const sizes = { small: "14px", normal: "16px", large: "18px" };
+        document.querySelector(".question-text").style.fontSize = sizes[size];
+        document
+          .querySelectorAll(".settings-option")
+          .forEach((b) => b.classList.remove("active"));
+        event.target.classList.add("active");
+      }
+
+      function setTheme(theme) {
+        document.body.classList.toggle("dark-mode", theme === "dark");
+        document
+          .querySelectorAll(".settings-option")
+          .forEach((b) => b.classList.remove("active"));
+        event.target.classList.add("active");
+      }
+
+      function handleKeyboard(e) {
+        if (examSubmitted) return;
+        if (e.key === "ArrowRight") nextQuestion();
+        if (e.key === "ArrowLeft") previousQuestion();
+        if (e.altKey && e.key === "f") {
+          e.preventDefault();
+          toggleFlag();
+        }
+      }
+
+      function autoSave() {
+        const autoSaveEl = document.getElementById("autoSave");
+        autoSaveEl.style.opacity = "0.5";
+        setTimeout(() => {
+          autoSaveEl.style.opacity = "1";
+        }, 200);
+      }
+
+      function toggleMenu() {
+        const tools = document.querySelector(".header-tools");
+        tools.style.display = tools.style.display === "flex" ? "none" : "flex";
+      }
+    </script>
+  </body>
+</html>
